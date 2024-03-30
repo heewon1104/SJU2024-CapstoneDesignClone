@@ -1,5 +1,6 @@
 package org.example.capstonenewri.Entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -13,9 +14,16 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
+
     @CreatedDate
-    private LocalDateTime createTime;
+    @Column(
+            nullable = false,
+            updatable = false
+    )
+    private LocalDateTime createDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedTime;
+    @Column(insertable = false)
+    private LocalDateTime lastModified;
+
 }

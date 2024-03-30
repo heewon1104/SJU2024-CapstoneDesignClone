@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: Capstone-Newri
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddlAuto: create
+      #ddlAuto: create-drop
+      #ddlAuto: update
+      #ddlAuto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    database: postgresql
+
