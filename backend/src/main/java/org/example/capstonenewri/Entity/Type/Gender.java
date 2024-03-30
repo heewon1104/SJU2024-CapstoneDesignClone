@@ -1,5 +1,5 @@
 package org.example.capstonenewri.Entity.Type;
 
-public enum MemberGender {
+public enum Gender {
     F, M
 }

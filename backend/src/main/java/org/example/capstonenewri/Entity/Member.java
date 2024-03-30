@@ -3,13 +3,11 @@ package org.example.capstonenewri.Entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.capstonenewri.Entity.Type.MemberGender;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.example.capstonenewri.Entity.Type.Gender;
+import org.example.capstonenewri.Entity.Type.Role;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +28,13 @@ public class Member extends BaseEntity{
     private String email;
 
     private String password;
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     @Enumerated(EnumType.STRING)
-    private MemberGender memberGender;
+    private Gender gender;
 
     private Boolean pregnant;
+    private Boolean breastfeeding;
     private BigDecimal height;
     private BigDecimal weight;
     private BigDecimal bmi;
@@ -54,6 +53,8 @@ public class Member extends BaseEntity{
     private String cancer;
     private String allergy;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "member")
     @JsonManagedReference
