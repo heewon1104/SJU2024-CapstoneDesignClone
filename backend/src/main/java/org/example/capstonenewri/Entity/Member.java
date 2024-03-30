@@ -1,31 +1,62 @@
 package org.example.capstonenewri.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.capstonenewri.Type.MemberGender;
+import org.example.capstonenewri.Entity.Type.MemberGender;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.sound.sampled.AudioInputStream;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Getter
-@EntityListeners(AuditingEntityListener.class)
-public class Member{
-
+public class Member extends BaseEntity{
     @Id
-    @GeneratedValue)
-    @Column
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "member_id")
     private Long id;
 
     private String name;
+
+    @Column(unique = true)
     private String email;
+
     private String password;
     private LocalDateTime birth;
+
+    @Enumerated(EnumType.STRING)
     private MemberGender memberGender;
 
+    private Boolean pregnant;
+    private BigDecimal height;
+    private BigDecimal weight;
+    private BigDecimal bmi;
+    private Boolean diabetes;
+    private Boolean obesity;  // 비만
+    private String cardio;  // 심혈관 질환
+    private String digestive;  // 소화기
+    private String kidney_disease;  // 신장질환
+    private String nervous_system;  // 신경계
+    private Boolean osteoporosis;  // 골다공증
+    private Boolean constipation;  // 변비
+    private Boolean anaemia;  // 빈혈
+    private Boolean stone; //요로 결석
+    private Boolean gout;  // 통풍
+    private Boolean vegan;
+    private String cancer;
+    private String allergy;
+
+
+    @OneToMany(mappedBy = "member")
+    @JsonManagedReference
+    private List<Diet> diets = new ArrayList<>();
 
 }
