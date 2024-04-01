@@ -5,13 +5,11 @@ import {
   Input,
   ErrorMessage,
   Customtext,
-  Customcardbutton,
+  Genderradiobuttoncontiner,
 } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from 'react-native';
 import { validateEmail, removeWhitespace } from '../utils';
-import BoyImage from '../../assets/components/boyImage.png';
-import GirlImage from '../../assets/components/girlImage.png';
 import { Image, StyleSheet } from 'react-native';
 
 const Container = styled.View`
@@ -20,14 +18,6 @@ const Container = styled.View`
   justify-content: flex-start;
   background-color: ${({ theme }) => theme.background};
   padding: 10px 20px;
-`;
-
-const Cardcontainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.background};
-  padding: 20px 10px;
 `;
 
 const styles = StyleSheet.create({
@@ -70,7 +60,7 @@ const Signupbirthandgender = ({ navigation }) => {
   }, [birth, gender]);
 
   const _handleSignupBtnPress = () => {
-    console.log('Sign up logic');
+    navigation.navigate('Signupphysicalinformation');
   };
 
   return (
@@ -86,18 +76,10 @@ const Signupbirthandgender = ({ navigation }) => {
           onBlur={() => setBirth(removeWhitespace(birth))}
           maxLength={8}
         ></Input>
-        <Cardcontainer>
-          <Customcardbutton
-            onPress={() => setGender('man')}
-            url={BoyImage}
-            title="남자"
-          ></Customcardbutton>
-          <Customcardbutton
-            onPress={() => setGender('woman')}
-            url={GirlImage}
-            title="여자"
-          ></Customcardbutton>
-        </Cardcontainer>
+        <Genderradiobuttoncontiner
+          gender={gender}
+          setGender={setGender}
+        ></Genderradiobuttoncontiner>
         <ErrorMessage message={errorMessage}></ErrorMessage>
         <Button
           title="다음"
