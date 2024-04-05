@@ -1,13 +1,22 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import BoyImage from '../../assets/components/boyImage.png';
-import GirlImage from '../../assets/components/girlImage.png';
 import { Customcardbutton } from './index';
 import { UserContext } from '../contexts';
+import {
+  Anaemia,
+  Breastfeeding,
+  Constipation,
+  Diabetes,
+  Gout,
+  Osteoporosis,
+  Pregnant,
+  Stone,
+  Vegan,
+} from '../../assets/components';
 
 const Cardcontainer = styled.View`
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background-color: ${({ theme }) => theme.background};
   padding: 0px 0px;
@@ -27,11 +36,11 @@ const Physicalcharacteristicsgroup = () => {
     updateUserInfo({
       [condition]: !user[condition],
     });
-    console.log(condition);
+    //console.log(condition);
   };
 
   useEffect(() => {
-    console.table(user);
+    //console.table(user);
   }, [user]);
 
   return (
@@ -39,19 +48,19 @@ const Physicalcharacteristicsgroup = () => {
       <Cardrowcontainer>
         <Customcardbutton
           onPress={() => toggleUserState('vegan')}
-          url={BoyImage}
+          url={Vegan}
           title="채식주의"
           isFocused={user.vegan}
         ></Customcardbutton>
         <Customcardbutton
           onPress={() => toggleUserState('diabetes')}
-          url={BoyImage}
+          url={Diabetes}
           title="당뇨병"
           isFocused={user.diabetes}
         ></Customcardbutton>
         <Customcardbutton
           onPress={() => toggleUserState('constipation')}
-          url={BoyImage}
+          url={Constipation}
           title="변비"
           isFocused={user.constipation}
         ></Customcardbutton>
@@ -59,19 +68,19 @@ const Physicalcharacteristicsgroup = () => {
       <Cardrowcontainer>
         <Customcardbutton
           onPress={() => toggleUserState('anaemia')}
-          url={BoyImage}
+          url={Anaemia}
           title="빈혈"
           isFocused={user.anaemia}
         ></Customcardbutton>
         <Customcardbutton
           onPress={() => toggleUserState('osteoporosis')}
-          url={BoyImage}
+          url={Osteoporosis}
           title="골다공증"
           isFocused={user.osteoporosis}
         ></Customcardbutton>
         <Customcardbutton
           onPress={() => toggleUserState('gout')}
-          url={BoyImage}
+          url={Gout}
           title="통풍"
           isFocused={user.gout}
         ></Customcardbutton>
@@ -79,22 +88,26 @@ const Physicalcharacteristicsgroup = () => {
       <Cardrowcontainer>
         <Customcardbutton
           onPress={() => toggleUserState('stone')}
-          url={BoyImage}
+          url={Stone}
           title="요로결석"
           isFocused={user.stone}
         ></Customcardbutton>
-        <Customcardbutton
-          onPress={() => toggleUserState('pregnant')}
-          url={BoyImage}
-          title="임신"
-          isFocused={user.pregnant}
-        ></Customcardbutton>
-        <Customcardbutton
-          onPress={() => toggleUserState('breastfeeding')}
-          url={BoyImage}
-          title="모유수유"
-          isFocused={user.breastfeeding}
-        ></Customcardbutton>
+        {user.gender == '여자' && (
+          <Customcardbutton
+            onPress={() => toggleUserState('pregnant')}
+            url={Pregnant}
+            title="임신"
+            isFocused={user.pregnant}
+          ></Customcardbutton>
+        )}
+        {user.gender == '여자' && (
+          <Customcardbutton
+            onPress={() => toggleUserState('breastfeeding')}
+            url={Breastfeeding}
+            title="모유수유"
+            isFocused={user.breastfeeding}
+          ></Customcardbutton>
+        )}
       </Cardrowcontainer>
     </Cardcontainer>
   );

@@ -23,7 +23,7 @@ const GUIDE_TEXT = `가지고 있는
 
 const Signupphysicalcharacteristics = ({ navigation }) => {
   const _handleSignupBtnPress = () => {
-    console.log('tmp');
+    navigation.navigate('Signupdiseases');
   };
 
   return (

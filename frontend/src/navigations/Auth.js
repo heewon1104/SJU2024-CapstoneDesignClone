@@ -7,6 +7,7 @@ import {
   Signupbirthandgender,
   Signupphysicalinformation,
   Signupphysicalcharacteristics,
+  Signupdiseases,
 } from '../screens';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -107,7 +108,29 @@ const Auth = () => {
           title: '회원가입',
           headerTitleAlign: 'center',
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: 'bold ',
+            fontSize: 28,
+          },
+          headerBackTitleVisible: false,
+          headerTintColor: theme.text,
+          headerLeft: ({ onPress, tintColor }) => (
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={38}
+              color={tintColor}
+              onPress={onPress}
+            ></MaterialIcons>
+          ),
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="Signupdiseases"
+        component={Signupdiseases}
+        options={{
+          title: '회원가입',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold ',
             fontSize: 28,
           },
           headerBackTitleVisible: false,

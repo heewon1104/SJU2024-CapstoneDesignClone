@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import {
   Button,
@@ -8,9 +8,8 @@ import {
   Genderradiobuttoncontiner,
 } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Alert } from 'react-native';
-import { validateEmail, removeWhitespace } from '../utils';
-import { Image, StyleSheet } from 'react-native';
+import { removeWhitespace } from '../utils';
+import { UserContext } from '../contexts';
 
 const Container = styled.View`
   flex: 1;
@@ -19,21 +18,6 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.background};
   padding: 10px 20px;
 `;
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
-  },
-  logo: {
-    width: 66,
-    height: 58,
-  },
-});
-
 const GUIDE_TEXT = `생일과 성별을 입력해주세요`;
 
 const Signupbirthandgender = ({ navigation }) => {
@@ -41,6 +25,14 @@ const Signupbirthandgender = ({ navigation }) => {
   const [gender, setGender] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
+
+  const { user, setUser: updateUserInfo } = useContext(UserContext);
+
+  const toggleUserState = (condition, value) => {
+    updateUserInfo({
+      [condition]: [value],
+    });
+  };
 
   useEffect(() => {
     setDisabled(!(birth && gender && !errorMessage));
@@ -60,6 +52,8 @@ const Signupbirthandgender = ({ navigation }) => {
   }, [birth, gender]);
 
   const _handleSignupBtnPress = () => {
+    toggleUserState('birth', birth);
+    toggleUserState('gender', gender);
     navigation.navigate('Signupphysicalinformation');
   };
 
