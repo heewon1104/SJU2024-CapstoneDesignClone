@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import BoyImage from '../../assets/components/boyImage.png';
-import GirlImage from '../../assets/components/girlImage.png';
+import { BoyImage, GirlImage } from '../../assets/components';
 import { Customcardbutton } from './index';
 
 const Cardcontainer = styled.View`

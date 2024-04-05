@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
@@ -31,7 +31,7 @@ const CustomCardButton = ({ onPress, url, title, isFocused }) => {
 };
 
 CustomCardButton.propTypes = {
-  url: PropTypes.string,
+  url: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   isFocused: PropTypes.bool.isRequired,

@@ -39,4 +39,7 @@ export const theme = {
   cardBackground: Colors.grey_2,
   cardfocusedBackGround: Colors.grey_3,
   cardTitle: Colors.black,
+
+  //list
+  listcolor: Colors.main,
 };
