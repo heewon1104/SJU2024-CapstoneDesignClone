@@ -26,9 +26,11 @@ public class RequestJoinMemberDto {
     private Boolean breastfeeding;
     private BigDecimal height;
     private BigDecimal weight;
+
     private BigDecimal bmi;
     private Boolean diabetes;
     private Boolean obesity;  // 비만
+
     private String cardio;  // 심혈관 질환
     private String digestive;  // 소화기
     private String kidney_disease;  // 신장질환
@@ -44,12 +46,12 @@ public class RequestJoinMemberDto {
     private Role role;
 
     @Builder
-    public RequestJoinMemberDto(Long id, String name, String email, String password, LocalDate birth,
+    public RequestJoinMemberDto( String name, String email, String password, LocalDate birth,
                                 Gender gender, Boolean pregnant, BigDecimal height, BigDecimal weight,
-                                Boolean diabetes, Boolean obesity, String cardio, String digestive, String kidney_disease,
+                                Boolean diabetes, String cardio, String digestive, String kidney_disease,
                                 String nervous_system, Boolean osteoporosis, Boolean constipation, Boolean anaemia, Boolean stone,
                                 Boolean gout, Boolean vegan, String cancer, String allergy, Role role){
-        this.id = id;
+
         this.name = name;
         this.email = email;
         this.password = password;
@@ -59,12 +61,8 @@ public class RequestJoinMemberDto {
         this.height = height;
         this.weight = weight;
 
-        BigDecimal heightInMeters = height.divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
-        BigDecimal heightSquared = heightInMeters.multiply(heightInMeters);
-        this.bmi = weight.divide(heightSquared, 2, RoundingMode.HALF_UP);
-
         this.diabetes = diabetes;
-        this.obesity = obesity;
+
         this.cardio = cardio;
         this.digestive = digestive;
         this.kidney_disease = kidney_disease;

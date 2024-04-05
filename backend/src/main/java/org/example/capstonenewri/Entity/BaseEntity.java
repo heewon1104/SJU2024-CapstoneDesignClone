@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter
-@EntityListeners(AuditingEntityListener.class)
-public class BaseEntity {
+@EntityListeners(AuditingEntityListener.class) // jpa auditing
+public abstract class BaseEntity { //객체 생성 불가
 
     @CreatedDate
     @Column(
