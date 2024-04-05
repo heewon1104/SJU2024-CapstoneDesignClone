@@ -16,13 +16,8 @@ public class JoinController {
 
     private final JoinServiceImpl joinServiceImpl;
 
-    @GetMapping("home")
-    public String home(){
-        return "<h1>home</h1>";
-    }
-
     @PostMapping(value = "/join")
-    public void joinMember(@RequestBody RequestJoinMemberDto requestJoinMemberDto){
+    public void joinMember(@RequestBody RequestJoinMemberDto requestJoinMemberDto){ // RequestJoinMemberDto는 json이랑 완전히 똑같아야함
         requestJoinMemberDto.setRole(Role.USER);
         joinServiceImpl.joinMember(requestJoinMemberDto);
     }

@@ -13,8 +13,8 @@ spring:
   jpa:
     hibernate:
       ddlAuto: create
-      #ddlAuto: create-drop
-      #ddlAuto: update
+#      ddlAuto: create-drop
+#      ddlAuto: update
       #ddlAuto: validate
     properties:
       hibernate:
@@ -22,3 +22,7 @@ spring:
 #        show_sql: true
     database: postgresql
 
+jwt:
+  header: Authorization
+  secret: sejongUniversityCapnstoneProjectTeamNameTYPE
+  token-validity-in-seconds: 86400

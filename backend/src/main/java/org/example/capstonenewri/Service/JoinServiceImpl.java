@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -18,6 +21,13 @@ public class JoinServiceImpl implements JoinService{
 
     @Override
     public void joinMember(RequestJoinMemberDto requestJoinMemberDto) {
+
+        BigDecimal heightInMeters = requestJoinMemberDto.getHeight().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+        BigDecimal heightSquared = heightInMeters.multiply(heightInMeters);
+        BigDecimal bmi = requestJoinMemberDto.getWeight().divide(heightSquared, 2, RoundingMode.HALF_UP);
+
+        Boolean obesity = bmi.compareTo(new BigDecimal("23")) > 0;
+
         Member member = Member.builder().
                 name(requestJoinMemberDto.getName()).
                 email(requestJoinMemberDto.getEmail()).
@@ -28,9 +38,9 @@ public class JoinServiceImpl implements JoinService{
                 breastfeeding(requestJoinMemberDto.getBreastfeeding()).
                 height(requestJoinMemberDto.getHeight()).
                 weight(requestJoinMemberDto.getWeight()).
-                bmi(requestJoinMemberDto.getBmi()).
+                bmi(bmi).
                 diabetes(requestJoinMemberDto.getDiabetes()).
-                obesity(requestJoinMemberDto.getObesity()).
+                obesity(obesity).
                 cardio(requestJoinMemberDto.getCardio()).
                 digestive(requestJoinMemberDto.getDigestive()).
                 kidney_disease(requestJoinMemberDto.getKidney_disease()).
