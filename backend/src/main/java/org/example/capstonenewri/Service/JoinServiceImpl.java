@@ -48,7 +48,7 @@ public class JoinServiceImpl implements JoinService{
                 osteoporosis(requestJoinMemberDto.getOsteoporosis()).
                 constipation(requestJoinMemberDto.getConstipation()).
                 anaemia(requestJoinMemberDto.getAnaemia()).
-                stone(requestJoinMemberDto.getStone()).
+                urinary_stone(requestJoinMemberDto.getUrinary_stone()).
                 gout(requestJoinMemberDto.getGout()).
                 vegan(requestJoinMemberDto.getVegan()).
                 cancer(requestJoinMemberDto.getCancer()).
