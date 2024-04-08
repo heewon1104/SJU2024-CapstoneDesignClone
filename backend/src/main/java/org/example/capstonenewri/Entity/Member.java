@@ -47,7 +47,7 @@ public class Member extends BaseEntity{
     private Boolean osteoporosis;  // 골다공증
     private Boolean constipation;  // 변비
     private Boolean anaemia;  // 빈혈
-    private Boolean stone; //요로 결석
+    private Boolean urinary_stone; //요로 결석
     private Boolean gout;  // 통풍
     private Boolean vegan;
     private String cancer;
