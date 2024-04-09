@@ -20,6 +20,7 @@ export const theme = {
   background: Colors.white,
   text: Colors.black,
   errorText: Colors.red_0,
+  main: Colors.main,
 
   //Loading
   loadingPageBackground: Colors.main,

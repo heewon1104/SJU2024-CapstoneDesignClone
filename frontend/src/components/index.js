@@ -6,6 +6,11 @@ import Customtext from './CustomText';
 import Customcardbutton from './Customcardbutton';
 import Genderradiobuttoncontiner from './Genderradiobuttoncontiner';
 import Physicalcharacteristicsgroup from './Physicalcharacteristicsgroup';
+import FoodCalender from './FoodCalender';
+import CalanderBar from './CalenderBar';
+import DoughnutGraph from './DoughnutGraph';
+import LineChart from './LineChart';
+import HealthScore from './HealthScore';
 
 export {
   Button,
@@ -16,4 +21,9 @@ export {
   Customcardbutton,
   Genderradiobuttoncontiner,
   Physicalcharacteristicsgroup,
+  FoodCalender,
+  CalanderBar,
+  DoughnutGraph,
+  LineChart,
+  HealthScore,
 };
