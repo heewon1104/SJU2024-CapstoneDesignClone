@@ -20,6 +20,8 @@ export const theme = {
   background: Colors.white,
   text: Colors.black,
   errorText: Colors.red_0,
+  main: Colors.main,
+  detail: Colors.grey_3,
 
   //Loading
   loadingPageBackground: Colors.main,
@@ -42,4 +44,21 @@ export const theme = {
 
   //list
   listcolor: Colors.main,
+
+  //HealthScore
+  scoreTitle: Colors.main,
+  HealthScoreTotalvalue: Colors.grey_3,
+  HealthScoreValue: Colors.red_1,
+
+  //LineChart
+  chartcolor1: Colors.red_1,
+  chartcolor2: Colors.yellow,
+  chartcolor3: Colors.blue,
+  chartBackground: Colors.grey_2,
+  chartValueDetail: Colors.grey_3,
+  exceedValueDetail: Colors.red_0,
+
+  //Feedback
+  bubbleBackground: Colors.grey_2,
+  bubbleText: Colors.grey_4,
 };
