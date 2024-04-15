@@ -1,8 +1,6 @@
 package org.example.capstonenewri.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -13,7 +11,11 @@ import java.math.BigDecimal;
 @Builder
 @Getter
 public class DRI extends BaseEntity{
-    // Table Value
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "dri_id")
+    private Long id;
 
     private BigDecimal energy_kcal;
     private BigDecimal water_g;

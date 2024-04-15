@@ -4,13 +4,17 @@ import java.time.LocalDate;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
+
+import org.example.capstonenewri.Entity.Member;
+import org.example.capstonenewri.Entity.Type.Gender;
 import org.example.capstonenewri.Utils.CSVReader;
 import org.example.capstonenewri.Entity.DRI;
+
 
 public class DRICalculator {
     // Input Parameters
     LocalDate birth;
-    char gender;
+    Gender gender;
     boolean isPregnant;
     boolean isBreastfeeding;
     BigDecimal height;
@@ -47,7 +51,7 @@ public class DRICalculator {
 
 
     // Initialize
-    public DRICalculator(LocalDate birth, char gender, boolean isPregnant, boolean isBreastfeeding, BigDecimal height, BigDecimal weight) {
+    public DRICalculator(LocalDate birth, Gender gender, boolean isPregnant, boolean isBreastfeeding, BigDecimal height, BigDecimal weight) {
         /*
         나이 계산 및 Life Stage Group, prefix 산출
          */
@@ -55,7 +59,7 @@ public class DRICalculator {
         this.gender = gender;
         this.isPregnant = isPregnant;
         this.isBreastfeeding = isBreastfeeding;
-        this.height = height;
+        this.height = height.multiply(BigDecimal.valueOf(0.01));
         this.weight = weight;
 
         // calculate current age (만나이);
@@ -92,7 +96,7 @@ public class DRICalculator {
 
         // Add Prefix
         if (this.age >= 9 && this.age <= 50) {
-            if (this.gender == 'M') {
+            if (this.gender == Gender.M) {
                 this.prefix = "Males";
             } else {
                 if (this.isPregnant) {
@@ -130,7 +134,7 @@ public class DRICalculator {
         }
 
         else if (this.lifeStage.equals("Children 4-8 y")) {
-            if (this.gender == 'M') {
+            if (this.gender == Gender.M) {
                 // energy
                 this.energy = (this.weight.multiply(BigDecimal.valueOf(26.7)).add(this.height.multiply(BigDecimal.valueOf(903))))
                         .multiply(BigDecimal.valueOf(1.13)).add(BigDecimal.valueOf(88.5 - 61.9 * this.age));
@@ -261,7 +265,7 @@ public class DRICalculator {
     }
 
 
-    public DRI DRICalc() {
+    public DRI DRICalc(Member member) {
         /*
         계산된 필수영양소 DRI와 다른 영양소 DRI를 테이블로 합쳐 DRI 객체 생성
         */
@@ -297,7 +301,8 @@ public class DRICalculator {
                 vitamin_d_mcg(this.vitamin_d).
                 cholesterol_mg(this.cholesterol).
                 saturated_fatty_acids_g(this.saturated_fatty_acid).
-                trans_fatty_acids_g(this.trans_fatty_acid);
+                trans_fatty_acids_g(this.trans_fatty_acid).
+                member(member).build();
         return userDRI;
     }
 }
