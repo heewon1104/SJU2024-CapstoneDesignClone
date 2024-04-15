@@ -5,9 +5,7 @@ import { Button, Input, ErrorMessage, Customtext } from '.';
 import { Calendar } from 'react-native-calendars';
 
 const Container = styled.View`
-  padding: 10px;
-  margin: 10px;
-  flex: 1;
+  margin-bottom: 10px;
   justify-content: center;
   align-items: center;
 `;
@@ -26,12 +24,12 @@ const FoodCalender = () => {
   });
 
   const markedDates = {
-    [selectedDay]: { selected: true },
-
     '2024-04-16': { dots: [vacation, massage, workout] },
     '2024-04-17': { dots: [massage, workout, vacation], disabled: true },
     '2024-04-18': { marked: true, dotColor: 'red', activeOpacity: 0 },
     '2024-04-19': { disabled: true, disableTouchEvent: true },
+
+    [selectedDay]: { selected: true },
   };
 
   return (

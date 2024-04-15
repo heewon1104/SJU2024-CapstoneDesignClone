@@ -12,6 +12,7 @@ import Stone from './stone.png';
 import Vegan from './vegan.png';
 
 import Healthplus from './healthplus.png';
+import Mascot from './Mascot.png';
 
 export {
   BoyImage,
@@ -26,4 +27,5 @@ export {
   Stone,
   Vegan,
   Healthplus,
+  Mascot,
 };

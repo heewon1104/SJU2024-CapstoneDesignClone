@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ThemeContext } from 'styled-components/native';
 import {
   Mainpage,
   Recipe,
@@ -8,23 +9,27 @@ import {
   Signin,
 } from '../screens/index';
 import { Entypo, AntDesign } from '@expo/vector-icons';
+import CameraRecord from './CameraRecord';
+import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 const Main = () => {
+  const theme = useContext(ThemeContext);
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#5DB075',
-        inactiveTintColor: 'gray',
+        activeTintColor: theme.main,
+        inactiveTintColor: theme.detail,
       }}
     >
       <Tab.Screen
         name="Mainpage"
         component={Mainpage}
         options={{
+          headerShown: Platform.OS === 'android' ? false : true,
           title: '홈',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Entypo name="home" size={24} color={color} />
           ),
         }}
@@ -33,18 +38,20 @@ const Main = () => {
         name="Calander"
         component={Calander}
         options={{
+          headerShown: Platform.OS === 'android' ? false : true,
           title: '캘린더',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Entypo name="calendar" size={24} color={color} />
           ),
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Signin"
-        component={Signin}
+        name="Camera"
+        component={CameraRecord}
         options={{
           title: '카메라',
-          tabBarIcon: ({ color, size }) => (
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
             <Entypo name="camera" size={24} color={color} />
           ),
         }}
@@ -54,7 +61,7 @@ const Main = () => {
         component={Refrigerator}
         options={{
           title: '냉장고',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <Entypo name="box" size={24} color={color} />
           ),
         }}
@@ -64,7 +71,7 @@ const Main = () => {
         component={Recipe}
         options={{
           title: '레시피',
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
           ),
         }}

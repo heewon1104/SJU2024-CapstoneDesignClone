@@ -7,17 +7,16 @@ import {
   ErrorMessage,
   Customtext,
   FoodCalender,
+  MealTypeListItem,
 } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Container = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background-color: ${({ theme }) => theme.background};
-  padding: 0% 20px;
-  padding-top: ${({ insets: { top } }) => top}px;
-  padding-bottom: ${({ insets: { bottom } }) => bottom}px;
+  padding-top: 20px;
 `;
 
 const Calander = ({ navigation }) => {
@@ -35,6 +34,30 @@ const Calander = ({ navigation }) => {
   return (
     <Container insets={insets}>
       <FoodCalender></FoodCalender>
+      <MealTypeListItem
+        title="아침"
+        foodtype="빵, 샐러드"
+        calorie="500"
+        color="red"
+      ></MealTypeListItem>
+      <MealTypeListItem
+        title="아침"
+        foodtype="빵, 샐러드"
+        calorie="500"
+        color="blue"
+      ></MealTypeListItem>
+      <MealTypeListItem
+        title="아침"
+        foodtype="빵, 샐러드"
+        calorie="500"
+        color="green"
+      ></MealTypeListItem>
+      <MealTypeListItem
+        title="아침"
+        foodtype="빵, 샐러드"
+        calorie="500"
+        color="purple"
+      ></MealTypeListItem>
     </Container>
   );
 };
