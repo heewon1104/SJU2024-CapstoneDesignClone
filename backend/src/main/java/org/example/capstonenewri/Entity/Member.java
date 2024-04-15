@@ -60,4 +60,7 @@ public class Member extends BaseEntity{
     @JsonManagedReference
     private List<Diet> diets = new ArrayList<>();
 
+    @OneToOne
+    private DRI dri;
+
 }
