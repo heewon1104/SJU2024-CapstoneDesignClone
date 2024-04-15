@@ -196,7 +196,7 @@ public class DRICalculator {
             if (this.prefix.equals("Males")) {
                 // energy
                 this.energy = this.weight.multiply(BigDecimal.valueOf(15.91)).add(this.height.multiply(BigDecimal.valueOf(539.6)))
-                        .multiply(BigDecimal.valueOf(662 - 9.53 * this.age + 1.11));
+                        .multiply(BigDecimal.valueOf(1.11)).add(BigDecimal.valueOf(662 - 9.53 * this.age));
                 // protein
                 this.protein = this.weight.multiply(BigDecimal.valueOf(0.66/0.9)).multiply(BigDecimal.valueOf(1.25));
             }
@@ -204,7 +204,7 @@ public class DRICalculator {
             else {
                 //energy
                 this.energy = this.weight.multiply(BigDecimal.valueOf(9.36)).add(this.height.multiply(BigDecimal.valueOf(726)))
-                        .multiply(BigDecimal.valueOf(354 - 6.91 * this.age + 1.12));
+                        .multiply(BigDecimal.valueOf(1.12)).add(BigDecimal.valueOf(354 - 6.91 * this.age));
                 // protein
                 this.protein = this.weight.multiply(BigDecimal.valueOf(0.66/0.9)).multiply(BigDecimal.valueOf(1.25));
                 // 생애단계별 추가필요량
@@ -231,7 +231,7 @@ public class DRICalculator {
         // waters
         this.water = this.energy;
         // fibers
-        this.fiber = this.energy.multiply(BigDecimal.valueOf(12/1000));
+        this.fiber = this.energy.multiply(BigDecimal.valueOf(0.012));
 
 
     }
