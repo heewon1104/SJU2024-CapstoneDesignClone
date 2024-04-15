@@ -11,6 +11,9 @@ import CalanderBar from './CalenderBar';
 import DoughnutGraph from './DoughnutGraph';
 import LineChart from './LineChart';
 import HealthScore from './HealthScore';
+import Feedback from './Feedback';
+import MealTypeListItem from './MealTypeListItem.js';
+import FoodRadiobuttonContainer from './FoodRadiobuttonContainer';
 
 export {
   Button,
@@ -26,4 +29,7 @@ export {
   DoughnutGraph,
   LineChart,
   HealthScore,
+  Feedback,
+  MealTypeListItem,
+  FoodRadiobuttonContainer,
 };

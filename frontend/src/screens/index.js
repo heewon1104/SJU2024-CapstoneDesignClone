@@ -8,6 +8,7 @@ import Mainpage from './Mainpage';
 import Calander from './Calander';
 import Recipe from './Recipe';
 import Refrigerator from './Refrigerator';
+import RecordChooseFood from './RecordChooseFood';
 
 export {
   Signin,
@@ -20,4 +21,5 @@ export {
   Calander,
   Recipe,
   Refrigerator,
+  RecordChooseFood,
 };

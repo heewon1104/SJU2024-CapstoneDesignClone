@@ -1,24 +1,26 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { ThemeContext } from 'styled-components/native';
-import styled from 'styled-components/native';
+import styled, { ThemeContext } from 'styled-components/native';
 import {
   CalanderBar,
   DoughnutGraph,
   LineChart,
   HealthScore,
+  Feedback,
 } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Platform } from 'react-native';
 
 const Container = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   background-color: ${({ theme }) => theme.background};
 `;
 
 const GraphContainer = styled.View`
   flex-direction: row;
-  padding: 20px 0px;
+
+  margin-bottom: ${Platform.OS === 'android' ? '15px' : '30px'};
 `;
 
 const LineGraphContainer = styled.View`
@@ -29,6 +31,7 @@ const LineGraphContainer = styled.View`
 `;
 
 const Mainpage = ({ navigation }) => {
+  const theme = useContext(ThemeContext);
   const _handleSigninBtnPress = () => {
     //navigation.navigate('Profile', { user });
     // try {
@@ -42,18 +45,33 @@ const Mainpage = ({ navigation }) => {
   return (
     <Container>
       <CalanderBar></CalanderBar>
-
+      <HealthScore></HealthScore>
       <GraphContainer>
+        <DoughnutGraph></DoughnutGraph>
         <LineGraphContainer>
-          <HealthScore></HealthScore>
-          <LineChart></LineChart>
-          <LineChart></LineChart>
-          <LineChart></LineChart>
+          <LineChart
+            title="단백질"
+            value={60}
+            total={100}
+            color={theme.chartcolor1}
+          ></LineChart>
+          <LineChart
+            title="탄수화물"
+            value={300}
+            total={590}
+            color={theme.chartcolor2}
+          ></LineChart>
+          <LineChart
+            title="지방"
+            value={200}
+            total={80}
+            color={theme.chartcolor3}
+          ></LineChart>
         </LineGraphContainer>
-        <LineGraphContainer>
-          <DoughnutGraph></DoughnutGraph>
-        </LineGraphContainer>
+        <LineGraphContainer></LineGraphContainer>
       </GraphContainer>
+
+      <Feedback></Feedback>
     </Container>
   );
 };
