@@ -2,7 +2,9 @@ package org.example.capstonenewri.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.capstonenewri.Dto.RequestJoinMemberDto;
+import org.example.capstonenewri.Entity.DRI;
 import org.example.capstonenewri.Entity.Member;
+import org.example.capstonenewri.Repository.DRIRepository;
 import org.example.capstonenewri.Repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.math.RoundingMode;
 public class JoinServiceImpl implements JoinService{
 
     private final MemberRepository memberRepository;
+    private final DRIRepository driRepository;
     private final BCryptPasswordEncoder encoder;
 
     @Override
@@ -55,8 +58,14 @@ public class JoinServiceImpl implements JoinService{
                 allergy(requestJoinMemberDto.getAllergy()).
                 role(requestJoinMemberDto.getRole()).build();
         memberRepository.save(member);
+
+        // DRI 산출 모듈 생성
+        DRICalculator test = new DRICalculator(member.getBirth(), member.getGender(), member.getPregnant(), member.getBreastfeeding(),
+                member.getHeight(), member.getWeight());
+
+
+        // DRI 산출
+        DRI userDRI = test.DRICalc(member);
+        driRepository.save(userDRI);
     }
-
-
-
 }
