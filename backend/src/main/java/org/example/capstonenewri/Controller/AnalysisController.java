@@ -28,7 +28,7 @@ public class AnalysisController {
 
     @PostMapping(value = "/tmpsave", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}) // consumes는 수신하는 요청의 미디어 타입 지정.
     public ResponseAnalysisDto analyzeNutrition(Authentication authentication,
-                                                @RequestPart(required = true, name = "foodImage") List<MultipartFile> foodImages,
+                                                @RequestPart(required = true, name = "foodImages") List<MultipartFile> foodImages,
                                                 @RequestPart(name = "request") @Valid RequestAnalysisDto requestAnalysisDto
                                  ){
         requestAnalysisDto.setEmail(authentication.getName());

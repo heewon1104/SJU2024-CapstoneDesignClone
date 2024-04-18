@@ -38,7 +38,7 @@ public class AnalysisServiceImpl implements AnalysisServie{
 
     @Value("${flask.url}")  // ai 서버 주소
     private String url;
-    String endPoint = "/test/test/test"; // uri
+    String endPoint = "/upload"; // uri
 
     @Override
     public ResponseAnalysisDto analyzeNutrition(List<MultipartFile> foodImages, RequestAnalysisDto requestAnalysisDto) {
@@ -53,26 +53,7 @@ public class AnalysisServiceImpl implements AnalysisServie{
                 body.add("foodImages",file.getResource()); // 여기서 MultipartFile의 Resource를 사용
             }
         }
-
-        // requestAnalysisDto의 koreanOrAll 필드를 JSON 문자열로 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        String koreanOrAllJson;
-        try {
-            Map<String, Object> koreanOrAllMap = new HashMap<>();
-            koreanOrAllMap.put("koreanOrAll", requestAnalysisDto.getKoreanOrAll());
-            koreanOrAllJson = objectMapper.writeValueAsString(koreanOrAllMap); // 키-값 쌍
-        } catch (JsonProcessingException e) {
-            throw new RestClientException("JSON 변환 실패", e);
-        }
-        // JSON 파트를 위한 헤더 생성
-        HttpHeaders jsonHeaders = new HttpHeaders();
-        jsonHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        // JSON 문자열을 HttpEntity에 감싸기
-        HttpEntity<String> jsonPart = new HttpEntity<>(koreanOrAllJson, jsonHeaders);
-
-        // 바디에 JSON 파트 추가
-        body.add("koreanOrAll", jsonPart);
+        body.add("koreanOrAll", requestAnalysisDto.getKoreanOrAll().toString());
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         System.out.println("ㅎ하ㅏ핳하하");// 디버깅 문구
