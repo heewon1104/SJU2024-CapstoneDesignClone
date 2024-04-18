@@ -8,6 +8,7 @@ import org.example.capstonenewri.Entity.Type.DietType;
 import org.example.capstonenewri.Entity.Type.KoreanOrAll;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,12 +18,12 @@ public class ResponseAnalysisDto {
     private KoreanOrAll koreanOrAll;
     private LocalDateTime intakeTime;
     private String foods;
-    private String ingredients;
+    private List<String> ingredients;
     private Integer amount;
 
     @Builder
     public ResponseAnalysisDto(DietType dietType, KoreanOrAll koreanOrAll, LocalDateTime intakeTime,
-                               String foods, String ingredients, Integer amount){
+                               String foods, List<String> ingredients, Integer amount){
         this.dietType = dietType;
         this.koreanOrAll = koreanOrAll;
         this.intakeTime = intakeTime;
