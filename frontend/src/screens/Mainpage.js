@@ -9,6 +9,8 @@ import {
 } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
+import { UserLoginInfoContext } from '../contexts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   flex: 1;
@@ -31,6 +33,7 @@ const LineGraphContainer = styled.View`
 `;
 
 const Mainpage = ({ navigation }) => {
+  const tokenInfo = useContext(UserLoginInfoContext);
   const theme = useContext(ThemeContext);
   const _handleSigninBtnPress = () => {
     //navigation.navigate('Profile', { user });
@@ -41,6 +44,10 @@ const Mainpage = ({ navigation }) => {
     //   Alert.alert('로그인 오류', e.message);
     // }
   };
+
+  useEffect(() => {
+    console.log(AsyncStorage.getItem('TOKENADDRESS'));
+  }, []);
 
   return (
     <Container>

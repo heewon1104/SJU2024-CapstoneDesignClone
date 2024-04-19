@@ -1,11 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import styled from 'styled-components/native';
-import { Button, Image, Input, ErrorMessage } from '../components';
+import { Button, Input, ErrorMessage } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from 'react-native';
 import { validateEmail, removeWhitespace } from '../utils';
+import { UserLoginInfoContext } from '../contexts';
+import { IP_ADDRESS } from '../secret/env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   flex: 1;
@@ -27,6 +30,16 @@ const Signin = ({ navigation }) => {
   const [disabled, setDisabled] = useState(true);
   const refPassword = useRef(null);
 
+  const tokenInfo = useContext(UserLoginInfoContext);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('TA223344', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
   }, [email, password, errorMessage]);
@@ -44,14 +57,33 @@ const Signin = ({ navigation }) => {
     setPassword(changedPassword);
   };
 
-  const _handleSigninBtnPress = () => {
-    //navigation.navigate('Profile', { user });
-    // try {
-    //   const user = await signin({ email, password });
-    //   navigation.navigate('Profile', { user });
-    // } catch (e) {
-    //   Alert.alert('로그인 오류', e.message);
-    // }
+  const _handleSigninBtnPress = async () => {
+    try {
+      const response = await fetch(
+        `http://${IP_ADDRESS}:8080/api/member/login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            //Authorization: localStorage.getItem('login-token'),
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error('로그인 오류');
+      }
+      console.log('로그인 성공!!');
+      storeData(response.headers.get('Authorization'));
+      tokenInfo.setuserTokenCheck(true);
+
+      //navigation.navigate('Profile', { user: data.user });
+    } catch (error) {
+      Alert.alert('로그인 오류', error.message);
+    }
   };
 
   return (
