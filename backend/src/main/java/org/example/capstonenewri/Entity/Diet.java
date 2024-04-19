@@ -7,6 +7,8 @@ import lombok.*;
 import org.example.capstonenewri.Entity.Type.DietType;
 import org.example.capstonenewri.Entity.Type.KoreanOrAll;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -17,7 +19,6 @@ public class Diet extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "diet_id")
     private Long id;
-    private String photoUrl; // 이렇게 하면 되나? - 파일 업로드
 
     @Enumerated(EnumType.STRING)
     private DietType diettype;
@@ -25,15 +26,17 @@ public class Diet extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private KoreanOrAll koreanOrAll;
 
-    private String food;
-    private String ingredients;
+    private LocalDateTime intakeTime;
+    private String food; // ai 서버의 결과를 받아올 것임.
+    private String ingredients; // ai 서버의 결과를 받아올 것임.
+    private Integer amount; // ai 서버의 결과를 받아올 것임.
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @JsonBackReference
     private Member member;
 
-    @OneToOne(mappedBy = "diet")
+    @OneToOne(mappedBy = "diet", fetch = FetchType.LAZY)
     private DietDiary dietDiary;
 
 }
