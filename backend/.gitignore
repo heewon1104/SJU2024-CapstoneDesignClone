@@ -1,0 +1,10 @@
+# Backend Build File
+build/
+*.class
+
+# Backend project config
+**/.idea
+.gradle/
+
+# testing file
+src/test/
