@@ -6,6 +6,7 @@ import { UserContext } from '../contexts';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { diseasesData, diseaseTranslation } from '../data/diseasesData';
 import { IP_ADDRESS } from '../secret/env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   align-items: flex-start;
@@ -37,6 +38,14 @@ const Signupdiseases = ({ navigation }) => {
       .map((disease) => diseaseTranslation[disease] || '')
       .filter((title) => title !== '')
       .join(', ');
+  };
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('TA', value);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const toggleUserState = (category, diseases) => {
@@ -105,8 +114,9 @@ const Signupdiseases = ({ navigation }) => {
           body: JSON.stringify(payload),
         }
       );
+      console.log('response data:', response.headers.get('Authorization'));
 
-      console.log('response data:', response);
+      storeData(response.headers.get('Authorization'));
 
       const statusRes = await response.status;
 

@@ -1,14 +1,14 @@
 import React, { useState, createContext } from 'react';
 
 const UserLoginInfoContext = createContext({
-  userToken: null,
-  setuserToken: () => {},
+  userTokenCheck: false,
+  setuserTokenCheck: () => {},
 });
 
 const UserLoginInfoProvider = ({ children }) => {
-  const [userToken, setuserToken] = useState(null);
+  const [userTokenCheck, setuserTokenCheck] = useState(false);
 
-  const value = { userToken, setuserToken };
+  const value = { userTokenCheck, setuserTokenCheck };
   return (
     <UserLoginInfoContext.Provider value={value}>
       {children}

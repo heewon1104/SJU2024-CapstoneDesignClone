@@ -8,6 +8,7 @@ import { Alert } from 'react-native';
 import { validateEmail, removeWhitespace } from '../utils';
 import { UserLoginInfoContext } from '../contexts';
 import { IP_ADDRESS } from '../secret/env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   flex: 1;
@@ -30,6 +31,14 @@ const Signin = ({ navigation }) => {
   const refPassword = useRef(null);
 
   const tokenInfo = useContext(UserLoginInfoContext);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem('TA223344', value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
@@ -68,9 +77,8 @@ const Signin = ({ navigation }) => {
         throw new Error('로그인 오류');
       }
       console.log('로그인 성공!!');
-      console.log(response);
-      console.log(response.body);
-      tokenInfo.setuserToken('TmpToken~~~');
+      storeData(response.headers.get('Authorization'));
+      tokenInfo.setuserTokenCheck(true);
 
       //navigation.navigate('Profile', { user: data.user });
     } catch (error) {

@@ -10,6 +10,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
 import { UserLoginInfoContext } from '../contexts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   flex: 1;
@@ -45,8 +46,8 @@ const Mainpage = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log(tokenInfo.userToken);
-  }, [tokenInfo.userToken]);
+    console.log(AsyncStorage.getItem('TOKENADDRESS'));
+  }, []);
 
   return (
     <Container>
