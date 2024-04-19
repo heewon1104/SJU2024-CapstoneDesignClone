@@ -8,13 +8,14 @@ import java.math.BigDecimal;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-@Getter
-public class DietDiary {
+@Builder @Getter
+public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "dietdiary_id")
-    private Long id;
+    @Column(name = "food_code")
+    private String food_code;
+    private String food_name;
+    private String amount;
 
     private BigDecimal energy_kcal;
     private BigDecimal water_gram;
@@ -41,9 +42,7 @@ public class DietDiary {
     private BigDecimal saturated_fatty_acids_gram;
     private BigDecimal trans_fatty_acids_gram;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diet_id")
-    private Diet diet;
-
+    private String source;
+    private String single_intake;
 
 }
