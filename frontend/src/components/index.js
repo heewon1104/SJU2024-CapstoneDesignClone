@@ -16,6 +16,7 @@ import MealTypeListItem from './MealTypeListItem.js';
 import FoodRadiobuttonContainer from './FoodRadiobuttonContainer';
 import TakePhoto from './TakePhoto';
 import InputButton from './InputButton';
+import FoodAnalysisItems from './FoodAnalysisItems';
 
 export {
   Button,
@@ -36,4 +37,5 @@ export {
   FoodRadiobuttonContainer,
   TakePhoto,
   InputButton,
+  FoodAnalysisItems,
 };

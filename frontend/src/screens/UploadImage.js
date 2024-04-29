@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
 import { ErrorMessage, Customtext, TakePhoto, Button } from '../components';
-import { Image, ScrollView, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { FoodContext } from '../contexts';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ImageSlider } from 'react-native-image-slider-banner';
 
 const Container = styled.View`
   flex: 1;
@@ -14,18 +17,20 @@ const Container = styled.View`
 const GUIDE_TEXT = '사진 선택';
 
 const UploadImage = ({ navigation }) => {
-  const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [takePhotoModal, SetTakePhotoModal] = useState(false);
 
-  useEffect(() => {
-    setDisabled(images.length === 0 || !!errorMessage);
-  }, [images, errorMessage]);
+  const { food, setFood: updateFoodInfo } = useContext(FoodContext);
 
   useEffect(() => {
-    setErrorMessage(images.length === 0 ? '사진을 선택해주세요' : '');
-  }, [images]);
+    console.log(food);
+    setDisabled(food.img.length === 0 || !!errorMessage);
+  }, [food.img, errorMessage]);
+
+  useEffect(() => {
+    setErrorMessage(food.img.length === 0 ? '사진을 선택해주세요' : '');
+  }, [food.img]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,35 +41,49 @@ const UploadImage = ({ navigation }) => {
     });
 
     if (!result.cancelled && result.assets) {
-      setImages((prev) => [
-        ...prev,
-        ...result.assets.map((asset) => asset.uri),
-      ]);
+      updateFoodInfo({
+        img: [...food.img, ...result.assets.map((asset) => asset.uri)],
+      });
     }
   };
 
+  const _handleBtnPress = () => {
+    navigation.navigate('AnalysisFood');
+  };
+
+  const imageSliderData = food.img.map((url) => ({ img: url }));
+
   return takePhotoModal ? (
-    <TakePhoto checkModal={SetTakePhotoModal} setImages={setImages} />
+    <TakePhoto
+      checkModal={SetTakePhotoModal}
+      setImages={(newImages) => updateFoodInfo({ img: newImages })}
+      currentImages={food.img}
+    />
   ) : (
-    <Container>
-      <Customtext text={GUIDE_TEXT} />
-      <ScrollView horizontal>
-        {images.map((uri, index) => (
-          <Image key={index} source={{ uri }} style={styles.image} />
-        ))}
-      </ScrollView>
-      <Button title="갤러리에서 사진 선택" onPress={pickImage} />
-      <Button
-        title="카메라로 사진 촬영"
-        onPress={() => SetTakePhotoModal(true)}
-      />
-      <ErrorMessage message={errorMessage} />
-      <Button
-        title="업로드"
-        onPress={() => console.log('Uploading images', images)}
-        disabled={disabled}
-      />
-    </Container>
+    <ScrollView>
+      <Container>
+        <Customtext text={GUIDE_TEXT} />
+        {food.img.length === 0 ? (
+          <MaterialCommunityIcons name="image-plus" size={24} color="black" />
+        ) : (
+          <View style={styles.imageSliderContainer}>
+            <ImageSlider
+              data={imageSliderData}
+              autoPlay={false}
+              onItemChanged={(item) => console.log('item', item)}
+              closeIconColor="white"
+            />
+          </View>
+        )}
+        <Button title="갤러리에서 사진 선택" onPress={pickImage} />
+        <Button
+          title="카메라로 사진 촬영"
+          onPress={() => SetTakePhotoModal(true)}
+        />
+        <ErrorMessage message={errorMessage} />
+        <Button title="업로드" onPress={_handleBtnPress} disabled={disabled} />
+      </Container>
+    </ScrollView>
   );
 };
 
@@ -73,6 +92,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginRight: 8,
+  },
+  imageSliderContainer: {
+    height: 400,
   },
 });
 
