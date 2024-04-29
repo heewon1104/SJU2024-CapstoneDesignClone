@@ -14,7 +14,7 @@ const Navigations = () => {
     const getData = async () => {
       console.log('loading22');
       try {
-        const storedValue = await AsyncStorage.getItem('TA223344');
+        const storedValue = await AsyncStorage.getItem('TOKENADDRESS');
         console.log(storedValue);
         setValue(storedValue);
         console.log(tokenInfo.userTokenCheck);
@@ -27,7 +27,8 @@ const Navigations = () => {
 
   return (
     <NavigationContainer>
-      {tokenInfo.userTokenCheck === true || value != null ? <Main /> : <Auth />}
+      {/* {tokenInfo.userTokenCheck === true || value != null ? <Main /> : <Auth />} */}
+      <Main></Main>
     </NavigationContainer>
   );
 };

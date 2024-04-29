@@ -1,108 +1,93 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, CameraType } from 'expo-camera';
-import {
-  Button,
-  Image,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import styled from 'styled-components/native';
 
-const TakePhoto = ({ checkModal, setImages }) => {
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+`;
+
+const StyledCamera = styled(Camera)`
+  flex: 1;
+`;
+
+const ButtonContainer = styled.View`
+  position: absolute;
+  bottom: 20px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const CameraButton = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  background-color: white;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+`;
+
+const TakePhoto = ({ checkModal, setImages, currentImages }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(CameraType.back);
+  const [isCapturing, setIsCapturing] = useState(false);
   const camera = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.requestMicrophonePermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   if (hasPermission === null) {
     return (
-      <View>
-        <Text>Requesting for camera permission...</Text>
-      </View>
+      <Container>
+        <ButtonText>Requesting for camera permission...</ButtonText>
+      </Container>
     );
   }
   if (hasPermission === false) {
     return (
-      <View>
-        <Text>No access to camera</Text>
-      </View>
+      <Container>
+        <ButtonText>No access to camera</ButtonText>
+      </Container>
     );
   }
 
   const __takePicture = async () => {
-    if (camera.current) {
-      try {
-        const photo = await camera.current.takePictureAsync();
-        console.log(photo);
-        setImages((prev) => [...prev, photo.uri]);
-        checkModal(false);
-      } catch (error) {
-        console.error('Error taking picture:', error);
-      }
-    } else {
-      console.log('Camera ref not attached');
+    if (isCapturing || !camera.current) {
+      return;
+    }
+
+    setIsCapturing(true); // 촬영 시작 전 촬영 중 상태로 설정
+    try {
+      const photo = await camera.current.takePictureAsync();
+      console.log(photo);
+      setImages([...currentImages, photo.uri]);
+      checkModal(false);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    } finally {
+      setIsCapturing(false); // 촬영 완료 후 촬영 중 상태 해제
     }
   };
 
   return (
-    <Camera ref={camera} style={styles.camera} type={type}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            setType(
-              type === CameraType.back ? CameraType.front : CameraType.back
-            );
-          }}
-        >
-          <Text style={styles.text}>Flip Camera</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={__takePicture}
-          style={{
-            width: 70,
-            height: 70,
-            bottom: 0,
-            borderRadius: 50,
-            backgroundColor: '#fff',
-          }}
-        />
-      </View>
-    </Camera>
+    <StyledCamera ref={camera} type={type}>
+      <ButtonContainer>
+        <CameraButton onPress={__takePicture}></CameraButton>
+      </ButtonContainer>
+    </StyledCamera>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  camera: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 600,
-    color: 'white',
-  },
-});
 
 export default TakePhoto;

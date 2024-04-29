@@ -69,4 +69,9 @@ export const theme = {
   dinner: Colors.darkgreen,
   snack: Colors.purple,
   selectedColor: Colors.main,
+
+  //FoodAnalysisItems
+  editBtnBackground: Colors.grey_2,
+  editBtnColor: Colors.black,
+  borderColor: Colors.grey_2,
 };

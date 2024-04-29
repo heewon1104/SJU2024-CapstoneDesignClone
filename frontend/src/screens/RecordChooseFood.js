@@ -12,6 +12,7 @@ import { ThemeContext } from 'styled-components/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { ScrollView } from 'react-native';
+import { FoodContext } from '../contexts';
 
 const Container = styled.View`
   flex: 1;
@@ -31,10 +32,8 @@ const GUIDE_TEXT3 = `식사 종류 선택`;
 
 const RecordChooseFood = ({ navigation }) => {
   const theme = useContext(ThemeContext);
+  const { food, setFood } = useContext(FoodContext);
 
-  const [foodType, setFoodType] = useState('');
-  const [date, setDate] = useState('');
-  const [eatTime, setEatTime] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
 
@@ -57,32 +56,33 @@ const RecordChooseFood = ({ navigation }) => {
 
   const handleConfirm = (day) => {
     const dateString = day.toLocaleDateString(); // 날짜를 'MM/dd/yyyy' 포맷으로 변환
-    setDate(dateString); // 상태 업데이트
+    setFood({ ...food, date: dateString }); // 전역 상태 업데이트
     console.log(dateString); // 디버깅을 위해 로그 출력
     hideDatePicker();
   };
 
   useEffect(() => {
-    setDisabled(!(foodType && date && eatTime && !errorMessage));
-  }, [foodType, date, eatTime, errorMessage]);
+    console.log(food);
+    setDisabled(!(food.type && food.date && food.eattime && !errorMessage));
+  }, [food.type, food.date, food.eattime, errorMessage]);
 
   useEffect(() => {
     let error = '';
-    if (!foodType) {
+    if (!food.type) {
       error = '음식 종류를 선택해주세요';
-    } else if (!date) {
+    } else if (!food.date) {
       error = '날짜를 선택해주세요';
-    } else if (!eatTime) {
+    } else if (!food.eattime) {
       error = '식사 시간을 선택해주세요';
     } else {
       error = '';
     }
 
     setErrorMessage(error);
-  }, [foodType, date, eatTime]);
+  }, [food.type, food.date, food.eattime]);
 
-  const _handleSignupBtnPress = () => {
-    console.log(foodType, date, eatTime);
+  const _handleBtnPress = () => {
+    console.log(food.type, food.date, food.eattime);
     navigation.navigate('UploadImage');
   };
 
@@ -91,21 +91,23 @@ const RecordChooseFood = ({ navigation }) => {
       <Container>
         <Customtext text={GUIDE_TEXT1}></Customtext>
         <FoodRadiobuttonContainer
-          foodType={foodType}
-          setFoodType={setFoodType}
+          foodType={food.type}
+          setFoodType={(val) => setFood({ ...food, type: val })}
         ></FoodRadiobuttonContainer>
         <Customtext text={GUIDE_TEXT2}></Customtext>
-        <InputButton title={date} onPress={showDatePicker}></InputButton>
+        <InputButton
+          title={food.date || '날짜를 선택하세요'}
+          onPress={showDatePicker}
+        ></InputButton>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
-
         <Customtext text={GUIDE_TEXT3}></Customtext>
         <SelectList
-          setSelected={(val) => setEatTime(val)}
+          setSelected={(val) => setFood({ ...food, eattime: val })}
           data={data}
           save="value"
           search={false}
@@ -117,13 +119,13 @@ const RecordChooseFood = ({ navigation }) => {
             alignItems: 'center',
           }}
           dropdownStyles={{ borderColor: theme.inputBorder }}
-          maxHeight={160}
+          maxHeight={120}
         />
         <SubmitContainer>
           <ErrorMessage message={errorMessage}></ErrorMessage>
           <Button
             title="다음"
-            onPress={_handleSignupBtnPress}
+            onPress={_handleBtnPress}
             disabled={disabled}
           ></Button>
         </SubmitContainer>
