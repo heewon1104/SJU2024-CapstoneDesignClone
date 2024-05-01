@@ -19,7 +19,7 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
                 f.vitaminD_microgram, f.cholesterol_miligram, f.saturated_fatty_acids_gram,
                 f.trans_fatty_acids_gram)
             from Food f
-            where f.food_name like concat('%', :foodName , '%') 
+            where f.food_name = :foodName  
     """)
     FoodNutrtionDto findFoodByName(@Param("foodName") String foodName);
 
