@@ -34,4 +34,4 @@ jwt:
   token-validity-in-seconds: 86400
 
 flask:
-  url: https://recipe-module.run.goorm.site
+  url: http://34.64.32.58:5000
