@@ -10,11 +10,23 @@ const Title = styled.Text`
   font-size: 20px;
   font-weight: 600;
   margin: 5px;
+  color: ${({ theme, isOver }) =>
+    isOver ? theme.exceedValueDetail : theme.text};
 `;
 
-const DoughnutGraph = () => {
+const Detail = styled.Text`
+  font-size: 14;
+  font-weight: 600;
+  margin-top: 4px;
+  color: ${({ theme, isOver }) =>
+    isOver ? theme.exceedValueDetail : theme.text};
+`;
+
+const DoughnutGraph = ({ total, value }) => {
   const widthAndHeight = 120;
-  const series = [200, 100];
+  const isOver = value > total;
+
+  const series = [value, Math.max(total - value, 0)];
   const sliceColor = ['#5DB075', '#F1F1F1'];
 
   return (
@@ -26,7 +38,10 @@ const DoughnutGraph = () => {
         coverRadius={0.75}
         coverFill={'#FFF'}
       />
-      <Title>칼로리</Title>
+      <Detail isOver={isOver}>
+        {value} / {total}
+      </Detail>
+      <Title isOver={isOver}>칼로리</Title>
     </Container>
   );
 };

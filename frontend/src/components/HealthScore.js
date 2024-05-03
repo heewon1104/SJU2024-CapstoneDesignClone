@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { ThemeContext } from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Mascot } from '../../assets/components';
+import { MainPageDataContext } from '../contexts';
 
 const Container = styled.View`
   flex-direction: row;
@@ -56,8 +57,33 @@ const DetailTotal = styled.Text`
   color: ${({ theme }) => theme.HealthScoreTotalvalue};
 `;
 
-const HealthScore = () => {
+const HealthScore = ({ value }) => {
+  const { data, setData: updateDataInfo } = useContext(MainPageDataContext);
   const theme = useContext(ThemeContext);
+
+  const calculateScore = () => {
+    const carbohydrateGap =
+      (1 -
+        Math.abs(data.carbohydrateTotal - data.carbohydrateValue) /
+          data.carbohydrateTotal) *
+      100;
+    console.log('Gap1 : ', carbohydrateGap);
+    const proteinGap =
+      (1 -
+        Math.abs(data.proteinTotal - data.proteinValue) / data.proteinTotal) *
+      100;
+    console.log('Gap2 : ', proteinGap);
+    const fatGap =
+      (1 - Math.abs(data.fatTotal - data.fatValue) / data.fatTotal) * 100;
+    console.log('Gap3 : ', fatGap);
+
+    const kcalGap =
+      (1 - Math.abs(data.kcalTotal - data.kcalValue) / data.kcalTotal) * 100;
+
+    return Math.round((carbohydrateGap + proteinGap + fatGap + kcalGap) / 4);
+  };
+  const score = calculateScore({ data });
+
   return (
     <Container>
       <TextContainer>
@@ -71,7 +97,7 @@ const HealthScore = () => {
             <Title>Healthy Score</Title>
           </TitleContainer>
           <ScoreContainer>
-            <DetailScore>10</DetailScore>
+            <DetailScore>{score}</DetailScore>
             <DetailTotal>/100</DetailTotal>
           </ScoreContainer>
         </Bubble>
