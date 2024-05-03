@@ -49,16 +49,12 @@ public class DietController {
     @PostMapping(value = "/save")
     public void saveDietRecord(Authentication authentication,@RequestBody List<RequestSaveRecordDto> requestSaveRecordDtos){
         List<Diet> dietList = new ArrayList<>();
-        List<DietDiary> dietDiaryList = new ArrayList<>();
 
         for(RequestSaveRecordDto dto : requestSaveRecordDtos){
             dto.setEmail(authentication.getName());
             Diet diet = recordServiceImpl.saveDiet(dto);
             System.out.println("dietcontroller = " + diet.getFood());
-            DietDiary dietDiary = recordServiceImpl.saveDietDiary(diet);
-
             dietList.add(diet);
-            dietDiaryList.add(dietDiary);
         }
     }
 }

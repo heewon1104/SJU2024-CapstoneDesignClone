@@ -40,16 +40,19 @@ public class RecordServiceImpl implements RecordService{
                 .amount(requestSaveRecordDto.getAmount())
                 .member(member).build();
 
+        DietDiary dietDiary = saveDietDiary(diet);
+        diet.setDietDiary(dietDiary);
+
         dietRepository.save(diet);
-        System.out.println("savediet = " + diet);
+        //System.out.println("savediet = " + diet); // 디버깅 문구
         return diet;
     }
 
     @Override
     public DietDiary saveDietDiary(Diet diet) {
-
         String food = diet.getFood();
-        System.out.println("saveDietDiaryfood = " + food);
+        System.out.println("saveDietDiaryfood = " + food); // debugging
+
         FoodNutritionDto dtoByFoodName = foodRepository.findFoodByName(food);
 
         DietDiary dietDiary = DietDiary.builder()
