@@ -13,13 +13,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ResponseAIAnalysisDto {
-    private String foods;
+    private String food;
     private List<String> ingredients;
     private Integer amount;
 
     @Builder
     public ResponseAIAnalysisDto(String food, List<String> ingredients, Integer amount){
-        this.foods = foods;
+        this.food = food;
         this.ingredients = ingredients;
         this.amount = amount;
     }
