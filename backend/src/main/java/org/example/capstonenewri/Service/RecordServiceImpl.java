@@ -2,7 +2,7 @@ package org.example.capstonenewri.Service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.capstonenewri.Dto.FoodNutrtionDto;
+import org.example.capstonenewri.Dto.FoodNutritionDto;
 import org.example.capstonenewri.Dto.RequestSaveRecordDto;
 import org.example.capstonenewri.Entity.Diet;
 import org.example.capstonenewri.Entity.DietDiary;
@@ -41,16 +41,19 @@ public class RecordServiceImpl implements RecordService{
                 .member(member).build();
 
         dietRepository.save(diet);
+        System.out.println("savediet = " + diet);
         return diet;
     }
 
     @Override
-    public void saveDietDiary(Diet diet) {
+    public DietDiary saveDietDiary(Diet diet) {
 
         String food = diet.getFood();
-        FoodNutrtionDto dtoByFoodName = foodRepository.findFoodByName(food);
+        System.out.println("saveDietDiaryfood = " + food);
+        FoodNutritionDto dtoByFoodName = foodRepository.findFoodByName(food);
 
-        DietDiary dietDiary = DietDiary.builder().energy_kcal(BigDecimal.ZERO)
+        DietDiary dietDiary = DietDiary.builder()
+                .energy_kcal(dtoByFoodName.getEnergy_kcal())
                 .water_gram(dtoByFoodName.getWater_gram())
                 .protein_gram(dtoByFoodName.getProtein_gram())
                 .fat_gram(dtoByFoodName.getFat_gram())
@@ -78,5 +81,6 @@ public class RecordServiceImpl implements RecordService{
                 .build();
 
         dietDiaryRepository.save(dietDiary);
+        return dietDiary;
     }
 }

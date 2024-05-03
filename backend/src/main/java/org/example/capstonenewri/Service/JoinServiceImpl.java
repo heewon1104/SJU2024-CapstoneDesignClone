@@ -57,7 +57,6 @@ public class JoinServiceImpl implements JoinService{
                 cancer(requestJoinMemberDto.getCancer()).
                 allergy(requestJoinMemberDto.getAllergy()).
                 role(requestJoinMemberDto.getRole()).build();
-        memberRepository.save(member);
 
         // DRI 산출 모듈 생성
         DRICalculator test = new DRICalculator(member.getBirth(), member.getGender(), member.getPregnant(), member.getBreastfeeding(),
@@ -66,6 +65,14 @@ public class JoinServiceImpl implements JoinService{
 
         // DRI 산출
         DRI userDRI = test.DRICalc(member);
+
+        // DRI 객체 저장
         driRepository.save(userDRI);
+
+        // Member 객체에 DRI 설정
+        member.setDri(userDRI);
+
+        // Member 객체 저장
+        memberRepository.save(member);
     }
 }

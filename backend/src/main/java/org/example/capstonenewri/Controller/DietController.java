@@ -6,6 +6,7 @@ import org.example.capstonenewri.Dto.RequestAnalysisDto;
 import org.example.capstonenewri.Dto.RequestSaveRecordDto;
 import org.example.capstonenewri.Dto.ResponseAnalysisDto;
 import org.example.capstonenewri.Entity.Diet;
+import org.example.capstonenewri.Entity.DietDiary;
 import org.example.capstonenewri.Repository.MemberRepository;
 import org.example.capstonenewri.Service.AnalysisServiceImpl;
 import org.example.capstonenewri.Service.RecordServiceImpl;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @ResponseStatus(HttpStatus.OK)
@@ -24,8 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DietController {
 
-    private final MemberRepository memberRepository;
-    private final AnalysisServiceImpl analysisServicImpl;
+    private final AnalysisServiceImpl analysisServiceImpl;
     private final RecordServiceImpl recordServiceImpl;
     private final ObjectMapper objectMapper;
 
@@ -41,16 +42,23 @@ public class DietController {
         System.out.println("request" + requestAnalysisDto.getEmail()); // 디버깅 문구
         System.out.println("request" + requestAnalysisDto.getIntakeTime()); // 디버깅 문구
 
-        List<ResponseAnalysisDto> responses =  analysisServicImpl.analyzeNutrition(foodImages, requestAnalysisDto);
+        List<ResponseAnalysisDto> responses =  analysisServiceImpl.analyzeNutrition(foodImages, requestAnalysisDto);
         return ResponseEntity.ok().body(responses);
     }
 
     @PostMapping(value = "/save")
     public void saveDietRecord(Authentication authentication,@RequestBody List<RequestSaveRecordDto> requestSaveRecordDtos){
+        List<Diet> dietList = new ArrayList<>();
+        List<DietDiary> dietDiaryList = new ArrayList<>();
+
         for(RequestSaveRecordDto dto : requestSaveRecordDtos){
             dto.setEmail(authentication.getName());
             Diet diet = recordServiceImpl.saveDiet(dto);
-            recordServiceImpl.saveDietDiary(diet);
+            System.out.println("dietcontroller = " + diet.getFood());
+            DietDiary dietDiary = recordServiceImpl.saveDietDiary(diet);
+
+            dietList.add(diet);
+            dietDiaryList.add(dietDiary);
         }
     }
 }
