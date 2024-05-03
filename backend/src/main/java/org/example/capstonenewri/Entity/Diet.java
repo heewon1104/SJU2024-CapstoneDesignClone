@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Getter
+@Getter @Setter
 public class Diet extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
