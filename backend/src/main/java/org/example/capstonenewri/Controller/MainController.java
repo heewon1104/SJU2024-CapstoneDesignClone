@@ -29,7 +29,7 @@ public class MainController {
         return responseUserDRIDto;
     }
 
-    @GetMapping("/intake")
+    @PostMapping("/intake")
     public ResponseIntakeDto getUserIntake(Authentication authentication, @RequestBody Map<String, String> requestBody){
         String dateString = requestBody.get("date"); // 요청된 JSON 중 "date" 키의 값을 가져옵니다.
         LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE); // ISO_LOCAL_DATE 형태인 "yyyy-MM-dd"를 파싱
