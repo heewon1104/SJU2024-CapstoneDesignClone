@@ -40,10 +40,10 @@ const RecordChooseFood = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const data = [
-    { key: '1', value: '아침식사' },
-    { key: '2', value: '점심식사' },
-    { key: '3', value: '저녁식사' },
-    { key: '4', value: '간식' },
+    { key: '1', value: '아침식사', title: 'BREAKFAST' },
+    { key: '2', value: '점심식사', title: 'LUNCH' },
+    { key: '3', value: '저녁식사', title: 'DINNER' },
+    { key: '4', value: '간식', title: 'SNACK' },
   ];
 
   const showDatePicker = () => {
@@ -55,10 +55,30 @@ const RecordChooseFood = ({ navigation }) => {
   };
 
   const handleConfirm = (day) => {
-    const dateString = day.toLocaleDateString(); // 날짜를 'MM/dd/yyyy' 포맷으로 변환
+    const dateString = day.toISOString();
     setFood({ ...food, date: dateString }); // 전역 상태 업데이트
     console.log(dateString); // 디버깅을 위해 로그 출력
     hideDatePicker();
+  };
+
+  const onSelectedChange = (val) => {
+    // data 배열에서 선택된 value에 해당하는 title을 찾습니다.
+    const selectedTitle = data.find((item) => item.value === val)?.title;
+    // 찾은 title을 전역 상태에 설정합니다.
+    setFood({ ...food, eattime: selectedTitle });
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '날짜를 선택하세요';
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${year}년 ${month}월 ${day}일  ${hours}시 ${minutes}분`;
   };
 
   useEffect(() => {
@@ -96,18 +116,19 @@ const RecordChooseFood = ({ navigation }) => {
         ></FoodRadiobuttonContainer>
         <Customtext text={GUIDE_TEXT2}></Customtext>
         <InputButton
-          title={food.date || '날짜를 선택하세요'}
+          title={formatDate(food.date)}
           onPress={showDatePicker}
         ></InputButton>
+
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
-          mode="date"
+          mode="datetime"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
         <Customtext text={GUIDE_TEXT3}></Customtext>
         <SelectList
-          setSelected={(val) => setFood({ ...food, eattime: val })}
+          setSelected={onSelectedChange}
           data={data}
           save="value"
           search={false}

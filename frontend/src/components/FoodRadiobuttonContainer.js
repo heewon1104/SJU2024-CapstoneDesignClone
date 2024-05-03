@@ -16,16 +16,16 @@ const FoodRadiobuttonContainer = ({ foodType, setFoodType }) => {
   return (
     <Cardcontainer>
       <Customcardbutton
-        onPress={() => setFoodType('한식')}
+        onPress={() => setFoodType('KOREAN')}
         url={KoreanFood}
         title="한식"
-        isFocused={foodType === '한식'}
+        isFocused={foodType === 'KOREAN'}
       ></Customcardbutton>
       <Customcardbutton
-        onPress={() => setFoodType('세계음식')}
+        onPress={() => setFoodType('ALL')}
         url={WesternFood}
         title="세계음식"
-        isFocused={foodType === '세계음식'}
+        isFocused={foodType === 'ALL'}
       ></Customcardbutton>
     </Cardcontainer>
   );
