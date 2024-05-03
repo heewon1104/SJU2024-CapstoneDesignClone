@@ -42,8 +42,7 @@ public class DRI extends BaseEntity{
     private BigDecimal saturated_fatty_acids_g;
     private BigDecimal trans_fatty_acids_g;
 
-    @OneToOne(mappedBy ="dri")
-    @JoinColumn(name = "member_id")
+    @OneToOne(mappedBy = "dri")
     private Member member;
 }
 

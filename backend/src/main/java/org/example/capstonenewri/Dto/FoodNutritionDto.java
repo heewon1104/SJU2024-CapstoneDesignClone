@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 @Getter
 @NoArgsConstructor
-public class FoodNutrtionDto {
+public class FoodNutritionDto { // db에서 조회해 올 영양성분 정보
     private BigDecimal energy_kcal;
     private BigDecimal water_gram;
     private BigDecimal protein_gram;
@@ -35,7 +35,7 @@ public class FoodNutrtionDto {
     private BigDecimal trans_fatty_acids_gram;
 
     @Builder
-    public FoodNutrtionDto(BigDecimal energy_kcal, BigDecimal water_gram, BigDecimal protein_gram,
+    public FoodNutritionDto(BigDecimal energy_kcal, BigDecimal water_gram, BigDecimal protein_gram,
                            BigDecimal fat_gram, BigDecimal ashcontent_gram, BigDecimal carbohydrate_gram,
                            BigDecimal sugars_gram, BigDecimal dietary_fiber_gram, BigDecimal calcium_miligram,
                            BigDecimal iron_miligram, BigDecimal phosphorus_miligram, BigDecimal potassium_miligram,

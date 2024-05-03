@@ -306,6 +306,3 @@ public class DRICalculator {
         return userDRI;
     }
 }
-
-
-
