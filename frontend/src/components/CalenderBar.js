@@ -2,10 +2,13 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import { MainPageDataContext } from '../contexts';
 
 const CalanderBar = () => {
+  const { data, setData: updateDataInfo } = useContext(MainPageDataContext);
   const [selectedDay, setSelectedDay] = useState(() => {
     const today = new Date();
+
     return formatDate(today);
   });
 
@@ -16,6 +19,16 @@ const CalanderBar = () => {
     const day = `0${today.getDate()}`.slice(-2);
     return `${year}-${month}-${day}`;
   }
+
+  const updateDate = (day) => {
+    const convertedDay = formatDate(day);
+    setSelectedDay(() => convertedDay);
+
+    updateDataInfo({
+      date: convertedDay,
+    });
+  };
+
   return (
     <CalendarStrip
       scrollable
@@ -25,8 +38,7 @@ const CalanderBar = () => {
       dateNameStyle={{ color: 'black', fontSize: 10 }}
       iconContainer={{ flex: 0.1 }}
       onDateSelected={(day) => {
-        console.log('selected day', day);
-        setSelectedDay(() => formatDate(day));
+        updateDate(day);
       }}
     />
   );

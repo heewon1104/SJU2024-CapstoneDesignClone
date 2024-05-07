@@ -10,6 +10,7 @@ import Recipe from './Recipe';
 import Refrigerator from './Refrigerator';
 import RecordChooseFood from './RecordChooseFood';
 import UploadImage from './UploadImage';
+import AnalysisFood from './AnalysisFood';
 
 export {
   Signin,
@@ -24,4 +25,5 @@ export {
   Refrigerator,
   RecordChooseFood,
   UploadImage,
+  AnalysisFood,
 };
