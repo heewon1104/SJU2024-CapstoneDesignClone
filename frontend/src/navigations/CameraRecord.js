@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RecordChooseFood, UploadImage } from '../screens';
+import { RecordChooseFood, UploadImage, AnalysisFood } from '../screens';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
@@ -33,6 +33,28 @@ const CameraRecord = () => {
         component={UploadImage}
         options={{
           title: '사진',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold ',
+            fontSize: 28,
+          },
+          headerBackTitleVisible: false,
+          headerTintColor: theme.text,
+          headerLeft: ({ onPress, tintColor }) => (
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={38}
+              color={tintColor}
+              onPress={onPress}
+            ></MaterialIcons>
+          ),
+        }}
+      ></Stack.Screen>
+      <Stack.Screen
+        name="AnalysisFood"
+        component={AnalysisFood}
+        options={{
+          title: '분석 결과',
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontWeight: 'bold ',

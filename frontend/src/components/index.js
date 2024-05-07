@@ -16,6 +16,8 @@ import MealTypeListItem from './MealTypeListItem.js';
 import FoodRadiobuttonContainer from './FoodRadiobuttonContainer';
 import TakePhoto from './TakePhoto';
 import InputButton from './InputButton';
+import FoodAnalysisItems from './FoodAnalysisItems';
+import CustomImageSlider from './CustomImageSlider.js';
 
 export {
   Button,
@@ -36,4 +38,6 @@ export {
   FoodRadiobuttonContainer,
   TakePhoto,
   InputButton,
+  FoodAnalysisItems,
+  CustomImageSlider,
 };

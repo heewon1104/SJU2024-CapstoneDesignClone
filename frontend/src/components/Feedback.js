@@ -34,10 +34,10 @@ const Text = styled.Text`
   background-color: ${({ theme }) => theme.bubbleBackground};
 `;
 
-const Feedback = () => {
+const Feedback = ({ text }) => {
   return (
     <Container>
-      <Text>{TEXT}</Text>
+      <Text>{text}</Text>
     </Container>
   );
 };
