@@ -5,10 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.example.capstonenewri.Dto.RequestAnalysisDto;
 import org.example.capstonenewri.Dto.RequestSaveRecordDto;
 import org.example.capstonenewri.Dto.ResponseAnalysisDto;
+import org.example.capstonenewri.Dto.ResponseFeedbackFromLLMDto;
 import org.example.capstonenewri.Entity.Diet;
 import org.example.capstonenewri.Entity.DietDiary;
 import org.example.capstonenewri.Repository.MemberRepository;
 import org.example.capstonenewri.Service.AnalysisServiceImpl;
+import org.example.capstonenewri.Service.DrawFeedbackService;
+import org.example.capstonenewri.Service.DrawFeedbackServiceImpl;
 import org.example.capstonenewri.Service.RecordServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +32,7 @@ public class DietController {
     private final AnalysisServiceImpl analysisServiceImpl;
     private final RecordServiceImpl recordServiceImpl;
     private final ObjectMapper objectMapper;
+    private final DrawFeedbackServiceImpl drawFeedbackServiceImpl;
 
     @PostMapping(value = "/tmpsave", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // consumes는 수신하는 요청의 미디어 타입 지정.
     public ResponseEntity<List<ResponseAnalysisDto>> analyzeNutrition(Authentication authentication,
@@ -39,8 +43,8 @@ public class DietController {
         RequestAnalysisDto requestAnalysisDto = objectMapper.readValue(requestJson, RequestAnalysisDto.class);
         requestAnalysisDto.setEmail(authentication.getName());
 
-        System.out.println("request" + requestAnalysisDto.getEmail()); // 디버깅 문구
-        System.out.println("request" + requestAnalysisDto.getIntakeTime()); // 디버깅 문구
+        System.out.println("이메일" + requestAnalysisDto.getEmail()); // 디버깅 문구
+        System.out.println("섭취시간" + requestAnalysisDto.getIntakeTime()); // 디버깅 문구
 
         List<ResponseAnalysisDto> responses =  analysisServiceImpl.analyzeNutrition(foodImages, requestAnalysisDto);
         return ResponseEntity.ok().body(responses);
@@ -56,5 +60,8 @@ public class DietController {
             System.out.println("dietcontroller = " + diet.getFood());
             dietList.add(diet);
         }
+        ResponseFeedbackFromLLMDto feedbackFromLLMDto = drawFeedbackServiceImpl.drawFeedback(dietList, authentication.getName());
+        System.out.println("feedbackFromLLMDto = " + feedbackFromLLMDto);
+        System.out.println("feedbackFromLLMDto = " + feedbackFromLLMDto.getFeedback());
     }
 }
