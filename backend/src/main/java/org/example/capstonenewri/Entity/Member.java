@@ -65,4 +65,7 @@ public class Member extends BaseEntity{
     @JoinColumn(name = "dri_id")
     private DRI dri;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<DayDiary> dayDiaries = new ArrayList<>();
+
 }

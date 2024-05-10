@@ -13,11 +13,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -65,9 +61,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         .dietType(requestAnalysisDto.getDietType())
                         .koreanOrAll(requestAnalysisDto.getKoreanOrAll())
                         .intakeTime(requestAnalysisDto.getIntakeTime())
-                        .food(aiResponse.getFoods())
-                        .food(aiResponse.getFoods())
-                        .food(aiResponse.getFoods())
+                        .food(aiResponse.getFood())
                         .ingredients(aiResponse.getIngredients())
                         .amount(aiResponse.getAmount())
                         .build())

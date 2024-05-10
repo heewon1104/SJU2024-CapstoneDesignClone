@@ -1,4 +1,4 @@
-package org.example.capstonenewri.Dto;
+package org.example.capstonenewri.Dto.ComprehensiveInfo;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,21 +7,16 @@ import lombok.Setter;
 
 import java.util.List;
 
-// ai 서버 -> 백으로 받을 응답 데이터 형식
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class ResponseAIAnalysisDto {
+public class DietDto {
     private String food;
     private List<String> ingredients;
-    private Integer amount;
 
     @Builder
-    public ResponseAIAnalysisDto(String food, List<String> ingredients, Integer amount){
+    public DietDto(String food, List<String> ingredients){
         this.food = food;
         this.ingredients = ingredients;
-        this.amount = amount;
     }
-
 }
