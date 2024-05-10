@@ -256,10 +256,21 @@ public class DRICalculator {
             if (DRIList.get(i).get(0).equals(lifeStage)){
                 for (int j=1; j< DRIList.get(i).size(); j++){
                     BigDecimal BigDecimalDRI = new BigDecimal(DRIList.get(i).get(j));
-                    otherDRI.set(j, BigDecimalDRI);
+                    otherDRI.add(BigDecimalDRI);
                 }
             }
         }
+        this.vitamin_a = otherDRI.get(0);
+        this.vitamin_c = otherDRI.get(1);
+        this.vitamin_d = otherDRI.get(2);
+        this.thiamin = otherDRI.get(3);
+        this.riboflavin = otherDRI.get(4);
+        this.niacin = otherDRI.get(5);
+        this.calcium = otherDRI.get(6);
+        this.iron = otherDRI.get(7);
+        this.phosphorus = otherDRI.get(8);
+        this.potassium = otherDRI.get(9);
+        this.sodium = otherDRI.get(10);
 
         return otherDRI;
     }
@@ -272,8 +283,9 @@ public class DRICalculator {
 
         // 필수영양소 외 다른 영양소는 테이블 참고
         calEssentialNutrients();
-        List<BigDecimal> DRIList = DRICSVParse(this.lifeStage, "./src/resources/Nutritional_Requirements_synced_table.csv");
+        List<BigDecimal> DRIList = DRICSVParse(this.lifeStage, "src/main/java/org/example/capstonenewri/Service/resources/Nutritional_Requirements_synced_table.csv");
 
+        System.out.println("디버깅");
         System.out.println(DRIList);
 
         // TODO: Set DRI 작업 필요 -> DRI Class는 ERD DRI Table 형식을 따름

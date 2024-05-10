@@ -18,9 +18,9 @@ spring:
 
   jpa:
     hibernate:
-#      ddlAuto: create
+      ddlAuto: create
 #      ddlAuto: create-drop
-      ddlAuto: update
+#      ddlAuto: update
       #ddlAuto: validate
     properties:
       hibernate:
@@ -34,4 +34,4 @@ jwt:
   token-validity-in-seconds: 86400
 
 flask:
-  url: http://34.64.180.230:5000
+  url: http://34.64.102.229:5000
