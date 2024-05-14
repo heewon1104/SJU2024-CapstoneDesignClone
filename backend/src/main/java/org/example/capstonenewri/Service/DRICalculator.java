@@ -291,29 +291,29 @@ public class DRICalculator {
         // TODO: Set DRI 작업 필요 -> DRI Class는 ERD DRI Table 형식을 따름
         DRI userDRI = DRI.builder().
                 energy_kcal(this.energy).
-                water_g(this.water).
-                protein_g(this.protein).
-                fat_g(this.fat).
-                ash_g(this.ash).
-                carbohydrate_g(this.carbohydrate).
-                sugars_g(this.sugar).
-                dietary_fiber_g(this.fiber).
-                calcium_mg(this.calcium).
-                iron_mg(this.iron).
-                phosphorus_mg(this.phosphorus).
-                potassium_mg(this.potassium).
-                sodium_mg(this.sodium).
-                vitamin_a_mcg(this.vitamin_a).
-                retinol_mcg(this.retinol).
-                beta_carotene_mcg(this.beta_carotene).
-                thiamin_mg(this.thiamin).
-                riboflavin_mg(this.riboflavin).
-                niacin_mg(this.niacin).
-                vitamin_c_mg(this.vitamin_c).
-                vitamin_d_mcg(this.vitamin_d).
-                cholesterol_mg(this.cholesterol).
-                saturated_fatty_acids_g(this.saturated_fatty_acid).
-                trans_fatty_acids_g(this.trans_fatty_acid).
+                water_gram(this.water).
+                protein_gram(this.protein).
+                fat_gram(this.fat).
+                ashcontent_gram(this.ash).
+                carbohydrate_gram(this.carbohydrate).
+                sugars_gram(this.sugar).
+                dietary_fiber_gram(this.fiber).
+                calcium_miligram(this.calcium).
+                iron_miligram(this.iron).
+                phosphorus_miligram(this.phosphorus).
+                potassium_miligram(this.potassium).
+                sodium_miligram(this.sodium).
+                vitaminA_microgram(this.vitamin_a).
+                retinol_microgram(this.retinol).
+                betaCarotene_microgram(this.beta_carotene).
+                thiamin_miligram(this.thiamin).
+                riboflavin_miligram(this.riboflavin).
+                niacin_miligram(this.niacin).
+                vitaminC_miligram(this.vitamin_c).
+                vitaminD_microgram(this.vitamin_d).
+                cholesterol_miligram(this.cholesterol).
+                saturated_fatty_acids_gram(this.saturated_fatty_acid).
+                trans_fatty_acids_gram(this.trans_fatty_acid).
                 member(member).build();
         return userDRI;
     }

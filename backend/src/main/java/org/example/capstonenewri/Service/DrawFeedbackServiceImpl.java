@@ -143,6 +143,8 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
     public UserDiseaseInfoDto getDiseaseInfoBy(Member member) {
         UserDiseaseInfoDto userDiseaseInfoDto = UserDiseaseInfoDto.builder()
+                .pregnant(member.getPregnant())
+                .breastfeeding(member.getBreastfeeding())
                 .diabetes(member.getDiabetes())
                 .obesity(member.getObesity())
                 .cardio(member.getCardio())
@@ -155,18 +157,37 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 .urinary_stone(member.getUrinary_stone())
                 .gout(member.getGout())
                 .cancer(member.getCancer())
+                .allergy(member.getAllergy())
                 .build();
         return userDiseaseInfoDto;
     }
 
     public UserDRIDto getDRIInfoBy(Member member) {
         UserDRIDto userDRIDto = UserDRIDto.builder()
-                .carbohydrate_g(member.getDri().getCarbohydrate_g())
-                .protein_g(member.getDri().getProtein_g())
-                .fat_g(member.getDri().getFat_g())
-                .dietary_fiber_gram(member.getDri().getDietary_fiber_g())
                 .energy_kcal(member.getDri().getEnergy_kcal())
-                .water_g(member.getDri().getEnergy_kcal())
+                .water_gram(member.getDri().getWater_gram())
+                .protein_gram(member.getDri().getProtein_gram())
+                .fat_gram(member.getDri().getFat_gram())
+                .ashcontent_gram(member.getDri().getAshcontent_gram())
+                .carbohydrate_gram(member.getDri().getCarbohydrate_gram())
+                .sugars_gram(member.getDri().getSugars_gram())
+                .dietary_fiber_gram(member.getDri().getDietary_fiber_gram())
+                .calcium_miligram(member.getDri().getCalcium_miligram())
+                .iron_miligram(member.getDri().getIron_miligram())
+                .phosphorus_miligram(member.getDri().getPhosphorus_miligram())
+                .potassium_miligram(member.getDri().getPotassium_miligram())
+                .sodium_miligram(member.getDri().getSodium_miligram())
+                .vitaminA_microgram(member.getDri().getVitaminA_microgram())
+                .retinol_microgram(member.getDri().getRetinol_microgram())
+                .betaCarotene_microgram(member.getDri().getBetaCarotene_microgram())
+                .thiamin_miligram(member.getDri().getThiamin_miligram())
+                .riboflavin_miligram(member.getDri().getRiboflavin_miligram())
+                .niacin_miligram(member.getDri().getNiacin_miligram())
+                .vitaminC_miligram(member.getDri().getVitaminC_miligram())
+                .vitaminD_microgram(member.getDri().getVitaminD_microgram())
+                .cholesterol_miligram(member.getDri().getCholesterol_miligram())
+                .saturated_fatty_acids_gram(member.getDri().getSaturated_fatty_acids_gram())
+                .trans_fatty_acids_gram(member.getDri().getTrans_fatty_acids_gram())
                 .build();
         return userDRIDto;
     }
