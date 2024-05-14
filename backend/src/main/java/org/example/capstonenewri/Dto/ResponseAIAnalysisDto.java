@@ -14,12 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseAIAnalysisDto {
     private String food;
+    private String food_be;
     private List<String> ingredients;
     private Integer amount;
 
     @Builder
-    public ResponseAIAnalysisDto(String food, List<String> ingredients, Integer amount){
+    public ResponseAIAnalysisDto(String food, String food_be, List<String> ingredients, Integer amount){
         this.food = food;
+        this.food_be = food_be;
         this.ingredients = ingredients;
         this.amount = amount;
     }

@@ -19,16 +19,18 @@ public class ResponseAnalysisDto {
     private KoreanOrAll koreanOrAll;
     private LocalDateTime intakeTime;
     private String food;
+    private String food_be;
     private List<String> ingredients;
     private Integer amount;
 
     @Builder
     public ResponseAnalysisDto(DietType dietType, KoreanOrAll koreanOrAll, LocalDateTime intakeTime,
-                               String food, List<String> ingredients, Integer amount){
+                               String food, String food_be, List<String> ingredients, Integer amount){
         this.dietType = dietType;
         this.koreanOrAll = koreanOrAll;
         this.intakeTime = intakeTime;
         this.food = food;
+        this.food_be = food_be;
         this.ingredients = ingredients;
         this.amount = amount;
     }
