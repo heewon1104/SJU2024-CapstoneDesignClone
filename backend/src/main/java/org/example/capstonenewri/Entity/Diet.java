@@ -28,6 +28,7 @@ public class Diet extends BaseEntity{
 
     private LocalDateTime intakeTime;
     private String food; // ai 서버의 결과를 받아올 것임.
+    private String food_be; // ai 서버의 결과를 받아올 것임.
     private String ingredients; // ai 서버의 결과를 받아올 것임.
     private Integer amount; // ai 서버의 결과를 받아올 것임.
 
