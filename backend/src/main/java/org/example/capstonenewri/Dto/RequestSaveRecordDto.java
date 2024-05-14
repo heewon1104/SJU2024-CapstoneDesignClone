@@ -18,17 +18,19 @@ public class RequestSaveRecordDto {
     private KoreanOrAll koreanOrAll;
     private LocalDateTime intakeTime;
     private String food;
+    private String food_be;
     private List<String> ingredients;
     private Integer amount;
     private String email; // 이메일을 이용해 select 해서 Member entity와 연결시킬 것임.
 
     @Builder
     public RequestSaveRecordDto(DietType dietType, KoreanOrAll koreanOrAll, LocalDateTime intakeTime,
-                               String food, List<String> ingredients, Integer amount, String email){
+                               String food, String food_be,  List<String> ingredients, Integer amount, String email){
         this.dietType = dietType;
         this.koreanOrAll = koreanOrAll;
         this.intakeTime = intakeTime;
         this.food = food;
+        this.food_be = food_be;
         this.ingredients = ingredients;
         this.amount = amount;
         this.email = email;
