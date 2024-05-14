@@ -10,10 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseFeedbackFromLLMDto {
     private String feedback;
+    private String instruction;
 
     @Builder
-    public ResponseFeedbackFromLLMDto(String feedback){
+    public ResponseFeedbackFromLLMDto(String feedback, String instruction){
         this.feedback = feedback;
+        this.instruction = instruction;
     }
 }
 
