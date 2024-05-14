@@ -62,6 +62,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         .koreanOrAll(requestAnalysisDto.getKoreanOrAll())
                         .intakeTime(requestAnalysisDto.getIntakeTime())
                         .food(aiResponse.getFood())
+                        .food_be(aiResponse.getFood_be())
                         .ingredients(aiResponse.getIngredients())
                         .amount(aiResponse.getAmount())
                         .build())
