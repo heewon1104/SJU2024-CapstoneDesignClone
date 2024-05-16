@@ -61,9 +61,11 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
         UserDRIDto dri = getDRIInfoBy(member); // member 객체로 dri 정보
 
         LocalDate dateOfDiet = dietList.get(0).getIntakeTime().toLocalDate();
-        Optional<DayDiary> dayDiaryOptional = dayDiaryRepository.findByMemberAndDate(member, dateOfDiet);
-        FoodNutritionDto foodNutritionDto = dayDiaryOptional
-                                        .map(this::convertDayDiaryToFoodNutritionDto).orElseGet(this::getZeroDayDiary);
+
+        // DayDiary 업데이트 또는 생성 후 FoodNutritionDto 변환
+        DayDiary updatedDayDiary = updateOrCreateDayDiary(member, dateOfDiet, dietDiaries);
+        FoodNutritionDto foodNutritionDto = convertDayDiaryToFoodNutritionDto(updatedDayDiary);
+
 
         /* 디버깅 */
 //        System.out.println("drawfeedback 디버깅!!!!");
@@ -192,34 +194,6 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
         return userDRIDto;
     }
 
-    public FoodNutritionDto getZeroDayDiary(){
-        return FoodNutritionDto.builder()
-                .energy_kcal(BigDecimal.ZERO)
-                .water_gram(BigDecimal.ZERO)
-                .protein_gram(BigDecimal.ZERO)
-                .fat_gram(BigDecimal.ZERO)
-                .ashcontent_gram(BigDecimal.ZERO)
-                .carbohydrate_gram(BigDecimal.ZERO)
-                .sugars_gram(BigDecimal.ZERO)
-                .dietary_fiber_gram(BigDecimal.ZERO)
-                .calcium_miligram(BigDecimal.ZERO)
-                .iron_miligram(BigDecimal.ZERO)
-                .phosphorus_miligram(BigDecimal.ZERO)
-                .potassium_miligram(BigDecimal.ZERO)
-                .sodium_miligram(BigDecimal.ZERO)
-                .vitaminA_microgram(BigDecimal.ZERO)
-                .retinol_microgram(BigDecimal.ZERO)
-                .betaCarotene_microgram(BigDecimal.ZERO)
-                .thiamin_miligram(BigDecimal.ZERO)
-                .riboflavin_miligram(BigDecimal.ZERO)
-                .niacin_miligram(BigDecimal.ZERO)
-                .vitaminC_miligram(BigDecimal.ZERO)
-                .vitaminD_microgram(BigDecimal.ZERO)
-                .cholesterol_miligram(BigDecimal.ZERO)
-                .saturated_fatty_acids_gram(BigDecimal.ZERO)
-                .trans_fatty_acids_gram(BigDecimal.ZERO)
-                .build();
-    }
     public FoodNutritionDto convertDayDiaryToFoodNutritionDto(DayDiary dayDiary) {
         return FoodNutritionDto.builder()
                 .energy_kcal(dayDiary.getEnergy_kcal())
@@ -248,6 +222,71 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 .trans_fatty_acids_gram(dayDiary.getTrans_fatty_acids_gram())
                 .build();
     }
+
+    private DayDiary updateOrCreateDayDiary(Member member, LocalDate date, List<FoodNutritionDto> dietDiaries) {
+        Optional<DayDiary> dayDiaryOptional = dayDiaryRepository.findByMemberAndDate(member, date);
+
+        DayDiary dayDiary = dayDiaryOptional.orElseGet(() -> DayDiary.builder() // 생성된 dayDiary가 없을때 (Optional.empty()) orElseGet 메서드로 dayDiary생성
+                .energy_kcal(BigDecimal.ZERO)
+                .water_gram(BigDecimal.ZERO)
+                .protein_gram(BigDecimal.ZERO)
+                .fat_gram(BigDecimal.ZERO)
+                .ashcontent_gram(BigDecimal.ZERO)
+                .carbohydrate_gram(BigDecimal.ZERO)
+                .sugars_gram(BigDecimal.ZERO)
+                .dietary_fiber_gram(BigDecimal.ZERO)
+                .calcium_miligram(BigDecimal.ZERO)
+                .iron_miligram(BigDecimal.ZERO)
+                .phosphorus_miligram(BigDecimal.ZERO)
+                .potassium_miligram(BigDecimal.ZERO)
+                .sodium_miligram(BigDecimal.ZERO)
+                .vitaminA_microgram(BigDecimal.ZERO)
+                .retinol_microgram(BigDecimal.ZERO)
+                .betaCarotene_microgram(BigDecimal.ZERO)
+                .thiamin_miligram(BigDecimal.ZERO)
+                .riboflavin_miligram(BigDecimal.ZERO)
+                .niacin_miligram(BigDecimal.ZERO)
+                .vitaminC_miligram(BigDecimal.ZERO)
+                .vitaminD_microgram(BigDecimal.ZERO)
+                .cholesterol_miligram(BigDecimal.ZERO)
+                .saturated_fatty_acids_gram(BigDecimal.ZERO)
+                .trans_fatty_acids_gram(BigDecimal.ZERO)
+                .date(date)
+                .member(member)
+                .build());
+
+        dietDiaries.forEach(dietDiary -> {
+            dayDiary.addEnergy_kcal(dietDiary.getEnergy_kcal());
+            dayDiary.addWater_gram(dietDiary.getWater_gram());
+            dayDiary.addProtein_gram(dietDiary.getProtein_gram());
+            dayDiary.addFat_gram(dietDiary.getFat_gram());
+            dayDiary.addAshcontent_gram(dietDiary.getAshcontent_gram());
+            dayDiary.addCarbohydrate_gram(dietDiary.getCarbohydrate_gram());
+            dayDiary.addSugars_gram(dietDiary.getSugars_gram());
+            dayDiary.addDietary_fiber_gram(dietDiary.getDietary_fiber_gram());
+            dayDiary.addCalcium_miligram(dietDiary.getCalcium_miligram());
+            dayDiary.addIron_miligram(dietDiary.getIron_miligram());
+            dayDiary.addPhosphorus_miligram(dietDiary.getPhosphorus_miligram());
+            dayDiary.addPotassium_miligram(dietDiary.getPotassium_miligram());
+            dayDiary.addSodium_miligram(dietDiary.getSodium_miligram());
+            dayDiary.addVitaminA_microgram(dietDiary.getVitaminA_microgram());
+            dayDiary.addRetinol_microgram(dietDiary.getRetinol_microgram());
+            dayDiary.addBetaCarotene_microgram(dietDiary.getBetaCarotene_microgram());
+            dayDiary.addThiamin_miligram(dietDiary.getThiamin_miligram());
+            dayDiary.addRiboflavin_miligram(dietDiary.getRiboflavin_miligram());
+            dayDiary.addNiacin_miligram(dietDiary.getNiacin_miligram());
+            dayDiary.addVitaminC_miligram(dietDiary.getVitaminC_miligram());
+            dayDiary.addVitaminD_microgram(dietDiary.getVitaminD_microgram());
+            dayDiary.addCholesterol_miligram(dietDiary.getCholesterol_miligram());
+            dayDiary.addSaturated_fatty_acids_gram(dietDiary.getSaturated_fatty_acids_gram());
+            dayDiary.addTrans_fatty_acids_gram(dietDiary.getTrans_fatty_acids_gram());
+        });
+
+        dayDiaryRepository.save(dayDiary);
+
+        return dayDiary;
+    }
+
 }
 
 
