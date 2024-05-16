@@ -38,6 +38,7 @@ const Input = forwardRef(
       returnKeyType,
       maxLength,
       isPassword,
+      keyboardType = 'none',
     },
     ref
   ) => {
@@ -63,6 +64,7 @@ const Input = forwardRef(
           isFocused={isFocused}
           onFocus={() => setIsFocused(true)}
           secureTextEntry={isPassword}
+          keyboardType={keyboardType}
         ></StyledInput>
       </Container>
     );
@@ -83,6 +85,7 @@ Input.protoType = {
   returnKeyType: PropTypes.oneOf(['done', 'next']),
   maxLength: PropTypes.number,
   isPassword: PropTypes.bool,
+  keyboardType: PropTypes.string,
 };
 
 export default Input;

@@ -34,32 +34,15 @@ const Signin = ({ navigation }) => {
 
   const storeData = async (value) => {
     try {
-      await AsyncStorage.setItem('TOKENADDRESS', value);
+      await AsyncStorage.setItem('TA223344', value);
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const clearAll = async () => {
-    try {
-      await AsyncStorage.clear();
-    } catch (e) {
-      // 오류 예외 처리
     }
   };
 
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
   }, [email, password, errorMessage]);
-
-  useEffect(() => {
-    setDisabled(!(email && password && !errorMessage));
-  });
-
-  useEffect(() => {
-    //세션 초기화
-    clearAll();
-  });
 
   const _handleEmailChanege = (email) => {
     const changedEmail = removeWhitespace(email);

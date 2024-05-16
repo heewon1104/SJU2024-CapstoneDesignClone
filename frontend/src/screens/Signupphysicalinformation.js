@@ -64,7 +64,7 @@ const Signupphysicalinformation = ({ navigation }) => {
       <Container>
         <Customtext text={GUIDE_TEXT}></Customtext>
         <Input
-          label="키"
+          label="키 (cm)"
           placeholder="Height"
           returnKeyType="next"
           value={height}
@@ -72,16 +72,18 @@ const Signupphysicalinformation = ({ navigation }) => {
           onSubmitEditing={() => refWeight.current.focus()}
           onBlur={() => setHeight(removeWhitespace(height))}
           maxLength={12}
+          keyboardType="numeric"
         ></Input>
         <Input
           ref={refWeight}
-          label="몸무게"
+          label="몸무게 (kg)"
           placeholder="Weight"
           returnKeyType="next"
           value={weight}
           onChangeText={setWeight}
           onSubmitEditing={_handleSignupBtnPress}
           onBlur={() => setWeight(removeWhitespace(weight))}
+          keyboardType="numeric"
         ></Input>
         <ErrorMessage message={errorMessage}></ErrorMessage>
         <Button

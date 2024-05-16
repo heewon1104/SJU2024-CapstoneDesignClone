@@ -10,6 +10,7 @@ const Container = styled.View`
   align-items: center;
   margin: 10px 10px;
   padding: 5px;
+  border-radius: 20px;
 `;
 const Image = styled.Image`
   width: 100px;
