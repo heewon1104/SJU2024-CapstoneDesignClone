@@ -27,9 +27,9 @@ public class MainServiceImpl implements MainService {
         if (driOptional.isPresent()) {
             DRI dri = driOptional.get();
             return ResponseUserDRIDto.builder()
-                    .carbohydrate_g(dri.getCarbohydrate_g())
-                    .protein_g(dri.getProtein_g())
-                    .fat_g(dri.getFat_g())
+                    .carbohydrate_g(dri.getCarbohydrate_gram())
+                    .protein_g(dri.getProtein_gram())
+                    .fat_g(dri.getFat_gram())
                     .energy_kcal(dri.getEnergy_kcal())
                     .build();
         } else {
