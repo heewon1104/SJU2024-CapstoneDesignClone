@@ -43,7 +43,7 @@ const TakePhoto = ({ checkModal, setImages, currentImages }) => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestMicrophonePermissionsAsync();
+      const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -69,11 +69,9 @@ const TakePhoto = ({ checkModal, setImages, currentImages }) => {
     }
 
     setIsCapturing(true); // 촬영 시작 전 촬영 중 상태로 설정
+
     try {
-      const photo = await camera.current.takePictureAsync({
-        quality: 0.5,
-        aspect: [4, 3],
-      });
+      const photo = await camera.current.takePictureAsync();
       console.log(photo);
       setImages([...currentImages, photo.uri]);
       checkModal(false);

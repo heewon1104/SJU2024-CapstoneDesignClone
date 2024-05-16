@@ -17,7 +17,6 @@ import FoodRadiobuttonContainer from './FoodRadiobuttonContainer';
 import TakePhoto from './TakePhoto';
 import InputButton from './InputButton';
 import FoodAnalysisItems from './FoodAnalysisItems';
-import CustomImageSlider from './CustomImageSlider.js';
 
 export {
   Button,
@@ -39,5 +38,4 @@ export {
   TakePhoto,
   InputButton,
   FoodAnalysisItems,
-  CustomImageSlider,
 };

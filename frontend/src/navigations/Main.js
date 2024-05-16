@@ -38,7 +38,12 @@ const Main = () => {
         name="Calander"
         component={Calander}
         options={{
-          headerShown: Platform.OS === 'android' ? false : true,
+          title: '회원가입',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
           title: '캘린더',
           tabBarIcon: ({ color }) => (
             <Entypo name="calendar" size={24} color={color} />
@@ -61,6 +66,11 @@ const Main = () => {
         component={Refrigerator}
         options={{
           title: '냉장고',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
           tabBarIcon: ({ color }) => (
             <Entypo name="box" size={24} color={color} />
           ),
@@ -71,6 +81,11 @@ const Main = () => {
         component={Recipe}
         options={{
           title: '레시피',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
           tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
           ),

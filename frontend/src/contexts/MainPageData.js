@@ -9,10 +9,10 @@ const formatDate = (date) => {
 };
 
 const initialMainPageData = {
-  carbohydrateTotal: 'NaN',
-  proteinTotal: 'NaN',
-  fatTotal: 'Nan',
-  kcalTotal: 'Nan',
+  carbohydrateTotal: 100,
+  proteinTotal: 100,
+  fatTotal: 100,
+  kcalTotal: 100,
 
   carbohydrateValue: 0,
   proteinValue: 0,
