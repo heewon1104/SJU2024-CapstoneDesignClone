@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
-<<<<<<< HEAD
 import {
   ErrorMessage,
   Customtext,
@@ -9,10 +8,6 @@ import {
   CustomImageSlider,
 } from '../components';
 import { Image, ScrollView, View } from 'react-native';
-=======
-import { ErrorMessage, Customtext, TakePhoto, Button } from '../components';
-import { Image, ScrollView, StyleSheet, View } from 'react-native';
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
 import * as ImagePicker from 'expo-image-picker';
 import { FoodContext } from '../contexts';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -58,7 +53,6 @@ const UploadImage = ({ navigation }) => {
     }
   };
 
-<<<<<<< HEAD
   useEffect(() => {
     if (food.foods.length > 0) {
       console.log('Updated foods after update:', food.foods);
@@ -116,8 +110,6 @@ const UploadImage = ({ navigation }) => {
     navigation.navigate('AnalysisFood');
   };
 
-=======
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
   const _handleBtnPress = () => {
     navigation.navigate('AnalysisFood');
   };
@@ -131,7 +123,6 @@ const UploadImage = ({ navigation }) => {
       currentImages={food.img}
     />
   ) : (
-<<<<<<< HEAD
     <Container>
       <Customtext text={GUIDE_TEXT} />
       <CustomImageSlider></CustomImageSlider>
@@ -146,44 +137,4 @@ const UploadImage = ({ navigation }) => {
   );
 };
 
-=======
-    <ScrollView>
-      <Container>
-        <Customtext text={GUIDE_TEXT} />
-        {food.img.length === 0 ? (
-          <MaterialCommunityIcons name="image-plus" size={24} color="black" />
-        ) : (
-          <View style={styles.imageSliderContainer}>
-            <ImageSlider
-              data={imageSliderData}
-              autoPlay={false}
-              onItemChanged={(item) => console.log('item', item)}
-              closeIconColor="white"
-            />
-          </View>
-        )}
-        <Button title="갤러리에서 사진 선택" onPress={pickImage} />
-        <Button
-          title="카메라로 사진 촬영"
-          onPress={() => SetTakePhotoModal(true)}
-        />
-        <ErrorMessage message={errorMessage} />
-        <Button title="업로드" onPress={_handleBtnPress} disabled={disabled} />
-      </Container>
-    </ScrollView>
-  );
-};
-
-const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
-    marginRight: 8,
-  },
-  imageSliderContainer: {
-    height: 400,
-  },
-});
-
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
 export default UploadImage;

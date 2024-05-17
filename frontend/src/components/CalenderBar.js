@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
 import CalendarStrip from 'react-native-calendar-strip';
-<<<<<<< HEAD
 import { MainPageDataContext } from '../contexts';
 
 const CalendarBar = () => {
@@ -42,24 +41,6 @@ const CalendarBar = () => {
     return `${year}-${month}-${day}`;
   }
 
-=======
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-
-const CalanderBar = () => {
-  const [selectedDay, setSelectedDay] = useState(() => {
-    const today = new Date();
-    return formatDate(today);
-  });
-
-  function formatDate(date) {
-    const today = new Date(date);
-    const year = today.getFullYear();
-    const month = `0${today.getMonth() + 1}`.slice(-2);
-    const day = `0${today.getDate()}`.slice(-2);
-    return `${year}-${month}-${day}`;
-  }
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
   return (
     <CalendarStrip
       scrollable
@@ -69,15 +50,8 @@ const CalanderBar = () => {
       dateNumberStyle={{ color: 'black' }}
       dateNameStyle={{ color: 'black', fontSize: 10 }}
       iconContainer={{ flex: 0.1 }}
-<<<<<<< HEAD
       customDatesStyles={customStyles}
       onDateSelected={updateDate}
-=======
-      onDateSelected={(day) => {
-        console.log('selected day', day);
-        setSelectedDay(() => formatDate(day));
-      }}
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
     />
   );
 };

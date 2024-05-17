@@ -6,9 +6,8 @@ const initialFoodState = {
   eattime: null,
 
   img: [],
-<<<<<<< HEAD
 
-  foods: ['잡채'],
+  foods: ['잡채', '치킨'],
   ingredients: [],
   request: [
     {
@@ -29,8 +28,6 @@ const initialFoodState = {
     },
   ],
   amount: null,
-=======
->>>>>>> parent of 44a05ae0 ([IN-68] 음식 분석, 기록 페이지 구현 및 API 연결)
 };
 
 const FoodContext = createContext({
