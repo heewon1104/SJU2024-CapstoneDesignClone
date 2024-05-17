@@ -17,6 +17,7 @@ const Container = styled.View`
   align-items: center;
   justify-content: flex-start;
   background-color: ${({ theme }) => theme.background};
+  padding-top: 20px;
 `;
 
 const Calander = ({ navigation }) => {

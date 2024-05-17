@@ -38,7 +38,7 @@ const Input = forwardRef(
       returnKeyType,
       maxLength,
       isPassword,
-      keyboardType = 'none',
+      keyboardType = 'default',
     },
     ref
   ) => {

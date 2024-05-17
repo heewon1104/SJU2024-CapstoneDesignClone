@@ -7,7 +7,7 @@ const initialFoodState = {
 
   img: [],
 
-  foods: ['잡채', '치킨'],
+  foods: [],
   ingredients: [],
   request: [
     {
