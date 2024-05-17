@@ -1,13 +1,7 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeContext } from 'styled-components/native';
-import {
-  Mainpage,
-  Recipe,
-  Refrigerator,
-  Calander,
-  Signin,
-} from '../screens/index';
+import { Mainpage, Recipe, MyInfo, Calander, Signin } from '../screens/index';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import CameraRecord from './CameraRecord';
 import { Platform } from 'react-native';
@@ -38,7 +32,12 @@ const Main = () => {
         name="Calander"
         component={Calander}
         options={{
-          headerShown: Platform.OS === 'android' ? false : true,
+          title: '회원가입',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
           title: '캘린더',
           tabBarIcon: ({ color }) => (
             <Entypo name="calendar" size={24} color={color} />
@@ -57,22 +56,32 @@ const Main = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Refrigerator"
-        component={Refrigerator}
-        options={{
-          title: '냉장고',
-          tabBarIcon: ({ color }) => (
-            <Entypo name="box" size={24} color={color} />
-          ),
-        }}
-      ></Tab.Screen>
-      <Tab.Screen
         name="Recipe"
         component={Recipe}
         options={{
           title: '레시피',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
           tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
+          ),
+        }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name="MyInfo"
+        component={MyInfo}
+        options={{
+          title: '내정보',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
+          tabBarIcon: ({ color }) => (
+            <Entypo name="box" size={24} color={color} />
           ),
         }}
       ></Tab.Screen>

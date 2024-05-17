@@ -7,12 +7,13 @@ import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { diseasesData, diseaseTranslation } from '../data/diseasesData';
 import { IP_ADDRESS } from '../secret/env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Dimensions } from 'react-native';
 
 const Container = styled.View`
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   background-color: ${({ theme }) => theme.background};
-  padding: 10px 40px;
+  padding: 10px 20px;
   width: 100%;
 `;
 
@@ -24,6 +25,8 @@ const GUIDE_TEXT = `가지고 있는
 건강고민을 선택해주세요`;
 
 const Signupdiseases = ({ navigation }) => {
+  const screenWidth = Dimensions.get('window').width - 50;
+
   const [selectedCardio, setSelectedCardio] = useState([]);
   const [selectedDigestive, setSelectedDigestive] = useState([]);
   const [selectedKidney_disease, setSelectedKidney_disease] = useState([]);
@@ -134,81 +137,88 @@ const Signupdiseases = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView extraScrollHeight={20} enableOnAndroid={true}>
       <Container>
-        <Customtext text={GUIDE_TEXT}></Customtext>
+        <Customtext text={GUIDE_TEXT} margin={20}></Customtext>
+
+        <Customtext text="심혈관질환" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedCardio(val)}
             data={diseasesData.cardio}
             save="value"
             label="심혈관질환"
-            placeholder="심혈관질환"
+            placeholder="심혈관질환을 선택해주세요"
             searchPlaceholder="심혈관질환"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={200}
           ></MultipleSelectList>
         </MultipleSelectListContainer>
 
+        <Customtext text="소화기질환" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedDigestive(val)}
             data={diseasesData.digestive}
             save="value"
             label="소화기질환"
-            placeholder="소화기질환"
+            placeholder="소화기질환을 선택해주세요"
             searchPlaceholder="소화기질환"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={200}
           ></MultipleSelectList>
         </MultipleSelectListContainer>
 
+        <Customtext text="신장질환" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedKidney_disease(val)}
             data={diseasesData.kidney_disease}
             save="value"
             label="신장질환"
-            placeholder="신장질환"
+            placeholder="신장질환을 선택해주세요"
             searchPlaceholder="신장질환"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={200}
           ></MultipleSelectList>
         </MultipleSelectListContainer>
 
+        <Customtext text="신경질환" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedNervous_system(val)}
             data={diseasesData.nervous_system}
             save="value"
             label="신경질환"
-            placeholder="신경질환"
+            placeholder="신경질환을 선택해주세요"
             searchPlaceholder="신경질환"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={160}
           ></MultipleSelectList>
         </MultipleSelectListContainer>
 
+        <Customtext text="암" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedCancer(val)}
             data={diseasesData.cancer}
             save="value"
             label="암"
-            placeholder="암"
+            placeholder="암을 선택해주세요"
             searchPlaceholder="암"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={200}
           ></MultipleSelectList>
         </MultipleSelectListContainer>
 
+        <Customtext text="알레르기" fontSize={14} margin={0}></Customtext>
         <MultipleSelectListContainer>
           <MultipleSelectList
             setSelected={(val) => setSelectedAllergy(val)}
             data={diseasesData.allergy}
             save="value"
             label="알레르기"
-            placeholder="알레르기"
+            placeholder="알레르기를 선택해주세요"
             searchPlaceholder="알레르기"
-            boxStyles={{ width: 300 }}
+            boxStyles={{ width: screenWidth }}
             maxHeight={200}
           ></MultipleSelectList>
         </MultipleSelectListContainer>

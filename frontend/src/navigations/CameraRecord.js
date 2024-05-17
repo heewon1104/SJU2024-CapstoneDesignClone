@@ -22,7 +22,7 @@ const CameraRecord = () => {
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontWeight: 'bold ',
-            fontSize: 28,
+            fontSize: 22,
           },
           headerBackTitleVisible: false,
           headerTintColor: theme.text,
@@ -36,7 +36,7 @@ const CameraRecord = () => {
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontWeight: 'bold ',
-            fontSize: 28,
+            fontSize: 22,
           },
           headerBackTitleVisible: false,
           headerTintColor: theme.text,
@@ -58,7 +58,7 @@ const CameraRecord = () => {
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontWeight: 'bold ',
-            fontSize: 28,
+            fontSize: 22,
           },
           headerBackTitleVisible: false,
           headerTintColor: theme.text,
