@@ -7,10 +7,11 @@ import Signupdiseases from './Signupdiseases';
 import Mainpage from './Mainpage';
 import Calander from './Calander';
 import Recipe from './Recipe';
-import Refrigerator from './Refrigerator';
+import Refrigerator from './MyInfo';
 import RecordChooseFood from './RecordChooseFood';
 import UploadImage from './UploadImage';
 import AnalysisFood from './AnalysisFood';
+import MyInfo from './MyInfo';
 
 export {
   Signin,
@@ -22,8 +23,8 @@ export {
   Mainpage,
   Calander,
   Recipe,
-  Refrigerator,
   RecordChooseFood,
   UploadImage,
   AnalysisFood,
+  MyInfo,
 };
