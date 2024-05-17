@@ -16,14 +16,18 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { ScrollView } from 'react-native';
 import { FoodContext } from '../contexts';
 import { ImageSlider } from 'react-native-image-slider-banner';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { IP_ADDRESS } from '../secret/env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: flex-start;
   background-color: ${({ theme }) => theme.background};
-  padding: 10px 0px;
+`;
+const SubmitContainer = styled.View`
+  width: 100%;
+  margin-top: 20px;
 `;
 
 const AnalysisFood = ({ navigation }) => {
@@ -31,43 +35,39 @@ const AnalysisFood = ({ navigation }) => {
   const { food, setFood: updateFoodInfo } = useContext(FoodContext);
 
   useEffect(() => {
-    console.log(food);
+    console.log('디버깅1 :', food.foods);
+    console.log('디버깅2 :', food.request);
   });
 
   const _handleSignupBtnPress = async () => {
-    // const url = `http://${IP_ADDRESS}:8080/api/diet/save`;
-    // const token = await AsyncStorage.getItem('TOKENADDRESS');
+    const url = `http://${IP_ADDRESS}:8080/api/diet/save`;
+    const token = await AsyncStorage.getItem('TOKENADDRESS');
 
-    // const payload = food.request;
-    // console.table('Payload to be sent:', payload);
+    const payload = food.request;
+    console.table('Payload to be sent:', payload);
 
-    // try {
-    //   const response = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //       Authorization: `${token}`,
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(payload),
-    //   });
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    //   const statusRes = await response.status;
+      const statusRes = await response.status;
 
-    //   if (response.ok) {
-    //     console.log('AnalysisFood successful', statusRes);
-    //   } else {
-    //     console.error('AnalysisFood failed:', statusRes);
-    //   }
-    // } catch (error) {
-    //   console.error('Network or other error:', error);
-    // }
-
-    if (navigation.canGoBack()) {
-      navigation.popToTop();
-      navigation.navigate('Mainpage');
-    } else {
-      console.warn('No screens to pop back to.');
+      if (response.ok) {
+        console.log('AnalysisFood successful', statusRes);
+      } else {
+        console.error('AnalysisFood failed:', statusRes);
+      }
+    } catch (error) {
+      console.error('Network or other error:', error);
     }
+
+    navigation.navigate('Mainpage');
   };
 
   return (
@@ -84,6 +84,19 @@ const AnalysisFood = ({ navigation }) => {
             calorie="100"
           />
         ))}
+
+        {/* <FoodAnalysisItems
+          type="사진"
+          foodname="치킨"
+          calorie="470"
+        ></FoodAnalysisItems>
+
+        <FoodAnalysisItems
+          type="글자"
+          foodname="미역국"
+          calorie="230"
+        ></FoodAnalysisItems> */}
+
         <Button
           title="음식명 검색으로 추가"
           onPress={() => console.log('search')}
