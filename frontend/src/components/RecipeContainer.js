@@ -9,22 +9,24 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
   margin: 10px 10px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 20px;
 `;
 const Image = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 10px;
 `;
 const Text = styled.Text`
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 600;
-  padding: 0px 2px 2px 5px;
+  padding: 5px 0px 5px 0px;
+  width: 150px;
   color: ${({ theme }) => theme.cardTitle};
+  text-align: center;
 `;
 
-const CustomCardButton = ({ onPress, url, title, isFocused }) => {
+const RecipeContainer = ({ onPress, url, title, isFocused }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Container isFocused={isFocused}>
@@ -35,10 +37,10 @@ const CustomCardButton = ({ onPress, url, title, isFocused }) => {
   );
 };
 
-CustomCardButton.propTypes = {
+RecipeContainer.propTypes = {
   title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   isFocused: PropTypes.bool.isRequired,
 };
 
-export default CustomCardButton;
+export default RecipeContainer;

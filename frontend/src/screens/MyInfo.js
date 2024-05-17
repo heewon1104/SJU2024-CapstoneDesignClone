@@ -14,7 +14,7 @@ const Container = styled.View`
   padding-bottom: ${({ insets: { bottom } }) => bottom}px;
 `;
 
-const Refrigerator = ({ navigation }) => {
+const MyInfo = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const _handleSigninBtnPress = () => {
     //navigation.navigate('Profile', { user });
@@ -28,8 +28,8 @@ const Refrigerator = ({ navigation }) => {
 
   return (
     <Container insets={insets}>
-      <Customtext text="Refrigerator"></Customtext>
+      <Customtext text="MyInfo"></Customtext>
     </Container>
   );
 };
-export default Refrigerator;
+export default MyInfo;

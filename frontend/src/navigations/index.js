@@ -37,7 +37,8 @@ const Navigations = () => {
 
   return (
     <NavigationContainer>
-      {tokenInfo.userTokenCheck || value ? <Main /> : <Auth />}
+      {/* {tokenInfo.userTokenCheck || value ? <Main /> : <Auth />} */}
+      <Main></Main>
     </NavigationContainer>
   );
 };

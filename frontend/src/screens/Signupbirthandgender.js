@@ -6,10 +6,12 @@ import {
   ErrorMessage,
   Customtext,
   Genderradiobuttoncontiner,
+  InputButton,
 } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { removeWhitespace } from '../utils';
 import { UserContext } from '../contexts';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Container = styled.View`
   flex: 1;
@@ -21,10 +23,12 @@ const Container = styled.View`
 const GUIDE_TEXT = `생일과 성별을 입력해주세요`;
 
 const Signupbirthandgender = ({ navigation }) => {
-  const [birth, setBirth] = useState('');
+  const [birth, setBirth] = useState(new Date(2000, 0, 0));
   const [gender, setGender] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
+
+  const [open, setOpen] = useState(false);
 
   const { user, setUser: updateUserInfo } = useContext(UserContext);
 
@@ -57,19 +61,41 @@ const Signupbirthandgender = ({ navigation }) => {
     navigation.navigate('Signupphysicalinformation');
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '날짜를 선택하세요';
+
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}년 ${month}월 ${day}일`;
+  };
+
   return (
     <KeyboardAwareScrollView extraScrollHeight={20}>
       <Container>
         <Customtext text={GUIDE_TEXT}></Customtext>
-        <Input
-          label="생년월일"
-          placeholder="Birth"
-          returnKeyType="next"
-          value={birth}
-          onChangeText={setBirth}
-          onBlur={() => setBirth(removeWhitespace(birth))}
-          maxLength={8}
-        ></Input>
+
+        <Customtext text="생년월일" fontSize={14}></Customtext>
+        <InputButton
+          title={formatDate(birth)}
+          onPress={() => setOpen(true)}
+        ></InputButton>
+        {open && (
+          <DateTimePicker
+            mode="date"
+            value={birth}
+            minimumDate={new Date(1900, 0, 1)}
+            onChange={(event, date) => {
+              if (date) {
+                setBirth(date);
+                setOpen(false);
+              }
+            }}
+          />
+        )}
+
         <Genderradiobuttoncontiner
           gender={gender}
           setGender={setGender}
