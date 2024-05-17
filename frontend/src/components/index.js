@@ -18,6 +18,7 @@ import TakePhoto from './TakePhoto';
 import InputButton from './InputButton';
 import FoodAnalysisItems from './FoodAnalysisItems';
 import CustomImageSlider from './CustomImageSlider.js';
+import RecipeContainer from './RecipeContainer.js';
 
 export {
   Button,
@@ -40,4 +41,5 @@ export {
   InputButton,
   FoodAnalysisItems,
   CustomImageSlider,
+  RecipeContainer,
 };

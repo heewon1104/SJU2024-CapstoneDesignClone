@@ -1,13 +1,7 @@
 import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeContext } from 'styled-components/native';
-import {
-  Mainpage,
-  Recipe,
-  Refrigerator,
-  Calander,
-  Signin,
-} from '../screens/index';
+import { Mainpage, Recipe, MyInfo, Calander, Signin } from '../screens/index';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import CameraRecord from './CameraRecord';
 import { Platform } from 'react-native';
@@ -62,21 +56,6 @@ const Main = () => {
         }}
       ></Tab.Screen>
       <Tab.Screen
-        name="Refrigerator"
-        component={Refrigerator}
-        options={{
-          title: '냉장고',
-          headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 22,
-          },
-          tabBarIcon: ({ color }) => (
-            <Entypo name="box" size={24} color={color} />
-          ),
-        }}
-      ></Tab.Screen>
-      <Tab.Screen
         name="Recipe"
         component={Recipe}
         options={{
@@ -88,6 +67,21 @@ const Main = () => {
           },
           tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
+          ),
+        }}
+      ></Tab.Screen>
+      <Tab.Screen
+        name="MyInfo"
+        component={MyInfo}
+        options={{
+          title: '내정보',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 22,
+          },
+          tabBarIcon: ({ color }) => (
+            <Entypo name="box" size={24} color={color} />
           ),
         }}
       ></Tab.Screen>
