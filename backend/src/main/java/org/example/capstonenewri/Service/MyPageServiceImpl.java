@@ -14,6 +14,6 @@ public class MyPageServiceImpl implements MyPageService{
 
     @Override
     public String getInstructionByMemberEmail(String email) {
-        return null;
+        return memberRepository.findInstructionByEmail(email);
     }
 }
