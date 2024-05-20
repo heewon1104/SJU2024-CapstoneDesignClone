@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ResponseDiseaseInstructionFromLLMDto {
-    private String diseaseInstruction;
+    private String dietary_guideline;
 }
