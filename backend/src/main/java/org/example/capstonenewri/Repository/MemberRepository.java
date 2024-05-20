@@ -25,4 +25,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     """)
     Optional<DayDiary> findDayDiaryByEmailAndDateTime(@Param("email") String email, @Param("startOfDay") LocalDateTime startOfDay,
                                                       @Param("endOfDay")LocalDateTime endOfDay);
+
+    @Query("select m.di from Member m where m.email = :email")
+    String findDietaryInstructionByEmail(@Param("email") String email);
 }
