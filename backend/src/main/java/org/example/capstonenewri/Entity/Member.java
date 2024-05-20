@@ -53,7 +53,8 @@ public class Member extends BaseEntity{
     private String cancer;
     private String allergy;
 
-    private String disease_instruction;
+    @Column(length = 2000)
+    private String dietary_guideline;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -69,7 +70,7 @@ public class Member extends BaseEntity{
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<DayDiary> dayDiaries = new ArrayList<>();
 
-    public void setDiseaseInstruction(String disease_instruction){ this.disease_instruction = disease_instruction; }
+    public void setDietary_guideline(String dietary_guideline){ this.dietary_guideline = dietary_guideline; }
     public void setDri(DRI dri){ this.dri = dri; }
 
 }

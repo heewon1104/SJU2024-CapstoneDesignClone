@@ -285,9 +285,6 @@ public class DRICalculator {
         calEssentialNutrients();
         List<BigDecimal> DRIList = DRICSVParse(this.lifeStage, "src/main/java/org/example/capstonenewri/Service/resources/Nutritional_Requirements_synced_table.csv");
 
-        System.out.println("디버깅");
-        System.out.println(DRIList);
-
         // TODO: Set DRI 작업 필요 -> DRI Class는 ERD DRI Table 형식을 따름
         DRI userDRI = DRI.builder().
                 energy_kcal(this.energy).

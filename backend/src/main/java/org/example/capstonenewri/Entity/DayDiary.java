@@ -45,6 +45,7 @@ public class DayDiary {
 
     private String ingredient_recommended;
     private String ingredient_prohibited;
+    @Column(length = 2000)
     private String feedback;
     private LocalDate date;
 
