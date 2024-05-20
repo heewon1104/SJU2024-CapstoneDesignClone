@@ -65,6 +65,18 @@ const Signupdiseases = ({ navigation }) => {
     });
   };
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+
+  useEffect(() => {
+    console.log(user.birth);
+  });
+
   const _handleSignupBtnPress = async () => {
     toggleUserState('cardio', selectedCardio);
     toggleUserState('digestive', selectedDigestive);
@@ -77,12 +89,7 @@ const Signupdiseases = ({ navigation }) => {
       name: user.name ? user.name[0] : '', // 배열 첫 요소 접근 또는 빈 문자열
       email: user.email ? user.email[0] : '',
       password: user.password ? user.password[0] : '',
-      birth: user.birth
-        ? `${user.birth[0].slice(0, 4)}-${user.birth[0].slice(
-            4,
-            6
-          )}-${user.birth[0].slice(6, 8)}`
-        : '',
+      birth: user.birth ? formatDate(user.birth) : '',
       gender: user.gender ? user.gender[0] : '',
       pregnant: !!user.pregnant,
       breastfeeding: !!user.breastfeeding,
