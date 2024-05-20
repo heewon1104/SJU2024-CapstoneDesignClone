@@ -1,12 +1,14 @@
 package org.example.capstonenewri.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.capstonenewri.Dto.ComprehensiveInfo.ComprehensiveDietInfoDto;
+import org.example.capstonenewri.Dto.ComprehensiveInfo.RequestFeedbackToLLMDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.DietDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.UserDRIDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.UserDiseaseInfoDto;
 import org.example.capstonenewri.Dto.FoodNutritionDto;
+import org.example.capstonenewri.Dto.RequestRecipeRecommendationToLLMDto;
 import org.example.capstonenewri.Dto.ResponseFeedbackFromLLMDto;
+import org.example.capstonenewri.Dto.ResponseRecipeRecommendationDto;
 import org.example.capstonenewri.Entity.DayDiary;
 import org.example.capstonenewri.Entity.Diet;
 import org.example.capstonenewri.Entity.DietDiary;
@@ -37,10 +39,11 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
     @Value("${flask.url}")  // AI 서버 주소
     private String url;
-    private final String endPoint = "/feedback"; // URI
+    private final String endPoint1 = "/feedback"; // URI
+    private final String endPoint2 = "/recipe_recommendation"; // URI
 
     @Override
-    public ResponseFeedbackFromLLMDto drawFeedback(List<Diet> dietList, String email) {
+    public void drawFeedback(List<Diet> dietList, String email) {
         // dietList가 비어 있는지 확인
         if (dietList.isEmpty()) {
             throw new IllegalArgumentException("식단 리스트는 비어 있을 수 없습니다.");
@@ -66,17 +69,7 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
         DayDiary updatedDayDiary = updateOrCreateDayDiary(member, dateOfDiet, dietDiaries);
         FoodNutritionDto foodNutritionDto = convertDayDiaryToFoodNutritionDto(updatedDayDiary);
 
-
-        /* 디버깅 */
-//        System.out.println("drawfeedback 디버깅!!!!");
-//        System.out.println(diets.toString());
-//        System.out.println(dietDiaries.toString());
-//        System.out.println("신장질환" + diseaseInfo.toString());
-//        System.out.println("dri" + dri.toString());
-//        System.out.println(foodNutritionDto.toString());
-        /* 디버깅 */
-
-        ComprehensiveDietInfoDto infoDto = ComprehensiveDietInfoDto.builder() // dto for post request to LLM server point
+        RequestFeedbackToLLMDto feeback_Dto = RequestFeedbackToLLMDto.builder() // dto for post request to LLM server point
                 .diets(diets)
                 .dietDiaries(dietDiaries)
                 .diseaseInfo(diseaseInfo)
@@ -85,15 +78,31 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ComprehensiveDietInfoDto> entity = new HttpEntity<>(infoDto, headers);
+        HttpEntity<RequestFeedbackToLLMDto> entity1 = new HttpEntity<>(feeback_Dto, headers);
 
-        ResponseEntity<ResponseFeedbackFromLLMDto> response = restTemplate.exchange( // restTemplate -> 요청
-                url + endPoint,
+        ResponseEntity<ResponseFeedbackFromLLMDto> feedback_response = restTemplate.exchange( // restTemplate -> 요청
+                url + endPoint1,
                 HttpMethod.POST, // 요청 타입
-                entity,
+                entity1,
                 ResponseFeedbackFromLLMDto.class);
 
-        return response.getBody();
+        updatedDayDiary.setFeedback(feedback_response.getBody().getFeedback());
+        dayDiaryRepository.save(updatedDayDiary); // dayDiary 저장
+
+        RequestRecipeRecommendationToLLMDto recommendation_dto = RequestRecipeRecommendationToLLMDto.builder()
+                .feedback(feedback_response.getBody().getFeedback())
+                .disease_instruction(feedback_response.getBody().getDisease_instruction())
+                .diseaseInfo(diseaseInfo)
+                .build();
+
+        HttpEntity<RequestRecipeRecommendationToLLMDto> entity2 = new HttpEntity<>(recommendation_dto, headers);
+
+        ResponseEntity<ResponseRecipeRecommendationDto> recipes = restTemplate.exchange(
+                url + endPoint2,
+                HttpMethod.POST,
+                entity2,
+                ResponseRecipeRecommendationDto.class);
+
     }
 
     public List<DietDto> convertToDietDtoList(List<Diet> dietList) {
