@@ -73,7 +73,7 @@ const UploadImage = ({ navigation }) => {
     // 이미지 추가
     food.img.forEach((imageUri) => {
       const name = imageUri.split('/').pop();
-      const type = 'image/png'; // 실제 이미지 유형에 맞게 조정 가능
+      const type = 'image/png';
       const file = {
         uri: imageUri,
         name,

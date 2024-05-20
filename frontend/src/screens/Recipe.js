@@ -104,17 +104,15 @@ const Recipe = ({ navigation }) => {
   );
 
   return (
-    <ScrollView style={{ width: '100%' }}>
-      <Container insets={insets}>
-        <Customtext text="사용자 추천 레시피"></Customtext>
-        <FlatList
-          data={recipes}
-          renderItem={renderRecipe}
-          keyExtractor={(item) => item.id}
-          numColumns={2} // 가로로 2개씩 표시
-        />
-      </Container>
-    </ScrollView>
+    <Container insets={insets}>
+      <Customtext text="사용자 추천 레시피"></Customtext>
+      <FlatList
+        data={recipes}
+        renderItem={renderRecipe}
+        keyExtractor={(item) => item.id}
+        numColumns={2} // 가로로 2개씩 표시
+      />
+    </Container>
   );
 };
 
