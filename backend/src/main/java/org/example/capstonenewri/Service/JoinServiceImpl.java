@@ -2,6 +2,7 @@ package org.example.capstonenewri.Service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.capstonenewri.Dto.MemberPhysicalInfoDto;
+import org.example.capstonenewri.Dto.RequestGuideLineDto;
 import org.example.capstonenewri.Dto.RequestJoinMemberDto;
 import org.example.capstonenewri.Dto.ResponseDiseaseInstructionFromLLMDto;
 import org.example.capstonenewri.Entity.DRI;
@@ -31,7 +32,7 @@ public class JoinServiceImpl implements JoinService{
     @Value("${flask.url}")  // AI 서버 주소
     private String url;
 
-    private final String endPoint = "/disease_instruction"; // URI
+    private final String endPoint = "/make_dietary_guideline"; // URI
 
     @Override
     public void joinMember(RequestJoinMemberDto requestJoinMemberDto) {
@@ -69,11 +70,14 @@ public class JoinServiceImpl implements JoinService{
                 allergy(requestJoinMemberDto.getAllergy()).
                 role(requestJoinMemberDto.getRole()).build();
 
-        MemberPhysicalInfoDto memberInfoDto = MemberPhysicalInfoDto.from(member);
+        MemberPhysicalInfoDto memberPhysicalInfo = MemberPhysicalInfoDto.from(member);
+        RequestGuideLineDto requestGuideLineDto = RequestGuideLineDto.builder()
+                .memberPhysicalInfoDto(memberPhysicalInfo)
+                .build();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MemberPhysicalInfoDto> entity = new HttpEntity<>(memberInfoDto, headers);
+        HttpEntity<RequestGuideLineDto> entity = new HttpEntity<>(requestGuideLineDto, headers);
 
         ResponseEntity<ResponseDiseaseInstructionFromLLMDto> response = restTemplate.exchange( // restTemplate -> 요청
                 url + endPoint,
@@ -81,7 +85,7 @@ public class JoinServiceImpl implements JoinService{
                 entity,
                 ResponseDiseaseInstructionFromLLMDto.class);
 
-
+        System.out.println("guideline" + response.getBody().getDietary_guideline());
 
         // DRI 산출 모듈 생성
         DRICalculator test = new DRICalculator(member.getBirth(), member.getGender(), member.getPregnant(), member.getBreastfeeding(),
@@ -96,7 +100,7 @@ public class JoinServiceImpl implements JoinService{
 
         // Member 객체에 DRI 설정
         member.setDri(userDRI);
-        member.setDiseaseInstruction(response.getBody().getDiseaseInstruction());
+        member.setDietary_guideline(response.getBody().getDietary_guideline());
 
         // Member 객체 저장
         memberRepository.save(member);

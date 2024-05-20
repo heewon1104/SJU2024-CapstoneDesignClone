@@ -87,11 +87,14 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 ResponseFeedbackFromLLMDto.class);
 
         updatedDayDiary.setFeedback(feedback_response.getBody().getFeedback());
+
+        System.out.println("feedback_response = " + feedback_response.getBody().getFeedback());
+
         dayDiaryRepository.save(updatedDayDiary); // dayDiary 저장
 
         RequestRecipeRecommendationToLLMDto recommendation_dto = RequestRecipeRecommendationToLLMDto.builder()
                 .feedback(feedback_response.getBody().getFeedback())
-                .disease_instruction(feedback_response.getBody().getDisease_instruction())
+                .dietary_guideline(member.getDietary_guideline())
                 .diseaseInfo(diseaseInfo)
                 .build();
 
@@ -102,6 +105,8 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 HttpMethod.POST,
                 entity2,
                 ResponseRecipeRecommendationDto.class);
+
+        System.out.println("recipes = " + recipes.getBody().getRecipes());
 
     }
 
@@ -154,21 +159,7 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
     public UserDiseaseInfoDto getDiseaseInfoBy(Member member) {
         UserDiseaseInfoDto userDiseaseInfoDto = UserDiseaseInfoDto.builder()
-                .pregnant(member.getPregnant())
-                .breastfeeding(member.getBreastfeeding())
-                .diabetes(member.getDiabetes())
-                .obesity(member.getObesity())
-                .cardio(member.getCardio())
-                .digestive(member.getDigestive())
-                .kidney_disease(member.getKidney_disease())
-                .nervous_system(member.getNervous_system())
-                .osteoporosis(member.getOsteoporosis())
-                .constipation(member.getConstipation())
-                .anaemia(member.getAnaemia())
-                .urinary_stone(member.getUrinary_stone())
-                .gout(member.getGout())
-                .cancer(member.getCancer())
-                .allergy(member.getAllergy())
+                .dietary_guideline(member.getDietary_guideline())
                 .build();
         return userDiseaseInfoDto;
     }
