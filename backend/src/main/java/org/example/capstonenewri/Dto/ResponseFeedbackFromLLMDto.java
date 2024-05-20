@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseFeedbackFromLLMDto {
     private String feedback;
-
     @Builder
     public ResponseFeedbackFromLLMDto(String feedback){
         this.feedback = feedback;

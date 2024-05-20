@@ -60,8 +60,7 @@ public class DietController {
             System.out.println("dietcontroller = " + diet.getFood());
             dietList.add(diet);
         }
-        ResponseFeedbackFromLLMDto feedbackFromLLMDto = drawFeedbackServiceImpl.drawFeedback(dietList, authentication.getName());
-        System.out.println("feedbackFromLLMDto = " + feedbackFromLLMDto);
-        System.out.println("feedbackFromLLMDto = " + feedbackFromLLMDto.getFeedback());
+        drawFeedbackServiceImpl.drawFeedback(dietList, authentication.getName());
+
     }
 }
