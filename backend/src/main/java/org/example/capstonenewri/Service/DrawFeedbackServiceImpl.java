@@ -1,12 +1,14 @@
 package org.example.capstonenewri.Service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.capstonenewri.Dto.ComprehensiveInfo.ComprehensiveDietInfoDto;
+import org.example.capstonenewri.Dto.ComprehensiveInfo.RequestFeedbackToLLMDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.DietDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.UserDRIDto;
 import org.example.capstonenewri.Dto.ComprehensiveInfo.UserDiseaseInfoDto;
 import org.example.capstonenewri.Dto.FoodNutritionDto;
+import org.example.capstonenewri.Dto.RequestRecipeRecommendationToLLMDto;
 import org.example.capstonenewri.Dto.ResponseFeedbackFromLLMDto;
+import org.example.capstonenewri.Dto.ResponseRecipeRecommendationDto;
 import org.example.capstonenewri.Entity.DayDiary;
 import org.example.capstonenewri.Entity.Diet;
 import org.example.capstonenewri.Entity.DietDiary;
@@ -37,10 +39,11 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
     @Value("${flask.url}")  // AI 서버 주소
     private String url;
-    private final String endPoint = "/feedback"; // URI
+    private final String endPoint1 = "/feedback"; // URI
+    private final String endPoint2 = "/recipe_recommendation"; // URI
 
     @Override
-    public ResponseFeedbackFromLLMDto drawFeedback(List<Diet> dietList, String email) {
+    public void drawFeedback(List<Diet> dietList, String email) {
         // dietList가 비어 있는지 확인
         if (dietList.isEmpty()) {
             throw new IllegalArgumentException("식단 리스트는 비어 있을 수 없습니다.");
@@ -61,20 +64,12 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
         UserDRIDto dri = getDRIInfoBy(member); // member 객체로 dri 정보
 
         LocalDate dateOfDiet = dietList.get(0).getIntakeTime().toLocalDate();
-        Optional<DayDiary> dayDiaryOptional = dayDiaryRepository.findByMemberAndDate(member, dateOfDiet);
-        FoodNutritionDto foodNutritionDto = dayDiaryOptional
-                                        .map(this::convertDayDiaryToFoodNutritionDto).orElseGet(this::getZeroDayDiary);
 
-        /* 디버깅 */
-//        System.out.println("drawfeedback 디버깅!!!!");
-//        System.out.println(diets.toString());
-//        System.out.println(dietDiaries.toString());
-//        System.out.println("신장질환" + diseaseInfo.toString());
-//        System.out.println("dri" + dri.toString());
-//        System.out.println(foodNutritionDto.toString());
-        /* 디버깅 */
+        // DayDiary 업데이트 또는 생성 후 FoodNutritionDto 변환
+        DayDiary updatedDayDiary = updateOrCreateDayDiary(member, dateOfDiet, dietDiaries);
+        FoodNutritionDto foodNutritionDto = convertDayDiaryToFoodNutritionDto(updatedDayDiary);
 
-        ComprehensiveDietInfoDto infoDto = ComprehensiveDietInfoDto.builder() // dto for post request to LLM server point
+        RequestFeedbackToLLMDto feeback_Dto = RequestFeedbackToLLMDto.builder() // dto for post request to LLM server point
                 .diets(diets)
                 .dietDiaries(dietDiaries)
                 .diseaseInfo(diseaseInfo)
@@ -83,15 +78,36 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<ComprehensiveDietInfoDto> entity = new HttpEntity<>(infoDto, headers);
+        HttpEntity<RequestFeedbackToLLMDto> entity1 = new HttpEntity<>(feeback_Dto, headers);
 
-        ResponseEntity<ResponseFeedbackFromLLMDto> response = restTemplate.exchange( // restTemplate -> 요청
-                url + endPoint,
+        ResponseEntity<ResponseFeedbackFromLLMDto> feedback_response = restTemplate.exchange( // restTemplate -> 요청
+                url + endPoint1,
                 HttpMethod.POST, // 요청 타입
-                entity,
+                entity1,
                 ResponseFeedbackFromLLMDto.class);
 
-        return response.getBody();
+        updatedDayDiary.setFeedback(feedback_response.getBody().getFeedback());
+
+        System.out.println("feedback_response = " + feedback_response.getBody().getFeedback());
+
+        dayDiaryRepository.save(updatedDayDiary); // dayDiary 저장
+
+        RequestRecipeRecommendationToLLMDto recommendation_dto = RequestRecipeRecommendationToLLMDto.builder()
+                .feedback(feedback_response.getBody().getFeedback())
+                .dietary_guideline(member.getDietary_guideline())
+                .diseaseInfo(diseaseInfo)
+                .build();
+
+        HttpEntity<RequestRecipeRecommendationToLLMDto> entity2 = new HttpEntity<>(recommendation_dto, headers);
+
+        ResponseEntity<ResponseRecipeRecommendationDto> recipes = restTemplate.exchange(
+                url + endPoint2,
+                HttpMethod.POST,
+                entity2,
+                ResponseRecipeRecommendationDto.class);
+
+        System.out.println("recipes = " + recipes.getBody().getRecipes());
+
     }
 
     public List<DietDto> convertToDietDtoList(List<Diet> dietList) {
@@ -143,62 +159,41 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
     public UserDiseaseInfoDto getDiseaseInfoBy(Member member) {
         UserDiseaseInfoDto userDiseaseInfoDto = UserDiseaseInfoDto.builder()
-                .diabetes(member.getDiabetes())
-                .obesity(member.getObesity())
-                .cardio(member.getCardio())
-                .digestive(member.getDigestive())
-                .kidney_disease(member.getKidney_disease())
-                .nervous_system(member.getNervous_system())
-                .osteoporosis(member.getOsteoporosis())
-                .constipation(member.getConstipation())
-                .anaemia(member.getAnaemia())
-                .urinary_stone(member.getUrinary_stone())
-                .gout(member.getGout())
-                .cancer(member.getCancer())
+                .dietary_guideline(member.getDietary_guideline())
                 .build();
         return userDiseaseInfoDto;
     }
 
     public UserDRIDto getDRIInfoBy(Member member) {
         UserDRIDto userDRIDto = UserDRIDto.builder()
-                .carbohydrate_g(member.getDri().getCarbohydrate_g())
-                .protein_g(member.getDri().getProtein_g())
-                .fat_g(member.getDri().getFat_g())
-                .dietary_fiber_gram(member.getDri().getDietary_fiber_g())
                 .energy_kcal(member.getDri().getEnergy_kcal())
-                .water_g(member.getDri().getEnergy_kcal())
+                .water_gram(member.getDri().getWater_gram())
+                .protein_gram(member.getDri().getProtein_gram())
+                .fat_gram(member.getDri().getFat_gram())
+                .ashcontent_gram(member.getDri().getAshcontent_gram())
+                .carbohydrate_gram(member.getDri().getCarbohydrate_gram())
+                .sugars_gram(member.getDri().getSugars_gram())
+                .dietary_fiber_gram(member.getDri().getDietary_fiber_gram())
+                .calcium_miligram(member.getDri().getCalcium_miligram())
+                .iron_miligram(member.getDri().getIron_miligram())
+                .phosphorus_miligram(member.getDri().getPhosphorus_miligram())
+                .potassium_miligram(member.getDri().getPotassium_miligram())
+                .sodium_miligram(member.getDri().getSodium_miligram())
+                .vitaminA_microgram(member.getDri().getVitaminA_microgram())
+                .retinol_microgram(member.getDri().getRetinol_microgram())
+                .betaCarotene_microgram(member.getDri().getBetaCarotene_microgram())
+                .thiamin_miligram(member.getDri().getThiamin_miligram())
+                .riboflavin_miligram(member.getDri().getRiboflavin_miligram())
+                .niacin_miligram(member.getDri().getNiacin_miligram())
+                .vitaminC_miligram(member.getDri().getVitaminC_miligram())
+                .vitaminD_microgram(member.getDri().getVitaminD_microgram())
+                .cholesterol_miligram(member.getDri().getCholesterol_miligram())
+                .saturated_fatty_acids_gram(member.getDri().getSaturated_fatty_acids_gram())
+                .trans_fatty_acids_gram(member.getDri().getTrans_fatty_acids_gram())
                 .build();
         return userDRIDto;
     }
 
-    public FoodNutritionDto getZeroDayDiary(){
-        return FoodNutritionDto.builder()
-                .energy_kcal(BigDecimal.ZERO)
-                .water_gram(BigDecimal.ZERO)
-                .protein_gram(BigDecimal.ZERO)
-                .fat_gram(BigDecimal.ZERO)
-                .ashcontent_gram(BigDecimal.ZERO)
-                .carbohydrate_gram(BigDecimal.ZERO)
-                .sugars_gram(BigDecimal.ZERO)
-                .dietary_fiber_gram(BigDecimal.ZERO)
-                .calcium_miligram(BigDecimal.ZERO)
-                .iron_miligram(BigDecimal.ZERO)
-                .phosphorus_miligram(BigDecimal.ZERO)
-                .potassium_miligram(BigDecimal.ZERO)
-                .sodium_miligram(BigDecimal.ZERO)
-                .vitaminA_microgram(BigDecimal.ZERO)
-                .retinol_microgram(BigDecimal.ZERO)
-                .betaCarotene_microgram(BigDecimal.ZERO)
-                .thiamin_miligram(BigDecimal.ZERO)
-                .riboflavin_miligram(BigDecimal.ZERO)
-                .niacin_miligram(BigDecimal.ZERO)
-                .vitaminC_miligram(BigDecimal.ZERO)
-                .vitaminD_microgram(BigDecimal.ZERO)
-                .cholesterol_miligram(BigDecimal.ZERO)
-                .saturated_fatty_acids_gram(BigDecimal.ZERO)
-                .trans_fatty_acids_gram(BigDecimal.ZERO)
-                .build();
-    }
     public FoodNutritionDto convertDayDiaryToFoodNutritionDto(DayDiary dayDiary) {
         return FoodNutritionDto.builder()
                 .energy_kcal(dayDiary.getEnergy_kcal())
@@ -227,6 +222,71 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 .trans_fatty_acids_gram(dayDiary.getTrans_fatty_acids_gram())
                 .build();
     }
+
+    private DayDiary updateOrCreateDayDiary(Member member, LocalDate date, List<FoodNutritionDto> dietDiaries) {
+        Optional<DayDiary> dayDiaryOptional = dayDiaryRepository.findByMemberAndDate(member, date);
+
+        DayDiary dayDiary = dayDiaryOptional.orElseGet(() -> DayDiary.builder() // 생성된 dayDiary가 없을때 (Optional.empty()) orElseGet 메서드로 dayDiary생성
+                .energy_kcal(BigDecimal.ZERO)
+                .water_gram(BigDecimal.ZERO)
+                .protein_gram(BigDecimal.ZERO)
+                .fat_gram(BigDecimal.ZERO)
+                .ashcontent_gram(BigDecimal.ZERO)
+                .carbohydrate_gram(BigDecimal.ZERO)
+                .sugars_gram(BigDecimal.ZERO)
+                .dietary_fiber_gram(BigDecimal.ZERO)
+                .calcium_miligram(BigDecimal.ZERO)
+                .iron_miligram(BigDecimal.ZERO)
+                .phosphorus_miligram(BigDecimal.ZERO)
+                .potassium_miligram(BigDecimal.ZERO)
+                .sodium_miligram(BigDecimal.ZERO)
+                .vitaminA_microgram(BigDecimal.ZERO)
+                .retinol_microgram(BigDecimal.ZERO)
+                .betaCarotene_microgram(BigDecimal.ZERO)
+                .thiamin_miligram(BigDecimal.ZERO)
+                .riboflavin_miligram(BigDecimal.ZERO)
+                .niacin_miligram(BigDecimal.ZERO)
+                .vitaminC_miligram(BigDecimal.ZERO)
+                .vitaminD_microgram(BigDecimal.ZERO)
+                .cholesterol_miligram(BigDecimal.ZERO)
+                .saturated_fatty_acids_gram(BigDecimal.ZERO)
+                .trans_fatty_acids_gram(BigDecimal.ZERO)
+                .date(date)
+                .member(member)
+                .build());
+
+        dietDiaries.forEach(dietDiary -> {
+            dayDiary.addEnergy_kcal(dietDiary.getEnergy_kcal());
+            dayDiary.addWater_gram(dietDiary.getWater_gram());
+            dayDiary.addProtein_gram(dietDiary.getProtein_gram());
+            dayDiary.addFat_gram(dietDiary.getFat_gram());
+            dayDiary.addAshcontent_gram(dietDiary.getAshcontent_gram());
+            dayDiary.addCarbohydrate_gram(dietDiary.getCarbohydrate_gram());
+            dayDiary.addSugars_gram(dietDiary.getSugars_gram());
+            dayDiary.addDietary_fiber_gram(dietDiary.getDietary_fiber_gram());
+            dayDiary.addCalcium_miligram(dietDiary.getCalcium_miligram());
+            dayDiary.addIron_miligram(dietDiary.getIron_miligram());
+            dayDiary.addPhosphorus_miligram(dietDiary.getPhosphorus_miligram());
+            dayDiary.addPotassium_miligram(dietDiary.getPotassium_miligram());
+            dayDiary.addSodium_miligram(dietDiary.getSodium_miligram());
+            dayDiary.addVitaminA_microgram(dietDiary.getVitaminA_microgram());
+            dayDiary.addRetinol_microgram(dietDiary.getRetinol_microgram());
+            dayDiary.addBetaCarotene_microgram(dietDiary.getBetaCarotene_microgram());
+            dayDiary.addThiamin_miligram(dietDiary.getThiamin_miligram());
+            dayDiary.addRiboflavin_miligram(dietDiary.getRiboflavin_miligram());
+            dayDiary.addNiacin_miligram(dietDiary.getNiacin_miligram());
+            dayDiary.addVitaminC_miligram(dietDiary.getVitaminC_miligram());
+            dayDiary.addVitaminD_microgram(dietDiary.getVitaminD_microgram());
+            dayDiary.addCholesterol_miligram(dietDiary.getCholesterol_miligram());
+            dayDiary.addSaturated_fatty_acids_gram(dietDiary.getSaturated_fatty_acids_gram());
+            dayDiary.addTrans_fatty_acids_gram(dietDiary.getTrans_fatty_acids_gram());
+        });
+
+        dayDiaryRepository.save(dayDiary);
+
+        return dayDiary;
+    }
+
 }
 
 
