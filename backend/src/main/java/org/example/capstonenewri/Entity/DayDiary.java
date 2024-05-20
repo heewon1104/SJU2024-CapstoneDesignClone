@@ -77,6 +77,7 @@ public class DayDiary {
     public void addSaturated_fatty_acids_gram(BigDecimal saturated_fatty_acids_gram) { this.saturated_fatty_acids_gram = this.saturated_fatty_acids_gram.add(saturated_fatty_acids_gram); }
     public void addTrans_fatty_acids_gram(BigDecimal trans_fatty_acids_gram) { this.trans_fatty_acids_gram = this.trans_fatty_acids_gram.add(trans_fatty_acids_gram); }
 
+    public void setFeedback(String feedback) { this.feedback = feedback; }
 }
 
 
