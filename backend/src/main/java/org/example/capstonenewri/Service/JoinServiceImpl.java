@@ -1,14 +1,19 @@
 package org.example.capstonenewri.Service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.capstonenewri.Dto.MemberPhysicalInfoDto;
 import org.example.capstonenewri.Dto.RequestJoinMemberDto;
+import org.example.capstonenewri.Dto.ResponseDiseaseInstructionFromLLMDto;
 import org.example.capstonenewri.Entity.DRI;
 import org.example.capstonenewri.Entity.Member;
 import org.example.capstonenewri.Repository.DRIRepository;
 import org.example.capstonenewri.Repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,6 +26,12 @@ public class JoinServiceImpl implements JoinService{
     private final MemberRepository memberRepository;
     private final DRIRepository driRepository;
     private final BCryptPasswordEncoder encoder;
+    private final RestTemplate restTemplate;
+
+    @Value("${flask.url}")  // AI 서버 주소
+    private String url;
+
+    private final String endPoint = "/disease_instruction"; // URI
 
     @Override
     public void joinMember(RequestJoinMemberDto requestJoinMemberDto) {
@@ -58,6 +69,20 @@ public class JoinServiceImpl implements JoinService{
                 allergy(requestJoinMemberDto.getAllergy()).
                 role(requestJoinMemberDto.getRole()).build();
 
+        MemberPhysicalInfoDto memberInfoDto = MemberPhysicalInfoDto.from(member);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<MemberPhysicalInfoDto> entity = new HttpEntity<>(memberInfoDto, headers);
+
+        ResponseEntity<ResponseDiseaseInstructionFromLLMDto> response = restTemplate.exchange( // restTemplate -> 요청
+                url + endPoint,
+                HttpMethod.POST, // 요청 타입
+                entity,
+                ResponseDiseaseInstructionFromLLMDto.class);
+
+
+
         // DRI 산출 모듈 생성
         DRICalculator test = new DRICalculator(member.getBirth(), member.getGender(), member.getPregnant(), member.getBreastfeeding(),
                 member.getHeight(), member.getWeight());
@@ -71,8 +96,11 @@ public class JoinServiceImpl implements JoinService{
 
         // Member 객체에 DRI 설정
         member.setDri(userDRI);
+        member.setDiseaseInstruction(response.getBody().getDiseaseInstruction());
 
         // Member 객체 저장
         memberRepository.save(member);
     }
+
+
 }

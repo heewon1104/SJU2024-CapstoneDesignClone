@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-@Setter
 public class Member extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -54,6 +53,8 @@ public class Member extends BaseEntity{
     private String cancer;
     private String allergy;
 
+    private String disease_instruction;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -67,5 +68,8 @@ public class Member extends BaseEntity{
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<DayDiary> dayDiaries = new ArrayList<>();
+
+    public void setDiseaseInstruction(String disease_instruction){ this.disease_instruction = disease_instruction; }
+    public void setDri(DRI dri){ this.dri = dri; }
 
 }
