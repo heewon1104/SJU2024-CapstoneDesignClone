@@ -2,9 +2,11 @@ package org.example.capstonenewri.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.capstonenewri.Entity.Converter.RecipeListConverter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,6 +51,9 @@ public class DayDiary {
     private String feedback;
     private LocalDate date;
 
+    @Convert(converter = RecipeListConverter.class)
+    private List<Long> recipes;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")  // Member 테이블의 member_id를 참조
     private Member member;
@@ -79,6 +84,9 @@ public class DayDiary {
     public void addTrans_fatty_acids_gram(BigDecimal trans_fatty_acids_gram) { this.trans_fatty_acids_gram = this.trans_fatty_acids_gram.add(trans_fatty_acids_gram); }
 
     public void setFeedback(String feedback) { this.feedback = feedback; }
+    public void setRecipes(List<Long> recipes) { this.recipes = recipes; }
+
+
 }
 
 

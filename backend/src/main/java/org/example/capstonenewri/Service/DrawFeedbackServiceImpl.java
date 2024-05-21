@@ -88,9 +88,8 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
 
         updatedDayDiary.setFeedback(feedback_response.getBody().getFeedback());
 
-        System.out.println("feedback_response = " + feedback_response.getBody().getFeedback());
+        System.out.println("feedback_response = " + feedback_response.getBody().getFeedback()); // 디버깅
 
-        dayDiaryRepository.save(updatedDayDiary); // dayDiary 저장
 
         RequestRecipeRecommendationToLLMDto recommendation_dto = RequestRecipeRecommendationToLLMDto.builder()
                 .feedback(feedback_response.getBody().getFeedback())
@@ -106,7 +105,10 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
                 entity2,
                 ResponseRecipeRecommendationDto.class);
 
-        System.out.println("recipes = " + recipes.getBody().getRecipes());
+        System.out.println("recipes = " + recipes.getBody().getRecipes()); // 디버깅
+        updatedDayDiary.setRecipes(recipes.getBody().getRecipes());
+
+        dayDiaryRepository.save(updatedDayDiary); // dayDiary 저장
 
     }
 
