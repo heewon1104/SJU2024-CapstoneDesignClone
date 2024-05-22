@@ -53,6 +53,9 @@ const FoodCalender = () => {
         }}
         markingType={'multi-dot'}
         markedDates={markedDates}
+        onMonthChange={(month) => {
+          console.log('month changed', month);
+        }}
       />
     </Container>
   );

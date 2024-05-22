@@ -5,6 +5,7 @@ import { Customtext, HealthScoreChart, TextBox } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IP_ADDRESS } from '../secret/env';
+import { ScrollView } from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -59,15 +60,16 @@ const MyInfo = ({ navigation }) => {
   }, []);
 
   return (
-    <Container insets={insets}>
-      <TextBox
-        title="Tip"
-        explanation={instruction}
-        titleColor="purple"
-      ></TextBox>
-      <Customtext title={instruction}></Customtext>
-      <HealthScoreChart></HealthScoreChart>
-    </Container>
+    <ScrollView>
+      <Container insets={insets}>
+        <TextBox
+          title="Tip"
+          explanation={instruction}
+          titleColor="purple"
+        ></TextBox>
+        <HealthScoreChart></HealthScoreChart>
+      </Container>
+    </ScrollView>
   );
 };
 export default MyInfo;
