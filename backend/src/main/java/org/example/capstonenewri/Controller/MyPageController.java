@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ResponseStatus(HttpStatus.OK)
 @RestController
 @RequestMapping("api/mypage")
@@ -18,8 +21,12 @@ public class MyPageController {
     private final MyPageServiceImpl myPageServiceImpl;
 
     @GetMapping("/instruction")
-    public String getInstruction(Authentication authentication){
+    public Map<String, Object> getInstruction(Authentication authentication){
         String instruction = myPageServiceImpl.getInstructionByMemberEmail(authentication.getName());
-        return instruction;
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("instruction", instruction);
+
+        return response;
     }
 }
