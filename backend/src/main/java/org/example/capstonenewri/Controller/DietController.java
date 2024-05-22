@@ -61,6 +61,5 @@ public class DietController {
             dietList.add(diet);
         }
         drawFeedbackServiceImpl.drawFeedback(dietList, authentication.getName());
-
     }
 }

@@ -4,10 +4,12 @@ package org.example.capstonenewri.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.capstonenewri.Entity.Converter.StringListConverter;
 import org.example.capstonenewri.Entity.Type.DietType;
 import org.example.capstonenewri.Entity.Type.KoreanOrAll;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +23,7 @@ public class Diet extends BaseEntity{
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private DietType diettype;
+    private DietType dietType;
 
     @Enumerated(EnumType.STRING)
     private KoreanOrAll koreanOrAll;
@@ -29,7 +31,8 @@ public class Diet extends BaseEntity{
     private LocalDateTime intakeTime;
     private String food; // ai 서버의 결과를 받아올 것임.
     private String food_be; // ai 서버의 결과를 받아올 것임.
-    private String ingredients; // ai 서버의 결과를 받아올 것임.
+    @Convert(converter = StringListConverter.class)
+    private List<String> ingredients; // ai 서버의 결과를 받아올 것임.
     private Integer amount; // ai 서버의 결과를 받아올 것임.
 
     @ManyToOne(fetch = FetchType.LAZY)
