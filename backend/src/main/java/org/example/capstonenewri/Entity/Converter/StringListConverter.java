@@ -17,7 +17,9 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
         if (attribute == null || attribute.isEmpty()) {
             return "";
         }
-        return String.join(SEPARATOR, attribute);
+        return attribute.stream()
+                .map(String::trim)
+                .collect(Collectors.joining(SEPARATOR));
     }
 
     @Override
