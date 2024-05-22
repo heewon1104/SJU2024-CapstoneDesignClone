@@ -5,6 +5,8 @@ const initialFoodState = {
   date: null,
   eattime: null,
 
+  //food_be : null,
+
   img: [],
 
   foods: [],

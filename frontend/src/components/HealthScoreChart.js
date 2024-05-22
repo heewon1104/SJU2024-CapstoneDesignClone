@@ -14,7 +14,9 @@ const ChartContainer = styled.View`
   align-content: space-between;
   justify-content: space-between;
   background-color: lightgrey;
-  height: 200px;
+  height: 240px;
+  margin: 10px 0px;
+  border-radius: 10px;
 `;
 
 const TitleContainer = styled.View`
@@ -23,7 +25,7 @@ const TitleContainer = styled.View`
 `;
 
 const Title = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.scoreTitle};
   padding-left: 8px;
@@ -34,13 +36,13 @@ const HealthScoreChart = () => {
 
   // 일주일치 데이터 예시
   const weeklyData = [
-    { day: '월', value: 80, total: 100 },
-    { day: '화', value: 75, total: 100 },
-    { day: '수', value: 60, total: 100 },
-    { day: '목', value: 90, total: 100 },
-    { day: '금', value: 95, total: 100 },
-    { day: '토', value: 50, total: 100 },
-    { day: '일', value: 65, total: 100 },
+    { day: '12/8(목)', value: 80, total: 100 },
+    { day: '12/9(금)', value: 75, total: 100 },
+    { day: '12/10(토)', value: 60, total: 100 },
+    { day: '12/11(일)', value: 90, total: 100 },
+    { day: '12/12(월)', value: 95, total: 100 },
+    { day: '12/13(화)', value: 50, total: 100 },
+    { day: '12/14(수)', value: 65, total: 100 },
   ];
 
   return (
@@ -48,7 +50,7 @@ const HealthScoreChart = () => {
       <TitleContainer>
         <MaterialIcons
           name="medical-services"
-          size={24}
+          size={30}
           color={theme.scoreTitle}
         />
         <Title>Healthy Score</Title>

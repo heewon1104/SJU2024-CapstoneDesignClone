@@ -21,6 +21,7 @@ import CustomImageSlider from './CustomImageSlider.js';
 import RecipeContainer from './RecipeContainer.js';
 import HealthScoreChart from './HealthScoreChart.js';
 import HorizontalLineChart from './HorizontalLineChart.js';
+import TextBox from './TextBox.js';
 
 export {
   Button,
@@ -46,4 +47,5 @@ export {
   RecipeContainer,
   HealthScoreChart,
   HorizontalLineChart,
+  TextBox,
 };

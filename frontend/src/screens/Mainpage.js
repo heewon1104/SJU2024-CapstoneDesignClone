@@ -1,4 +1,5 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import styled, { ThemeContext } from 'styled-components/native';
 import {
   CalanderBar,
@@ -118,19 +119,16 @@ const Mainpage = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-    updateTotalData();
-    updateValueData();
-  }, []);
-
-  useEffect(() => {
-    console.log('day : ', data.date);
-    if (data.date) {
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Mainpage is focused');
       updateTotalData();
       updateValueData();
-    }
-  }, [data.date]);
+      return () => {
+        console.log('Mainpage is unfocused');
+      };
+    }, [data.date])
+  );
 
   return (
     <Container>
