@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.capstonenewri.Dto.ResponseIntakeDto;
 import org.example.capstonenewri.Dto.ResponseUserDRIDto;
 import org.example.capstonenewri.Service.MainServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @ResponseStatus(HttpStatus.OK)
 @RestController
@@ -37,5 +40,19 @@ public class MainController {
         LocalDateTime endOfDay = startOfDay.plusDays(1); // 다음 날 자정
         ResponseIntakeDto intakeDto = mainServiceImpl.findIntakebyMemberEmailAndDate(authentication.getName(), startOfDay, endOfDay);
         return intakeDto;
+    }
+
+    @GetMapping("/feedback/{date}")
+    public ResponseEntity<Map<String, Object>> getDailyFeedback(Authentication authentication, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate date){
+        Optional<String> dailyFeedback = mainServiceImpl.getDailyFeedback(authentication.getName(), date);
+
+        Map<String, Object> response = new HashMap<>();
+        if (dailyFeedback.isPresent()) {
+            response.put("feedback", dailyFeedback.get());
+            return ResponseEntity.ok(response);
+        } else{
+            response.put("message", "No Record");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
     }
 }
