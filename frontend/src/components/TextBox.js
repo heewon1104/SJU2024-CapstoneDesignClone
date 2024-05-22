@@ -10,11 +10,13 @@ const Container = styled.View`
   justify-content: space-between;
   background-color: lightgray;
   border-radius: 10px;
+  padding: 15px;
 `;
 
 const Title = styled.Text`
   color: ${({ titleColor }) => titleColor};
   font-size: 20px;
+  font-weight: 600;
 `;
 const Explanation = styled.Text`
   color: gray;

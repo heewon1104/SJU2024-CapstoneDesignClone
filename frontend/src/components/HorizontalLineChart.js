@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
+
 const Container = styled.View`
   justify-content: center;
   align-items: center;
@@ -30,19 +32,21 @@ const Item = styled.View`
   border-radius: 8px;
 `;
 
-const HorizontalLineChart = ({ title, value, total, color }) => {
+const HorizontalLineChart = ({ onPress, title, value, total, color }) => {
   const heightPercent = Math.min((value / total) * 100, 100);
   const isOver = value > total;
 
   return (
-    <Container>
-      <ChartContainer>
-        <Total>
-          <Item color={color} height={heightPercent}></Item>
-        </Total>
-      </ChartContainer>
-      <Title>{title}</Title>
-    </Container>
+    <TouchableOpacity onPress={onPress}>
+      <Container>
+        <ChartContainer>
+          <Total>
+            <Item color={color} height={heightPercent}></Item>
+          </Total>
+        </ChartContainer>
+        <Title>{title}</Title>
+      </Container>
+    </TouchableOpacity>
   );
 };
 
