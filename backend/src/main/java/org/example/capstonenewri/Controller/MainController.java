@@ -52,7 +52,7 @@ public class MainController {
             return ResponseEntity.ok(response);
         } else{
             response.put("message", "No Record");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            return ResponseEntity.ok(response);
         }
     }
 }
