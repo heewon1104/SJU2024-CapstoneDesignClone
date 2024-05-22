@@ -34,4 +34,4 @@ jwt:
   token-validity-in-seconds: 86400
 
 flask:
-  url: http://34.64.61.178:5000
+  url: http://34.64.103.62:5000
