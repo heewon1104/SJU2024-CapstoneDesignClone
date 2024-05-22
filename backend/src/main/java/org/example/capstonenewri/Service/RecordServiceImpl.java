@@ -33,12 +33,12 @@ public class RecordServiceImpl implements RecordService{
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + requestSaveRecordDto.getEmail()));
 
         Diet diet = Diet.builder()
-                .diettype(requestSaveRecordDto.getDietType())
+                .dietType(requestSaveRecordDto.getDietType())
                 .koreanOrAll(requestSaveRecordDto.getKoreanOrAll())
                 .intakeTime(requestSaveRecordDto.getIntakeTime())
                 .food(requestSaveRecordDto.getFood()) // 음식
                 .food_be(requestSaveRecordDto.getFood_be()) // db 매칭 음식이름
-                .ingredients(requestSaveRecordDto.getIngredients().toString()) // 재료
+                .ingredients(requestSaveRecordDto.getIngredients()) // 재료
                 .amount(requestSaveRecordDto.getAmount())
                 .member(member).build();
 

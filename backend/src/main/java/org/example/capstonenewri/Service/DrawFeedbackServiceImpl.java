@@ -115,12 +115,9 @@ public class DrawFeedbackServiceImpl implements DrawFeedbackService {
     public List<DietDto> convertToDietDtoList(List<Diet> dietList) {
         return dietList.stream()
                 .map(diet -> {
-                    // 대괄호를 제거하고 쉼표로 구분된 재료 문자열을 List<String>으로 변환
-                    String ingredients = diet.getIngredients().replaceAll("[\\[\\]]", ""); // 대괄호 제거
-                    List<String> ingredientsList = Arrays.asList(ingredients.split(",\\s*"));
                     return DietDto.builder()
                             .food(diet.getFood())
-                            .ingredients(ingredientsList)
+                            .ingredients(diet.getIngredients())
                             .build();
                 })
                 .collect(Collectors.toList());
