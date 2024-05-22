@@ -5,8 +5,8 @@ import jakarta.persistence.Converter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.List;
+import java.io.IOException;
 
 @Converter
 public class RecipeListConverter implements AttributeConverter<List<Long>, String> {

@@ -2,7 +2,9 @@ package org.example.capstonenewri.Entity;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.example.capstonenewri.Dto.ResponseRecipeDto;
 import org.example.capstonenewri.Repository.DietRepository;
+import org.example.capstonenewri.Repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,8 @@ class EntityTest {
     EntityManager em;
     @Autowired
     DietRepository dietRepository;
+    @Autowired
+    RecipeRepository recipeRepository;
 
     @Test
     void find(){
@@ -40,5 +44,10 @@ class EntityTest {
         });
     }
 
+    @Test
+    void recipes(){
+        ResponseRecipeDto recipeById = recipeRepository.findRecipeById(1L);
+        System.out.println("recipeById = " + recipeById);
+    }
 
 }
