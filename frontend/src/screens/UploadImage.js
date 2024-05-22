@@ -107,6 +107,7 @@ const UploadImage = ({ navigation }) => {
         const foodItems = resultData.map((item) => item.food);
 
         updateFoodInfo({
+          //food_be
           foods: [...foodItems],
           request: [...resultData],
         });
