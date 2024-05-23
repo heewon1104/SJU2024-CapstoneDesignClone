@@ -6,7 +6,7 @@ import { UserContext } from '../contexts';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
 import { diseasesData, diseaseTranslation } from '../data/diseasesData';
 import { IP_ADDRESS } from '../secret/env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from 'react-native';
 import { Dimensions } from 'react-native';
 
 const Container = styled.View`
@@ -33,6 +33,7 @@ const Signupdiseases = ({ navigation }) => {
   const [selectedNervous_system, setSelectedNervous_system] = useState([]);
   const [selectedCancer, setSelectedCancer] = useState([]);
   const [selectedAllergy, setSelectedAllergy] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { user, setUser: updateUserInfo } = useContext(UserContext);
 
@@ -41,14 +42,6 @@ const Signupdiseases = ({ navigation }) => {
       .map((disease) => diseaseTranslation[disease] || '')
       .filter((title) => title !== '')
       .join(', ');
-  };
-
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem('TA', value);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const toggleUserState = (category, diseases) => {
@@ -65,7 +58,17 @@ const Signupdiseases = ({ navigation }) => {
     });
   };
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}-${String(date.getDate()).padStart(2, '0')}`;
+  };
+
   const _handleSignupBtnPress = async () => {
+    setIsLoading(true);
+
     toggleUserState('cardio', selectedCardio);
     toggleUserState('digestive', selectedDigestive);
     toggleUserState('kidney_disease', selectedKidney_disease);
@@ -77,12 +80,7 @@ const Signupdiseases = ({ navigation }) => {
       name: user.name ? user.name[0] : '', // 배열 첫 요소 접근 또는 빈 문자열
       email: user.email ? user.email[0] : '',
       password: user.password ? user.password[0] : '',
-      birth: user.birth
-        ? `${user.birth[0].slice(0, 4)}-${user.birth[0].slice(
-            4,
-            6
-          )}-${user.birth[0].slice(6, 8)}`
-        : '',
+      birth: user.birth ? formatDate(user.birth) : '',
       gender: user.gender ? user.gender[0] : '',
       pregnant: !!user.pregnant,
       breastfeeding: !!user.breastfeeding,
@@ -117,9 +115,6 @@ const Signupdiseases = ({ navigation }) => {
           body: JSON.stringify(payload),
         }
       );
-      console.log('response data:', response.headers.get('Authorization'));
-
-      storeData(response.headers.get('Authorization'));
 
       const statusRes = await response.status;
 
@@ -131,6 +126,8 @@ const Signupdiseases = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Network or other error:', error);
+    } finally {
+      setIsLoading(false); // 로딩 종료
     }
   };
 
