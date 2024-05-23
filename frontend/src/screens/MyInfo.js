@@ -19,15 +19,6 @@ const MyInfo = ({ navigation }) => {
   const [instruction, setInstruction] = useState('');
 
   const insets = useSafeAreaInsets();
-  const _handleSigninBtnPress = () => {
-    //navigation.navigate('Profile', { user });
-    // try {
-    //   const user = await signin({ email, password });
-    //   navigation.navigate('Profile', { user });
-    // } catch (e) {
-    //   Alert.alert('로그인 오류', e.message);
-    // }
-  };
 
   const updateInstructionData = async () => {
     const url = `http://${IP_ADDRESS}:8080/api/mypage/instruction`;
@@ -58,6 +49,13 @@ const MyInfo = ({ navigation }) => {
   useEffect(() => {
     updateInstructionData();
   }, []);
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     console.log('Mount!!!!!!');
+  //     updateInstructionData();
+  //   }, [])
+  // );
 
   return (
     <ScrollView>

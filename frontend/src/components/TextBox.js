@@ -8,7 +8,7 @@ import { MainPageDataContext } from '../contexts';
 const Container = styled.View`
   align-content: space-between;
   justify-content: space-between;
-  background-color: lightgray;
+  background-color: #f3f3f3;
   border-radius: 10px;
   padding: 15px;
 `;

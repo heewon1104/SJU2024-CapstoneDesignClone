@@ -10,36 +10,13 @@ const Container = styled.View`
   align-items: center;
 `;
 
-const FoodCalender = () => {
+const FoodCalender = ({
+  markedDates,
+  selectedDay,
+  setSelectedDay,
+  onMonthChange,
+}) => {
   const theme = useContext(ThemeContext);
-
-  const [selectedDay, setSelectedDay] = useState(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = `0${today.getMonth() + 1}`.slice(-2);
-    const day = `0${today.getDate()}`.slice(-2);
-    return `${year}-${month}-${day}`;
-  });
-
-  const breakfast = {
-    key: 'breakfast',
-    color: theme.breakfast,
-  };
-  const lunch = { key: 'lunch', color: theme.lunch };
-  const dinner = { key: 'dinner', color: theme.dinner };
-  const snack = { key: 'snack', color: theme.snack };
-
-  const markedDates = {
-    '2024-04-16': { dots: [breakfast, lunch, snack] },
-    '2024-04-17': { dots: [breakfast, lunch, dinner, snack], disabled: true },
-    '2024-04-18': { marked: true, dotColor: 'red', activeOpacity: 0 },
-    '2024-04-19': { disabled: true, disableTouchEvent: true },
-
-    [selectedDay]: {
-      selected: true,
-      selectedColor: theme.selectedColor,
-    },
-  };
 
   return (
     <Container>
@@ -53,9 +30,7 @@ const FoodCalender = () => {
         }}
         markingType={'multi-dot'}
         markedDates={markedDates}
-        onMonthChange={(month) => {
-          console.log('month changed', month);
-        }}
+        onMonthChange={onMonthChange}
       />
     </Container>
   );
