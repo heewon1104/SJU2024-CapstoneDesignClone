@@ -1,4 +1,5 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState, useRef } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import styled, { ThemeContext } from 'styled-components/native';
 import {
   CalanderBar,
@@ -12,6 +13,7 @@ import { Platform } from 'react-native';
 import { UserLoginInfoContext, MainPageDataContext } from '../contexts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IP_ADDRESS } from '../secret/env';
+import { ScrollView } from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -34,7 +36,6 @@ const LineGraphContainer = styled.View`
 `;
 
 const Mainpage = ({ navigation }) => {
-  const tokenInfo = useContext(UserLoginInfoContext);
   const { data, setData: updateDataInfo } = useContext(MainPageDataContext);
   const theme = useContext(ThemeContext);
 
@@ -118,53 +119,95 @@ const Mainpage = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-    updateTotalData();
-    updateValueData();
-  }, []);
+  const updateFeedback = async () => {
+    const url = `http://${IP_ADDRESS}:8080/api/main/feedback/${data.date}`;
+    const token = await AsyncStorage.getItem('TOKENADDRESS');
 
-  useEffect(() => {
-    console.log('day : ', data.date);
-    if (data.date) {
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        // 데이터가 있고, 'feedback' 키가 있는지 확인
+        if (responseData.feedback) {
+          console.log(responseData);
+          updateDataInfo({
+            feedback: responseData.feedback,
+          });
+        } else if (
+          responseData.message &&
+          responseData.message === 'No Record'
+        ) {
+          // 'No Record' 메시지가 있을 경우
+          updateDataInfo({
+            feedback: '현재 제공할 피드백이 없습니다.',
+          });
+        } else {
+          // 예상치 못한 응답 처리
+          console.error('Unexpected response structure:', responseData);
+        }
+      } else {
+        console.error('AnalysisFood failed:', response.status);
+      }
+    } catch (error) {
+      console.error('Network or other error:', error);
+    } finally {
+      console.log(data.feedback);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
       updateTotalData();
       updateValueData();
-    }
-  }, [data.date]);
+      updateFeedback();
+      return () => {
+        console.log('Mainpage is unfocused');
+      };
+    }, [data.date])
+  );
 
   return (
-    <Container>
-      <CalanderBar></CalanderBar>
-      <HealthScore></HealthScore>
-      <GraphContainer>
-        <DoughnutGraph
-          value={data.kcalValue}
-          total={data.kcalTotal}
-        ></DoughnutGraph>
-        <LineGraphContainer>
-          <LineChart
-            title="단백질"
-            value={data.proteinValue}
-            total={data.proteinTotal}
-            color={theme.chartcolor1}
-          ></LineChart>
-          <LineChart
-            title="탄수화물"
-            value={data.carbohydrateValue}
-            total={data.carbohydrateTotal}
-            color={theme.chartcolor2}
-          ></LineChart>
-          <LineChart
-            title="지방"
-            value={data.fatValue}
-            total={data.fatTotal}
-            color={theme.chartcolor3}
-          ></LineChart>
-        </LineGraphContainer>
-      </GraphContainer>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Container>
+        <CalanderBar></CalanderBar>
+        <HealthScore></HealthScore>
+        <GraphContainer>
+          <DoughnutGraph
+            value={data.kcalValue}
+            total={data.kcalTotal}
+          ></DoughnutGraph>
+          <LineGraphContainer>
+            <LineChart
+              title="단백질"
+              value={data.proteinValue}
+              total={data.proteinTotal}
+              color={theme.chartcolor1}
+            ></LineChart>
+            <LineChart
+              title="탄수화물"
+              value={data.carbohydrateValue}
+              total={data.carbohydrateTotal}
+              color={theme.chartcolor2}
+            ></LineChart>
+            <LineChart
+              title="지방"
+              value={data.fatValue}
+              total={data.fatTotal}
+              color={theme.chartcolor3}
+            ></LineChart>
+          </LineGraphContainer>
+        </GraphContainer>
 
-      <Feedback text={data.feedback}></Feedback>
-    </Container>
+        <Feedback text={data.feedback}></Feedback>
+      </Container>
+    </ScrollView>
   );
 };
 export default Mainpage;

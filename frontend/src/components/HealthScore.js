@@ -21,6 +21,7 @@ const Bubble = styled.View`
   padding: 10px 30px;
   border-radius: 30px;
 `;
+
 const TitleContainer = styled.View`
   flex-direction: row;
   align-content: center;

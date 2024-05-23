@@ -19,6 +19,9 @@ import InputButton from './InputButton';
 import FoodAnalysisItems from './FoodAnalysisItems';
 import CustomImageSlider from './CustomImageSlider.js';
 import RecipeContainer from './RecipeContainer.js';
+import HealthScoreChart from './HealthScoreChart.js';
+import HorizontalLineChart from './HorizontalLineChart.js';
+import TextBox from './TextBox.js';
 
 export {
   Button,
@@ -42,4 +45,7 @@ export {
   FoodAnalysisItems,
   CustomImageSlider,
   RecipeContainer,
+  HealthScoreChart,
+  HorizontalLineChart,
+  TextBox,
 };
