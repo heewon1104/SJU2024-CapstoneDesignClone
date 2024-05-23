@@ -19,7 +19,8 @@ const Title = styled.Text`
 const Total = styled.View`
   width: 20;
   height: 150;
-  background-color: ${({ theme }) => theme.chartBackground};
+  /* background-color: ${({ theme }) => theme.chartBackground}; */
+  background-color: grey;
   align-items: flex-start;
   border-radius: 8px;
   justify-content: flex-end;
