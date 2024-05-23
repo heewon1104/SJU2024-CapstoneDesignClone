@@ -1,16 +1,19 @@
 package org.example.capstonenewri.Controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.capstonenewri.Dto.MyPageSevenDayDto;
 import org.example.capstonenewri.Service.MyPageServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @ResponseStatus(HttpStatus.OK)
 @RestController
@@ -28,5 +31,21 @@ public class MyPageController {
         response.put("instruction", instruction);
 
         return response;
+    }
+
+    @GetMapping("/{date}")
+    public ResponseEntity<Map<String, Object>> getSevenDaysDto(Authentication authentication,
+                                                                      @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        Optional<List<MyPageSevenDayDto>> myPageSevenDayDtos = myPageServiceImpl.getSevenDaysDto(authentication.getName(), date);
+
+        Map<String, Object> response = new HashMap<>();
+        if(myPageSevenDayDtos.isPresent()){
+            response.put("message", "Success");
+            response.put("data", myPageSevenDayDtos.get());
+            return ResponseEntity.ok(response);
+        } else{
+            response.put("message", "No Record");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
+        }
     }
 }
