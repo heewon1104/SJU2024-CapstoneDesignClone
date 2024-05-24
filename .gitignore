@@ -10,4 +10,4 @@ backend/.gradle/
 backend/src/test/
 
 # yml file
-backend/src/main/resources/application.yml
+backend/src/main/resources/application-KEY.yml
