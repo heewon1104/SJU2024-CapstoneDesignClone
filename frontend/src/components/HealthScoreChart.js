@@ -47,7 +47,7 @@ const DetailScore = styled.Text`
   padding-right: 40px;
 `;
 
-const HealthScoreChart = () => {
+const HealthScoreChart = ({ isLoading, setIsLoading }) => {
   const theme = useContext(ThemeContext);
   const { data, setData: updateDataInfo } = useContext(MainPageDataContext);
 
@@ -55,9 +55,10 @@ const HealthScoreChart = () => {
   const [weeklyData, setWeeklyData] = useState([]);
 
   const updateMypageChartData = async () => {
+    setIsLoading(true);
     const dates = Array.from({ length: 7 }, (_, i) => {
       //날짜 설정 가능!!
-      const date = new Date('2024-05-07');
+      const date = new Date('2024-06-01');
       date.setDate(date.getDate() - i);
       return date;
     }).reverse();
@@ -108,6 +109,7 @@ const HealthScoreChart = () => {
     }
     setWeeklyData(formattedDates);
     console.log('Weekly! : ', formattedDates);
+    setIsLoading(false);
   };
 
   const calculateScore = (input) => {

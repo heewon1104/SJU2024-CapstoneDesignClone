@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import styled from 'styled-components/native';
-import { FoodCalender, MealTypeListItem } from '../components';
+import { FoodCalender, MealTypeListItem, LoadingModal } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native';
 import { IP_ADDRESS } from '../secret/env';
@@ -28,6 +28,7 @@ const Calander = ({ navigation }) => {
     const day = `0${today.getDate()}`.slice(-2);
     return `${year}-${month}-${day}`;
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [meals, setMeals] = useState({
     breakfast: [],
@@ -44,6 +45,7 @@ const Calander = ({ navigation }) => {
   };
 
   const updateFoodsData = async () => {
+    setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/calendar/${selectedDay}`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
@@ -67,6 +69,8 @@ const Calander = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Network or other error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -173,6 +177,11 @@ const Calander = ({ navigation }) => {
 
   return (
     <Container insets={insets}>
+      <LoadingModal
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      ></LoadingModal>
+
       <FoodCalender
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
@@ -194,7 +203,7 @@ const Calander = ({ navigation }) => {
               key={`${mealType}-${index}`}
               title={meal.title}
               foodtype={meal.foods}
-              calorie="100" // Placeholder calorie value
+              //calorie="100" // Placeholder calorie value
               color={theme[mealType]}
             ></MealTypeListItem>
           ))
@@ -204,15 +213,3 @@ const Calander = ({ navigation }) => {
   );
 };
 export default Calander;
-
-// const markedDates = {
-//   '2024-04-16': { dots: [breakfast, lunch, snack] },
-//   '2024-04-17': { dots: [breakfast, lunch, dinner, snack], disabled: true },
-//   '2024-04-18': { marked: true, dotColor: 'red', activeOpacity: 0 },
-//   '2024-04-19': { disabled: true, disableTouchEvent: true },
-
-//   [selectedDay]: {
-//     selected: true,
-//     selectedColor: theme.selectedColor,
-//   },
-// };

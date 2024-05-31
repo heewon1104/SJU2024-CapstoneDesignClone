@@ -6,6 +6,7 @@ import {
   TakePhoto,
   Button,
   CustomImageSlider,
+  LoadingModal,
 } from '../components';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -14,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ImageSlider } from 'react-native-image-slider-banner';
 import { IP_ADDRESS } from '../secret/env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TouchableOpacity } from 'react-native';
 
 const Container = styled.View`
   flex: 1;
@@ -22,12 +24,32 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.background};
   padding: 10px 20px;
 `;
+const SubmitContainer = styled.View`
+  width: 90%;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px 0px 10px 0px;
+`;
+const ButtonContainer = styled.View`
+  background-color: lightgray;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  padding: 15px 5px;
+`;
+const ButtonTitle = styled.Text`
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+`;
 const GUIDE_TEXT = '사진 선택';
 
 const UploadImage = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [takePhotoModal, SetTakePhotoModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { food, setFood: updateFoodInfo } = useContext(FoodContext);
 
@@ -63,6 +85,7 @@ const UploadImage = ({ navigation }) => {
   }, [food.foods]);
 
   const sendPostRequest = async () => {
+    setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/diet/tmpsave`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
@@ -116,6 +139,8 @@ const UploadImage = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Error sending post request:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -130,31 +155,33 @@ const UploadImage = ({ navigation }) => {
       currentImages={food.img}
     />
   ) : (
-    <ScrollView>
-      <Container>
-        <Customtext text={GUIDE_TEXT} />
-        <CustomImageSlider></CustomImageSlider>
-        <Button title="갤러리에서 사진 선택" onPress={pickImage} />
-        <Button
-          title="카메라로 사진 촬영"
-          onPress={() => SetTakePhotoModal(true)}
-        />
+    <Container>
+      <LoadingModal
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      ></LoadingModal>
+      <Customtext text={GUIDE_TEXT} />
+      <CustomImageSlider></CustomImageSlider>
+
+      <SubmitContainer>
+        <TouchableOpacity onPress={() => SetTakePhotoModal(true)}>
+          <ButtonContainer>
+            <ButtonTitle>카메라로 사진 촬영</ButtonTitle>
+          </ButtonContainer>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={pickImage}>
+          <ButtonContainer>
+            <ButtonTitle>갤러리에서 사진 선택</ButtonTitle>
+          </ButtonContainer>
+        </TouchableOpacity>
+      </SubmitContainer>
+
+      {errorMessage === '사진을 선택해주세요' && (
         <ErrorMessage message={errorMessage} />
-        <Button title="업로드" onPress={_handleBtnPress} disabled={disabled} />
-      </Container>
-    </ScrollView>
+      )}
+      <Button title="업로드" onPress={_handleBtnPress} disabled={disabled} />
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: 300,
-    height: 300,
-    marginRight: 8,
-  },
-  imageSliderContainer: {
-    height: 400,
-  },
-});
 
 export default UploadImage;

@@ -23,6 +23,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-native": "0.73.6",
     "react-native-calendar-strip": "^2.2.6",
     "react-native-calendars": "^1.1304.1",
@@ -32,6 +33,7 @@
     "react-native-image-slider-banner": "^1.0.3",
     "react-native-iphone-screen-helper": "^2.1.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-markdown-display": "^7.0.2",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-paper": "^5.12.3",
     "react-native-pie-chart": "^3.0.2",
@@ -40,8 +42,7 @@
     "react-native-size-matters": "^0.4.2",
     "react-native-svg": "^15.1.0",
     "react-native-web": "~0.19.6",
-    "styled-components": "^5.2.0",
-    "react-dom": "18.2.0"
+    "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

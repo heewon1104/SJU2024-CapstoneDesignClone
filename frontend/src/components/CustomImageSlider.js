@@ -8,7 +8,7 @@ const Container = styled.View`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.background};
-  margin: 20px 0px;
+  margin: 10px 0px 20px 0px;
   background-color: white;
   height: 300px;
 `;

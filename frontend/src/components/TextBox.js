@@ -15,8 +15,9 @@ const Container = styled.View`
 
 const Title = styled.Text`
   color: ${({ titleColor }) => titleColor};
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  margin-bottom: 15px;
 `;
 const Explanation = styled.Text`
   color: gray;

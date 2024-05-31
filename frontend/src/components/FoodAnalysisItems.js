@@ -4,8 +4,9 @@ import { Entypo, Ionicons } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 
 const Container = styled.View`
+  margin: 10px 0px;
   margin-bottom: 10px;
-  width: 80%;
+  width: 90%;
 `;
 const TitleContainer = styled.View`
   flex-direction: row;
@@ -69,7 +70,7 @@ const FoodAnalysisItems = ({ type, foodname, calorie }) => {
           )}
           <Text>{foodname}</Text>
         </TextContainer>
-        <Text>{calorie} kcal</Text>
+        {/* <Text>{calorie} kcal</Text> */}
       </TitleContainer>
       <ButtonContainer>
         <EditBtn>

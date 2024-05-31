@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components/native';
-import { Button, Customtext } from '../components';
+import { Button, Customtext, LoadingModal } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { UserContext } from '../contexts';
 import { MultipleSelectList } from 'react-native-dropdown-select-list';
@@ -127,13 +127,18 @@ const Signupdiseases = ({ navigation }) => {
     } catch (error) {
       console.error('Network or other error:', error);
     } finally {
-      setIsLoading(false); // 로딩 종료
+      setIsLoading(false);
     }
   };
 
   return (
     <KeyboardAwareScrollView extraScrollHeight={20} enableOnAndroid={true}>
       <Container>
+        <LoadingModal
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        ></LoadingModal>
+
         <Customtext text={GUIDE_TEXT} margin={20}></Customtext>
 
         <Customtext text="심혈관질환" fontSize={14} margin={0}></Customtext>

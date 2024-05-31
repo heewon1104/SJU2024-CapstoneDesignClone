@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import styled from 'styled-components/native';
-import { Button, Input, ErrorMessage } from '../components';
+import { Button, Input, ErrorMessage, LoadingModal } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Alert } from 'react-native';
@@ -29,6 +29,7 @@ const Signin = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
   const refPassword = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const tokenInfo = useContext(UserLoginInfoContext);
 
@@ -75,6 +76,7 @@ const Signin = ({ navigation }) => {
   };
 
   const _handleSigninBtnPress = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `http://${IP_ADDRESS}:8080/api/member/login`,
@@ -100,6 +102,8 @@ const Signin = ({ navigation }) => {
       //navigation.navigate('Profile', { user: data.user });
     } catch (error) {
       Alert.alert('로그인 오류', error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,6 +113,10 @@ const Signin = ({ navigation }) => {
       contentContainerStyle={{ flex: 1 }}
     >
       <Container insets={insets}>
+        <LoadingModal
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        ></LoadingModal>
         <Input
           label="이메일"
           placeholder="Email"

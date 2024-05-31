@@ -14,13 +14,13 @@ const CalendarBar = () => {
 
   const createRangeDays = (selectedDate) => {
     let styles = [];
-    for (let i = -7; i <= 7; i++) {
+    for (let i = -28; i <= 28; i++) {
       let date = new Date(selectedDate);
       date.setDate(date.getDate() + i);
       styles.push({
         startDate: date,
-        dateNameStyle: { color: 'gray' },
-        dateNumberStyle: { color: 'gray' },
+        dateNameStyle: { color: 'lightgray' },
+        dateNumberStyle: { color: 'lightgray' },
       });
     }
     return styles;

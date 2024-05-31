@@ -12,6 +12,7 @@ import RecordChooseFood from './RecordChooseFood';
 import UploadImage from './UploadImage';
 import AnalysisFood from './AnalysisFood';
 import MyInfo from './MyInfo';
+import RecipeDetail from './RecipeDetail';
 
 export {
   Signin,
@@ -27,4 +28,5 @@ export {
   UploadImage,
   AnalysisFood,
   MyInfo,
+  RecipeDetail,
 };

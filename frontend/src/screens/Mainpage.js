@@ -7,6 +7,7 @@ import {
   LineChart,
   HealthScore,
   Feedback,
+  LoadingModal,
 } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Platform } from 'react-native';
@@ -38,8 +39,10 @@ const LineGraphContainer = styled.View`
 const Mainpage = ({ navigation }) => {
   const { data, setData: updateDataInfo } = useContext(MainPageDataContext);
   const theme = useContext(ThemeContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateTotalData = async () => {
+    setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/main/dri`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
@@ -66,10 +69,13 @@ const Mainpage = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Network or other error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const updateValueData = async () => {
+    setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/main/intake`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
@@ -116,10 +122,13 @@ const Mainpage = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Network or other error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const updateFeedback = async () => {
+    setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/main/feedback/${data.date}`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
@@ -159,6 +168,7 @@ const Mainpage = ({ navigation }) => {
       console.error('Network or other error:', error);
     } finally {
       console.log(data.feedback);
+      setIsLoading(false);
     }
   };
 
@@ -174,40 +184,44 @@ const Mainpage = ({ navigation }) => {
   );
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <Container>
-        <CalanderBar></CalanderBar>
-        <HealthScore></HealthScore>
-        <GraphContainer>
-          <DoughnutGraph
-            value={data.kcalValue}
-            total={data.kcalTotal}
-          ></DoughnutGraph>
-          <LineGraphContainer>
-            <LineChart
-              title="단백질"
-              value={data.proteinValue}
-              total={data.proteinTotal}
-              color={theme.chartcolor1}
-            ></LineChart>
-            <LineChart
-              title="탄수화물"
-              value={data.carbohydrateValue}
-              total={data.carbohydrateTotal}
-              color={theme.chartcolor2}
-            ></LineChart>
-            <LineChart
-              title="지방"
-              value={data.fatValue}
-              total={data.fatTotal}
-              color={theme.chartcolor3}
-            ></LineChart>
-          </LineGraphContainer>
-        </GraphContainer>
+    <Container>
+      <LoadingModal
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      ></LoadingModal>
 
+      <CalanderBar></CalanderBar>
+      <HealthScore></HealthScore>
+      <GraphContainer>
+        <DoughnutGraph
+          value={data.kcalValue}
+          total={data.kcalTotal}
+        ></DoughnutGraph>
+        <LineGraphContainer>
+          <LineChart
+            title="단백질"
+            value={data.proteinValue}
+            total={data.proteinTotal}
+            color={theme.chartcolor1}
+          ></LineChart>
+          <LineChart
+            title="탄수화물"
+            value={data.carbohydrateValue}
+            total={data.carbohydrateTotal}
+            color={theme.chartcolor2}
+          ></LineChart>
+          <LineChart
+            title="지방"
+            value={data.fatValue}
+            total={data.fatTotal}
+            color={theme.chartcolor3}
+          ></LineChart>
+        </LineGraphContainer>
+      </GraphContainer>
+      <ScrollView>
         <Feedback text={data.feedback}></Feedback>
-      </Container>
-    </ScrollView>
+      </ScrollView>
+    </Container>
   );
 };
 export default Mainpage;
