@@ -2,6 +2,8 @@ package org.example.capstonenewri.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.capstonenewri.Dto.ResponseRecipeDto;
+import org.example.capstonenewri.Dto.ResponseRecipeRecommendationDto;
 import org.example.capstonenewri.Entity.Converter.RecipeListConverter;
 
 import java.math.BigDecimal;
@@ -52,7 +54,8 @@ public class DayDiary {
     private LocalDate date;
 
     @Convert(converter = RecipeListConverter.class)
-    private List<Long> recipes;
+    @Column(length = 40000)
+    private List<ResponseRecipeRecommendationDto.RecipeDetail> recipes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")  // Member 테이블의 member_id를 참조
@@ -84,7 +87,7 @@ public class DayDiary {
     public void addTrans_fatty_acids_gram(BigDecimal trans_fatty_acids_gram) { this.trans_fatty_acids_gram = this.trans_fatty_acids_gram.add(trans_fatty_acids_gram); }
 
     public void setFeedback(String feedback) { this.feedback = feedback; }
-    public void setRecipes(List<Long> recipes) { this.recipes = recipes; }
+    public void setRecipes(List<ResponseRecipeRecommendationDto.RecipeDetail> recipes) { this.recipes = recipes; }
 
 
 }

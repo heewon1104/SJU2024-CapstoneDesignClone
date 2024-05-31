@@ -10,5 +10,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ResponseRecipeRecommendationDto {
-    private List<Long> recipes;
+    private List<RecipeDetail> recipes;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class RecipeDetail{
+        private Long row;
+        private String recipe_parts_dtls;
+        private String recipe_na_tip;
+
+    }
 }
