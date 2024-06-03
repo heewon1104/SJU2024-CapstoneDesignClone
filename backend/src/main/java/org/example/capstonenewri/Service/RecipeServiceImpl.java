@@ -84,11 +84,11 @@ public class RecipeServiceImpl implements RecipeService{
                     .findFirst()
                     .ifPresent(detail ->{
                         if(!detail.getRecipe_parts_dtls().isEmpty() && !recipe.getRcp_parts_dtls().isEmpty() && recipe.getRcp_parts_dtls().contains(detail.getRecipe_parts_dtls())){
-                            String emphasizedText = "==" + detail.getRecipe_parts_dtls() + "==";
+                            String emphasizedText = "**" + detail.getRecipe_parts_dtls() + "**";
                             recipe.setRcp_parts_dtls(recipe.getRcp_parts_dtls().replace(detail.getRecipe_parts_dtls(), emphasizedText));
                         }
                         if(!detail.getRecipe_na_tip().isEmpty() &&!recipe.getRcp_na_tip().isEmpty() && recipe.getRcp_na_tip().contains(detail.getRecipe_na_tip())){
-                            String emphasizedText = "==" + detail.getRecipe_na_tip() + "==";
+                            String emphasizedText = "**" + detail.getRecipe_na_tip() + "**";
                             recipe.setRcp_na_tip(recipe.getRcp_na_tip().replace(detail.getRecipe_na_tip(), emphasizedText));
                         }
                     });
