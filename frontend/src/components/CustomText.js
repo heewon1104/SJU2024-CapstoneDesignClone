@@ -5,20 +5,27 @@ import PropTypes from 'prop-types';
 const Container = styled.View`
   flex-direction: column;
   width: 100%;
-  margin: 10px 0;
+  margin: ${({ margin }) => `${margin}px 0`};
 `;
 
 const Text = styled.Text`
-  font-size: 20px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: ${({ theme }) => theme.text};
+  color: ${({ color }) => color};
 `;
 
-const Customtext = ({ text }) => {
+const Customtext = ({
+  text,
+  fontsize = 20,
+  color = 'black',
+  margin = '10',
+}) => {
   return (
-    <Container>
-      <Text>{text}</Text>
+    <Container margin={margin}>
+      <Text fontsize={fontsize} color={color}>
+        {text}
+      </Text>
     </Container>
   );
 };

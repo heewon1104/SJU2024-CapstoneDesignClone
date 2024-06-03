@@ -4,12 +4,12 @@ import { Mascot } from '../../assets/components';
 import ChatBubble from 'react-native-chat-bubble';
 import { Platform } from 'react-native';
 
-const TEXT = `오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
-채소와 과일이 많이 들어간 식단을 추천합니다.
-오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
-채소와 과일이 많이 들어간 식단을 추천합니다.
-오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
-채소와 과일이 많이 들어간 식단을 추천합니다.`;
+// const TEXT = `오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
+// 채소와 과일이 많이 들어간 식단을 추천합니다.
+// 오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
+// 채소와 과일이 많이 들어간 식단을 추천합니다.
+// 오늘 먹은 치킨과 삼겹살은 지방 영양성분이 많아 고혈압에 좋지 않습니다.
+// 채소와 과일이 많이 들어간 식단을 추천합니다.`;
 
 const Container = styled.View`
   flex: 1;
@@ -27,7 +27,7 @@ const Text = styled.Text`
   line-height: ${Platform.OS == 'android' ? '20px' : '25px'};
   font-weight: 600;
   font-size: ${Platform.OS == 'android' ? '14px' : '18px'};
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 20px;
   color: ${({ theme }) => theme.bubbleText};
 

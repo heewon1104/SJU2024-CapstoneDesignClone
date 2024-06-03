@@ -26,6 +26,8 @@ const FoodType = styled.Text`
   font-size: ${Platform.OS == 'android' ? '15px' : '18px'};
   font-weight: 600;
   padding: ${Platform.OS == 'android' ? '3px' : '7px'};
+  color: ${({ foodtype }) =>
+    foodtype === '기록하여 음식을 추가해주세요' ? 'lightgrey' : 'black'};
 `;
 const CalorieContainer = styled.View`
   align-items: flex-end;
@@ -48,7 +50,7 @@ const MealTypeListItem = ({
         <Octicons name="dot" size={24} color={color} />
         <Title color={color}>{title}</Title>
       </TitleContainer>
-      <FoodType>{foodtype}</FoodType>
+      <FoodType foodtype={foodtype}>{foodtype}</FoodType>
       <CalorieContainer>
         <Calorie>
           {calorie} {calorie != 0 && 'Kcal'}

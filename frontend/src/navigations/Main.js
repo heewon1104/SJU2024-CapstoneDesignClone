@@ -4,6 +4,7 @@ import { ThemeContext } from 'styled-components/native';
 import { Mainpage, Recipe, MyInfo, Calander, Signin } from '../screens/index';
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 import CameraRecord from './CameraRecord';
+import RecipeNav from './RecipeNav';
 import { Platform } from 'react-native';
 
 const Tab = createBottomTabNavigator();
@@ -57,14 +58,10 @@ const Main = () => {
       ></Tab.Screen>
       <Tab.Screen
         name="Recipe"
-        component={Recipe}
+        component={RecipeNav}
         options={{
           title: '레시피',
-          headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 22,
-          },
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <AntDesign name="book" size={24} color={color} />
           ),
