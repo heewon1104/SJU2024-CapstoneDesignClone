@@ -23,19 +23,9 @@ public class MyPageController {
 
     private final MyPageServiceImpl myPageServiceImpl;
 
-    @GetMapping("/instruction")
-    public Map<String, Object> getInstruction(Authentication authentication){
-        String instruction = myPageServiceImpl.getInstructionByMemberEmail(authentication.getName());
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("instruction", instruction);
-
-        return response;
-    }
-
     @GetMapping("/{date}")
     public ResponseEntity<Map<String, Object>> getSevenDaysDto(Authentication authentication,
-                                                                      @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+                                                               @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         Optional<List<MyPageSevenDayDto>> myPageSevenDayDtos = myPageServiceImpl.getSevenDaysDto(authentication.getName(), date);
 
         Map<String, Object> response = new HashMap<>();

@@ -63,6 +63,7 @@ public class RecipeServiceImpl implements RecipeService{
             // Null 체크 및 빈 문자열 대입
             recipe.setAtt_file_no_main(Optional.ofNullable(recipe.getAtt_file_no_main()).orElse(""));
             recipe.setRcp_parts_dtls(Optional.ofNullable(recipe.getRcp_parts_dtls()).orElse(""));
+            recipe.setRcp_parts_dtls(Optional.ofNullable(recipe.getRcp_parts_dtls_cleaned()).orElse(""));
             recipe.setRcp_na_tip(Optional.ofNullable(recipe.getRcp_na_tip()).orElse(""));
             recipe.setManual01(Optional.ofNullable(recipe.getManual01()).orElse(""));
             recipe.setManual02(Optional.ofNullable(recipe.getManual02()).orElse(""));
