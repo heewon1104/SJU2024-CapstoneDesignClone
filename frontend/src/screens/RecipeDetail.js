@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IP_ADDRESS } from '../secret/env';
 import { ScrollView, TouchableOpacity } from 'react-native';
 import { useWindowDimensions } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 
 import Image1 from '../../assets/components/examples/1.png';
 import Image2 from '../../assets/components/examples/2.png';
@@ -54,56 +55,85 @@ const ButtonTitle = styled.Text`
   font-weight: 600;
 `;
 
-const RecipeDetail = ({ navigation }) => {
+const RecipeDetail = ({ route, navigation }) => {
   const { width } = useWindowDimensions();
+  const { recipe } = route.params;
+
+  useEffect(() => {
+    console.log('디버깅 :', recipe);
+  }, []);
 
   return (
     <ScrollView>
       <Container>
         <Image
           source={{
-            uri: 'http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00036_1.png',
+            uri: recipe.url,
           }}
           width={width}
         />
         <TitleContainer>
-          <Customtext
-            text="저염 된장으로 맛을 낸 황태해장국 "
-            fontsize={20}
-          ></Customtext>
+          <Customtext text={recipe.title} fontsize={20}></Customtext>
           <TouchableOpacity onPress={() => SetTakePhotoModal(true)}>
             <ButtonContainer>
-              <ButtonTitle>국&찌개</ButtonTitle>
+              <ButtonTitle>{recipe.type}</ButtonTitle>
             </ButtonContainer>
           </TouchableOpacity>
         </TitleContainer>
-
         <Customtext text="재료" fontsize={20}></Customtext>
-        <Customtext
-          text="황태해장국 황태(채) 15g(10개), 콩나물 30g(1/6봉지), 무 30g(5×3×2cm), 저염된장 10g(2작은술), 물 300ml(1½컵), 청양고추 5g(1/2개), 다진 마늘 2g(1/3작은술)"
+        {/* <Customtext
+          text={recipe.ingredient}
           fontsize={16}
           color="grey"
           margin="0"
-        ></Customtext>
+        ></Customtext> */}
+        {/* <Markdown>{recipe.ingredient}</Markdown> */}
 
+        <Markdown>{recipe.ingredient}</Markdown>
         <Customtext text="" fontsize={20} margin="0"></Customtext>
-
         <Customtext text="조리 방법" fontsize={20}></Customtext>
-        <CookingProcessItem
-          order="1"
-          detail="황태는 손질하여 물에 헹궈 건져 놓고 콩나물은 다듬어 씻고 청양고추는 어슷썰기 한다."
-          url="http://www.foodsafetykorea.go.kr/uploadimg/cook/20_00036_3.png"
-        ></CookingProcessItem>
-        <CookingProcessItem
-          order="2"
-          detail="냄비에 물을 붓고 황태와 무를 넣고 끓인 후 육수에서 물을 건져내고 저염 된장을 푼다."
-          url="http://www.foodsafetykorea.go.kr/uploadimg/cook/20_00036_4.png"
-        ></CookingProcessItem>
-        <CookingProcessItem
-          order="3"
-          detail="콩나물, 다진 마늘, 청양고추를 넣고 뚜껑을 덮어 김이 나게 끓 여준다."
-          url="http://www.foodsafetykorea.go.kr/uploadimg/cook/20_00036_5.png"
-        ></CookingProcessItem>
+        {recipe.manual01 !== '' && (
+          <CookingProcessItem
+            order="1"
+            detail={recipe.manual01}
+            url={recipe.manual_img01}
+          />
+        )}
+        {recipe.manual02 !== '' && (
+          <CookingProcessItem
+            order="2"
+            detail={recipe.manual02}
+            url={recipe.manual_img02}
+          />
+        )}
+        {recipe.manual03 !== '' && (
+          <CookingProcessItem
+            order="3"
+            detail={recipe.manual03}
+            url={recipe.manual_img03}
+          />
+        )}
+        {recipe.manual04 !== '' && (
+          <CookingProcessItem
+            order="4"
+            detail={recipe.manual04}
+            url={recipe.manual_img04}
+          />
+        )}
+        {recipe.manual05 !== '' && (
+          <CookingProcessItem
+            order="5"
+            detail={recipe.manual05}
+            url={recipe.manual_img05}
+          />
+        )}
+        {recipe.manual06 !== '' && (
+          <CookingProcessItem
+            order="6"
+            detail={recipe.manual06}
+            url={recipe.manual_img06}
+          />
+        )}
 
         <Customtext text="" fontsize={20} margin="0"></Customtext>
         <Customtext text="이 재료를 찾으시나요?" fontsize={20}></Customtext>

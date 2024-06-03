@@ -73,7 +73,7 @@ const RecordChooseFood = ({ navigation }) => {
 
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
@@ -103,6 +103,7 @@ const RecordChooseFood = ({ navigation }) => {
 
   const _handleBtnPress = () => {
     console.log(food.type, food.date, food.eattime);
+    console.log('선택된 날짜 : ', food.date);
     navigation.navigate('UploadImage');
   };
 

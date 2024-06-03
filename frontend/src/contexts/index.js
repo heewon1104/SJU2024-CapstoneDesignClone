@@ -1,6 +1,6 @@
 import { UserContext, UserProvider } from './User';
 import { UserLoginInfoContext, UserLoginInfoProvider } from './UserLoginInfo';
-import { FoodProvider, FoodContext } from './FoodInformation';
+import { FoodProvider, FoodContext, initialFoodState } from './FoodInformation';
 import { MainPageDataContext, MainPageDataProvider } from './MainPageData';
 
 export {
@@ -12,4 +12,5 @@ export {
   FoodProvider,
   MainPageDataContext,
   MainPageDataProvider,
+  initialFoodState,
 };

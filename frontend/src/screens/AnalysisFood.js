@@ -15,7 +15,7 @@ import { ThemeContext } from 'styled-components/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { ScrollView, TouchableOpacity } from 'react-native';
-import { FoodContext } from '../contexts';
+import { FoodContext, initialFoodState } from '../contexts';
 import { ImageSlider } from 'react-native-image-slider-banner';
 import { IP_ADDRESS } from '../secret/env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -61,9 +61,7 @@ const AnalysisFood = ({ navigation }) => {
     setIsLoading(true);
     const url = `http://${IP_ADDRESS}:8080/api/diet/save`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
-
     const payload = food.request;
-    console.table('Payload to be sent:', payload);
 
     try {
       const response = await fetch(url, {
@@ -75,20 +73,24 @@ const AnalysisFood = ({ navigation }) => {
         body: JSON.stringify(payload),
       });
 
-      const statusRes = await response.status;
-
       if (response.ok) {
-        console.log('AnalysisFood successful', statusRes);
+        console.log('AnalysisFood successful', response.status);
+        // 상태 초기화
+        updateFoodInfo({ ...initialFoodState });
+        // 스택 리셋하고 RecordChooseFood 페이지로 이동
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'RecordChooseFood' }],
+        });
+        navigation.navigate('Mainpage');
       } else {
-        console.error('AnalysisFood failed:', statusRes);
+        console.error('AnalysisFood failed:', response.status);
       }
     } catch (error) {
       console.error('Network or other error:', error);
     } finally {
       setIsLoading(false);
     }
-
-    navigation.navigate('Mainpage');
   };
 
   return (

@@ -28,7 +28,7 @@ const LoadingModal = ({ isLoading, setIsLoading }) => {
       animationType="fade"
       onRequestClose={() => setIsLoading(false)}
     >
-      <FullScreenCenteredView onTouchEnd={() => setIsLoading(false)}>
+      <FullScreenCenteredView>
         <LoadingModalContent>
           <ActivityIndicator size="large" color="#5DB075" />
           <Text>로딩중...</Text>

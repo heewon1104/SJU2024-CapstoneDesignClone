@@ -58,7 +58,7 @@ const HealthScoreChart = ({ isLoading, setIsLoading }) => {
     setIsLoading(true);
     const dates = Array.from({ length: 7 }, (_, i) => {
       //날짜 설정 가능!!
-      const date = new Date('2024-06-01');
+      const date = new Date();
       date.setDate(date.getDate() - i);
       return date;
     }).reverse();

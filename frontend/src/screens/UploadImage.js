@@ -141,6 +141,7 @@ const UploadImage = ({ navigation }) => {
       console.error('Error sending post request:', error);
     } finally {
       setIsLoading(false);
+      console.log('Api response : ', food);
     }
   };
 

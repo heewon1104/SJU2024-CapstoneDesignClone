@@ -44,9 +44,9 @@ const FullScreenCenteredView = styled.View`
 `;
 
 const ModalContainer = styled.View`
-  background-color: white;
+  background-color: #f3f3f3;
   border-radius: 20px;
-  height: ${({ height }) => height - 200}px;
+  height: ${({ height }) => height - 330}px;
   width: ${({ width }) => width - 100}px;
 `;
 
@@ -64,7 +64,8 @@ const Recipe = ({ navigation }) => {
 
   const fetchRecipes = useCallback(async () => {
     setIsLoading(true);
-    const url = `http://${IP_ADDRESS}:8080/api/recipe/2024-05-21`;
+    const todaydate = new Date().toISOString().split('T')[0];
+    const url = `http://${IP_ADDRESS}:8080/api/recipe/${todaydate}`;
     const token = await AsyncStorage.getItem('TOKENADDRESS');
 
     try {
@@ -77,6 +78,8 @@ const Recipe = ({ navigation }) => {
 
       const data = await response.json();
 
+      console.log('api response : ', data);
+
       if (
         data.length === 0 ||
         (data.length === 1 && data[0].message === 'No Record')
@@ -86,21 +89,41 @@ const Recipe = ({ navigation }) => {
         const validRecipes = data
           .filter((item) => item.rcp_nm && item.att_file_no_main)
           .map((item) => ({
-            id: item.att_file_no_main,
+            id: item.id,
             title: item.rcp_nm,
             url: item.att_file_no_main,
+            ingredient: item.rcp_parts_dtls,
+            explanation: item.rcp_na_tip,
+
+            manual01: item.manual01,
+            manual02: item.manual02,
+            manual03: item.manual03,
+            manual04: item.manual04,
+            manual05: item.manual05,
+            manual06: item.manual06,
+
+            manual_img01: item.manual_img01,
+            manual_img02: item.manual_img02,
+            manual_img03: item.manual_img03,
+            manual_img04: item.manual_img04,
+            manual_img05: item.manual_img05,
+            manual_img06: item.manual_img06,
+
+            type: item.rcp_pat2,
+            cooking_method: item.rcp_way2,
+
             isFocused: false,
           }));
+        // setRecipes((prevRecipes) => [
+        //   ...prevRecipes,
+        //   {
+        //     id: 'static-1',
+        //     title: '저염 된장으로 맛을 낸 황태해장국',
+        //     url: 'http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00036_1.png',
+        //     isFocused: false,
+        //   },
+        // ]);
         setRecipes((prevRecipes) => [...prevRecipes, ...validRecipes]); // 이전 데이터에 추가
-        setRecipes((prevRecipes) => [
-          ...prevRecipes,
-          {
-            id: 'static-1', // 고유 ID를 주어야 함
-            title: '저염 된장으로 맛을 낸 황태해장국',
-            url: 'http://www.foodsafetykorea.go.kr/uploadimg/cook/10_00036_1.png',
-            isFocused: false,
-          },
-        ]);
       }
     } catch (error) {
       console.error('Failed to fetch recipes:', error);
@@ -148,7 +171,7 @@ const Recipe = ({ navigation }) => {
 
   const renderRecipe = ({ item }) => (
     <RecipeContainer
-      onPress={() => navigation.navigate('RecipeDetail', { id: item.id })}
+      onPress={() => navigation.navigate('RecipeDetail', { recipe: item })}
       url={{ uri: item.url }}
       title={item.title}
       isFocused={item.isFocused}
@@ -195,7 +218,7 @@ const Recipe = ({ navigation }) => {
           numColumns={2}
         />
       ) : (
-        <Text>Nothing here.</Text>
+        <Text>오늘 식사 기록을 추가하고 레시피를 추천 받으세요!</Text>
       )}
     </Container>
   );

@@ -21,6 +21,7 @@ const TitleContainer = styled.View`
 const TextContainer = styled.View`
   flex-direction: row;
   align-items: flex-end;
+  width: 90%;
 `;
 const ButtonContainer = styled.View`
   flex-direction: row;

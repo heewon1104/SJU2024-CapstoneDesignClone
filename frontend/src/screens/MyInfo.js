@@ -49,8 +49,6 @@ const MyInfo = ({ navigation }) => {
   const { width } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {}, []);
-
   // useFocusEffect(
   //   React.useCallback(() => {
   //     console.log('Mount!!!!!!');

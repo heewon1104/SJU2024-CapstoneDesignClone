@@ -25,6 +25,7 @@ import TextBox from './TextBox.js';
 import LoadingModal from './LoadingModal.js';
 import CookingProcessItem from './CookingProcessItem.js';
 import SaleItem from './SaleItem.js';
+import AnimationModal from './AnimationModal.js';
 
 export {
   Button,
@@ -54,4 +55,5 @@ export {
   LoadingModal,
   CookingProcessItem,
   SaleItem,
+  AnimationModal,
 };
