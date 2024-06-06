@@ -107,6 +107,14 @@ public class DRICalculator {
                     this.prefix = "Females";
                 }
             }
+            
+        else{
+            if (this.gender == Gender.M) {
+                this.prefix = "Males";
+            else {
+                    this.prefix = "Females";
+                }
+        }
 
             this.lifeStage = this.prefix + this.lifeStage;
         }
