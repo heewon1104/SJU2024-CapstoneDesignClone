@@ -15,6 +15,7 @@ public class ResponseRecipeDto {
     private String rcp_nm;
     private String att_file_no_main;
     private String rcp_parts_dtls;
+    private String rcp_parts_dtls_cleaned;
     private String rcp_na_tip;
     private String manual01;
     private String manual02;
@@ -31,7 +32,7 @@ public class ResponseRecipeDto {
     private String rcp_pat2;
     private String rcp_way2;
 
-    public ResponseRecipeDto(Long id,String rcp_nm, String att_file_no_main, String rcp_parts_dtls, String rcp_na_tip,
+    public ResponseRecipeDto(Long id,String rcp_nm, String att_file_no_main, String rcp_parts_dtls, String rcp_parts_dtls_cleaned, String rcp_na_tip,
                              String manual01, String manual02, String manual03, String manual04, String manual05, String manual06,
                              String manual_img01, String manual_img02, String manual_img03, String manual_img04, String manual_img05,
                              String manual_img06, String rcp_pat2, String rcp_way2) {
@@ -39,6 +40,7 @@ public class ResponseRecipeDto {
         this.rcp_nm = rcp_nm;
         this.att_file_no_main = att_file_no_main;
         this.rcp_parts_dtls = rcp_parts_dtls;
+        this.rcp_parts_dtls_cleaned = rcp_parts_dtls_cleaned;
         this.rcp_na_tip = rcp_na_tip;
         this.manual01 = manual01;
         this.manual02 = manual02;

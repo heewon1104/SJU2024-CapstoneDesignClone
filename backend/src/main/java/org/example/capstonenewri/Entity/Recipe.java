@@ -14,6 +14,7 @@ public class Recipe {
     @Column(name = "recipe_id")
     private Long id;
     private String rcp_parts_dtls;
+    private String rcp_parts_dtls_cleaned; // 네이버 재료 검색 api
     private String rcp_way2;
     private Integer rcp_seq;
     private Integer info_na;
